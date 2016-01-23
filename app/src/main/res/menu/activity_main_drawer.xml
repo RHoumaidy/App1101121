@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/newsItemId"
+        android:checkable="true"
+        android:icon="@mipmap/drawer_home"
+        android:title="@string/news_menu_item" />
+
+    <group
+        android:menuCategory="secondary"
+        android:checkableBehavior="single">
+        <item
+            android:checkable="true"
+            android:title="@string/abd_allatif_menu_item"
+            android:id="@+id/abdAlatifItemId"
+            android:icon="@mipmap/drawer_league_1"/>
+        <item
+            android:checkable="true"
+            android:title="@string/kadem_alharamin_menu_item"
+            android:id="@+id/alHaraminItemId"
+            android:icon="@mipmap/drawer_league_1"/>
+        <item
+            android:checkable="true"
+            android:title="@string/wali_alahd_menu_item"
+            android:id="@+id/waliItemId"
+            android:icon="@mipmap/drawer_league_1"/>
+        <item
+            android:checkable="true"
+            android:title="@string/first_class_dawri_menu_item"
+            android:id="@+id/firstClassItemId"
+            android:icon="@mipmap/drawer_league_1"/>
+    </group>
+    <group
+        android:menuCategory="secondary"
+        android:checkableBehavior="single">
+        <item
+            android:checkable="true"
+            android:title="إعدادات"
+            android:icon="@mipmap/drawer_setting"
+            android:id="@+id/settingItemId"/>
+        <item
+            android:checkable="true"
+            android:title="تواصل معنا"
+            android:icon="@android:drawable/ic_menu_call"
+            android:id="@+id/contactUsItemId"/>
+        <item
+            android:checked="true"
+            android:title="حول التطبيق"
+            android:id="@+id/aboutItmeId"
+            android:icon="@mipmap/drawer_about"/>
+    </group>
+</menu>

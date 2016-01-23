@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="@string/selected_leagues_pref_key"
+        android:summary="تنبيهات بالمستجدات"
+        android:title="التنبيهات">
+        <SwitchPreference
+            android:key="@string/abd_alatif_notificatin_pref_key"
+            android:summary="الحصول على تنبيهات دوري عبد اللطيف جميل"
+            android:title="@string/abd_allatif_menu_item" />
+
+        <SwitchPreference
+            android:key="@string/khadim_notification_pref_key"
+            android:summary="الحصول على تنبيهات كأس خادم الحرمين الشريفين"
+            android:title="@string/kadem_alharamin_menu_item" />
+
+        <SwitchPreference
+            android:key="@string/wali_notification_pref_key"
+            android:summary="الحصول على تنبيهات كأس ولي العهد"
+            android:title="@string/wali_alahd_menu_item" />
+
+        <SwitchPreference
+            android:key="@string/first_notification_pref_key"
+            android:summary="الحصول على تنبيهات دوري الدرجة الاولى"
+            android:title="@string/first_class_dawri_menu_item" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/playerGoalerRelLyOut"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="3dp"
+    android:layoutDirection="rtl">
+
+    <TextView
+        android:id="@+id/playerGoalerGoalsTxtV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="99"
+        android:layout_weight="15"
+        android:gravity="center"
+        android:textColor="#000"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
+        android:layout_alignParentRight="true"/>
+
+    <TextView
+        android:id="@+id/playerGoalerNameTxtV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:text="عبد اللطيف بخيتان"
+        android:textColor="#000"
+        android:layout_weight="40"
+        android:layout_marginRight="20dp"
+        android:paddingRight="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_toLeftOf="@id/playerGoalerGoalsTxtV"
+        android:layout_toRightOf="@+id/playerGoalerTeamTxtV"/>
+
+    <TextView
+        android:id="@id/playerGoalerTeamTxtV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="17"
+        android:text="كوريا الجنوبية"
+        android:layout_gravity="end"
+        android:layout_marginRight="10dp"
+        android:textColor="#000"
+        android:gravity="right"
+        android:layout_alignParentLeft="true"
+        />
+
+
+</LinearLayout>
