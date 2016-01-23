@@ -20,7 +20,6 @@ import com.smartgateapps.saudifootball.R;
 public class AboutFragment extends Fragment implements View.OnClickListener {
 
     private ImageView facebookImgView;
-    private ImageView emailImgView;
     private ImageView webImgView;
 
     @Nullable
@@ -28,7 +27,6 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_about, container, false);
         facebookImgView = (ImageView) view.findViewById(R.id.facebookImgView);
-        emailImgView = (ImageView) view.findViewById(R.id.emailImgView);
         webImgView = (ImageView) view.findViewById(R.id.webImgView);
 
         return view;
@@ -39,7 +37,6 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
 
         facebookImgView.setOnClickListener(this);
-        emailImgView.setOnClickListener(this);
         webImgView.setOnClickListener(this);
     }
 
@@ -50,11 +47,6 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
             case R.id.facebookImgView:
                 Intent intent1 = getOpenFacebookIntent(getContext(), "https://www.facebook.com/smartgateapps");
                 startActivity(intent1);
-                break;
-
-            case R.id.emailImgView:
-                startActivity(Intent.createChooser(getSendEmail("info@smartgateapps.com","",""), "Choose an Email client :"));
-
                 break;
 
             case R.id.webImgView:

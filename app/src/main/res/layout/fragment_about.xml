@@ -74,14 +74,6 @@
             android:layout_marginRight="10dp"
             android:src="@drawable/facebook_logo_square" />
 
-        <ImageView
-            android:id="@+id/emailImgView"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/email" />
 
         <ImageView
             android:id="@+id/webImgView"

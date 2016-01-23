@@ -51,7 +51,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:visibility="gone"
-            app:adSize="BANNER"
+            app:adSize="SMART_BANNER"
             app:adUnitId="@string/admob_bunner_buttom" />
 
         <android.support.design.widget.TabLayout

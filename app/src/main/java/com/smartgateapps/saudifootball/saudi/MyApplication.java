@@ -220,11 +220,6 @@ public class MyApplication extends Application {
 
         picasso = Picasso.with(this);
 
-        webView = new WebView(APP_CTX);
-        webView.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0");
-        webView.getSettings().setJavaScriptEnabled(true);
-
-
         Legue saudi = new Legue(0, "السعودية");
         Legue abdAlatif = new Legue(1, "دوري عبداللطيف جميل");
         Legue waliAlahid = new Legue(2, "كأس ولي العد");
@@ -238,7 +233,8 @@ public class MyApplication extends Application {
         firstClass.save();
 
         pref = PreferenceManager.getDefaultSharedPreferences(MyApplication.APP_CTX);
-        pref.edit().putBoolean(getString(R.string.abd_alatif_notificatin_pref_key),true).commit();
+        boolean b = pref.getBoolean(getString(R.string.abd_alatif_notificatin_pref_key),true);
+        pref.edit().putBoolean(getString(R.string.abd_alatif_notificatin_pref_key),b).commit();
         notificationManager = (NotificationManager) APP_CTX.getSystemService(NOTIFICATION_SERVICE);
 
         alarmManager = (AlarmManager) APP_CTX.getSystemService(ALARM_SERVICE);

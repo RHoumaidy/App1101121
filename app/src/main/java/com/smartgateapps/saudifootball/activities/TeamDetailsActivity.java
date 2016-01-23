@@ -87,7 +87,6 @@ public class TeamDetailsActivity extends AppCompatActivity {
         backdrop = (ImageView) findViewById(R.id.backdrop);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.main_content);
 
-
         mAdView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {

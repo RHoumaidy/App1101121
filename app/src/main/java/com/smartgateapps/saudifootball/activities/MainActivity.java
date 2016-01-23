@@ -3,6 +3,7 @@ package com.smartgateapps.saudifootball.activities;
 import android.app.AlarmManager;
 import android.app.FragmentManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -20,12 +21,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdSize;
 import com.parse.ParseAnalytics;
 import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
@@ -65,7 +70,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onPause() {
+        Intent intentActivationUpateNewsService = new Intent(MyApplication.ACTION_ACTIVATION);
+        PendingIntent pendingIntent =
+                PendingIntent.getBroadcast(MyApplication.APP_CTX, 0, intentActivationUpateNewsService, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        MyApplication.alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, pendingIntent);
         super.onPause();
     }
 
@@ -96,6 +105,21 @@ public class MainActivity extends AppCompatActivity
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
 
         mAdView = (AdView) findViewById(R.id.adView);
+
+//        int screenSize = getResources().getConfiguration().screenLayout &
+//                Configuration.SCREENLAYOUT_SIZE_MASK;
+//        if(screenSize == Configuration.SCREENLAYOUT_SIZE_LARGE) {
+//
+//            WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+//            Display display = wm.getDefaultDisplay();
+//            DisplayMetrics metrics = new DisplayMetrics();
+//            display.getMetrics(metrics);
+//            int width = metrics.widthPixels;
+//            int height = metrics.heightPixels;
+//            mAdView.setAdSize(new AdSize(width,150));
+//
+//        }
+
         mAdView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
@@ -284,13 +308,6 @@ public class MainActivity extends AppCompatActivity
         }else {
             if(MyApplication.mInterstitialAd.isLoaded())
                 MyApplication.mInterstitialAd.show();
-
-            Intent intentActivationUpateNewsService = new Intent(MyApplication.ACTION_ACTIVATION);
-
-            PendingIntent pendingIntent =
-                    PendingIntent.getBroadcast(MyApplication.APP_CTX, 0, intentActivationUpateNewsService, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            MyApplication.alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, pendingIntent);
             super.onBackPressed();
         }
     }

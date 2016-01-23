@@ -12,11 +12,11 @@
     android:paddingEnd="@dimen/activity_horizontal_margin"
     android:paddingStart="@dimen/activity_horizontal_margin">
 
-   <FrameLayout
-       android:id="@+id/fragmentContainer"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:layout_above="@+id/adView"/>
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/adView"/>
 
     <com.google.android.gms.ads.AdView
         android:id="@id/adView"
