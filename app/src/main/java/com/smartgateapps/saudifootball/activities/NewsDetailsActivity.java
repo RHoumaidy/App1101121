@@ -191,7 +191,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
 
     private Intent getShareNewsIntent(News news){
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/*");
+        intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT,MyApplication.BASE_URL + news.getUrl());
         return intent;
 
