@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.parse.ParseAnalytics;
 import com.smartgateapps.saudifootball.Adapter.ViewPagerAdapter;
 import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.model.Team;
@@ -30,6 +31,9 @@ import com.smartgateapps.saudifootball.saudi.MyApplication;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TeamDetailsActivity extends AppCompatActivity {
 
@@ -106,6 +110,12 @@ public class TeamDetailsActivity extends AppCompatActivity {
 //        int  teamId = 144;
         curTeam = Team.load(teamId);
         teamUrl = curTeam.getTeamUrl();
+
+        Map<String, String> dimensions = new HashMap<>();
+        dimensions.put("category", "استعراض فريق");
+        ParseAnalytics.trackEventInBackground("read", dimensions);
+        dimensions.put("category", curTeam.getTeamName());
+        ParseAnalytics.trackEventInBackground("read", dimensions);
 
         teamNewsFragment = new NewsListFragment();
         teamPlayersFragment = new PlayersFragment();

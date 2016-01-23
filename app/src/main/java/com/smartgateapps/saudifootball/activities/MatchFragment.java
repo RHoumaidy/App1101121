@@ -23,10 +23,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.ParseAnalytics;
 import com.smartgateapps.saudifootball.Adapter.DividerItemDecoration;
 import com.smartgateapps.saudifootball.Adapter.MatchesAdapter;
 import com.smartgateapps.saudifootball.Adapter.SpinnerAdapter;
 import com.smartgateapps.saudifootball.R;
+import com.smartgateapps.saudifootball.model.Legue;
 import com.smartgateapps.saudifootball.model.Match;
 import com.smartgateapps.saudifootball.model.Stage;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
@@ -38,7 +40,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -64,6 +68,7 @@ public class MatchFragment extends Fragment {
     private String[] waiting = new String[]{"يرجى الإنتظار ", "يرجى الإنتظار .", "يرجى الإنتظار ..", "يرجى الإنتظار ..."};
     private int idx = 0;
     private int prevSpinnerSelected = 0;
+    private int leagueId;
 
     private RelativeLayout relativeLayout;
 
@@ -91,6 +96,7 @@ public class MatchFragment extends Fragment {
 
         Bundle args = getArguments();
         urlExtention = args.getString("URL_EXT");
+        leagueId = args.getInt("LEAGUE_ID");
 
         adapter = new MatchesAdapter(getActivity(), R.layout.fragment_match_item, mathList);
         spinnerAdapter = new SpinnerAdapter(getActivity(), android.R.layout.simple_list_item_checked, stageList);
@@ -205,6 +211,13 @@ public class MatchFragment extends Fragment {
     }
 
     private void featchData() {
+
+        Map<String, String> dimensions = new HashMap<>();
+        dimensions.put("category", "استعراض مباريات : "+Legue.load(Long.valueOf(leagueId)).get(0).getName());
+        ParseAnalytics.trackEventInBackground("read", dimensions);
+        dimensions.put("category", "استعراض مباريات");
+        ParseAnalytics.trackEventInBackground("read", dimensions);
+
         if (!MyApplication.instance.isNetworkAvailable()) {
             try {
                 Snackbar snackbar = Snackbar.make(relativeLayout, "لا يوجد اتصال بالانترنت", Snackbar.LENGTH_INDEFINITE)

@@ -9,9 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.parse.ParseAnalytics;
 import com.smartgateapps.saudifootball.Adapter.ViewPagerAdapter;
 import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Raafat on 03/12/2015.
@@ -33,6 +37,11 @@ public class AbdAlatifFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
 
+            Map<String, String> dimensions = new HashMap<>();
+            dimensions.put("category", "عبداللطيف جميل");
+            dimensions.put("dayType", "weekday");
+            ParseAnalytics.trackEventInBackground("read", dimensions);
+
             newsListFragment = new NewsListFragment();
             teamsFragment = new TeamListFragment();
             playerGoalerFragment = new PlayerGoalerFragment();
@@ -42,7 +51,7 @@ public class AbdAlatifFragment extends Fragment {
             Bundle args = new Bundle();
             args.putString("URL_EXT", MyApplication.ABD_ALATIF_NEWS_EXT);
             args.putInt("RES", R.layout.news_card_layout_2);
-            args.putInt("LEAGUE_ID",1);
+            args.putInt("LEAGUE_ID", 1);
             newsListFragment.setArguments(args);
 
             Bundle args2 = new Bundle();
@@ -55,11 +64,12 @@ public class AbdAlatifFragment extends Fragment {
 
             Bundle args4 = new Bundle();
             args4.putString("URL_EXT", MyApplication.ABD_ALATIF_EXT + MyApplication.MATCHES_CM);
+            args4.putInt("LEAGUE_ID", 1);
             matchFragment.setArguments(args4);
 
             Bundle args5 = new Bundle();
             args5.putString("URL_EXT", MyApplication.ABD_ALATIF_EXT + MyApplication.TEAMS_CM);
-            args5.putInt("LEAGUE_ID",1);
+            args5.putInt("LEAGUE_ID", 1);
             teamsFragment.setArguments(args5);
 
             adapter = new ViewPagerAdapter(getChildFragmentManager()); // not the parent fragmetmanager

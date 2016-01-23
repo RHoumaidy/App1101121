@@ -15,6 +15,7 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.parse.Parse;
+import com.parse.ParseAnalytics;
 import com.parse.ParseInstallation;
 import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.model.Legue;
@@ -26,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 /**
@@ -131,6 +133,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getString(R.string.admob_interstitial));
@@ -257,6 +260,11 @@ public class MyApplication extends Application {
         //Parse.enableLocalDatastore(this);
         Parse.initialize(this, "VjSgl7C2cr72BqV47qEVE4KGvr69RlDuvdu9lz5R", "1iP6tUe0fLldOS4C9ZCvKRiKlU1weJTmnwwoI5Ct");
         ParseInstallation.getCurrentInstallation().saveInBackground();
+//        Map<String, String> dimensions = new HashMap<String, String>();
+//        dimensions.put("category", "politics");
+//        dimensions.put("dayType", "weekday");
+//        ParseAnalytics.trackEventInBackground("read", dimensions);
+
 
 
     }

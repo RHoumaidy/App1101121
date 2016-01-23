@@ -9,9 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.parse.ParseAnalytics;
 import com.smartgateapps.saudifootball.Adapter.ViewPagerAdapter;
 import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class WaliAlahidFragment extends Fragment {
 
@@ -32,6 +36,11 @@ public class WaliAlahidFragment extends Fragment {
             matchFragmetn  = new MatchFragment();
             teamListFragment = new TeamListFragment();
 
+            Map<String, String> dimensions = new HashMap<>();
+            dimensions.put("category", "كأس ولي العهد");
+            dimensions.put("dayType", "weekday");
+            ParseAnalytics.trackEventInBackground("read", dimensions);
+
             Bundle args = new Bundle();
             args.putString("URL_EXT", MyApplication.WALI_ALAHID_NEWS_EXT);
             args.putInt("RES", R.layout.news_card_layout_2);
@@ -45,6 +54,7 @@ public class WaliAlahidFragment extends Fragment {
 
             Bundle args3 = new Bundle();
             args3.putString("URL_EXT",MyApplication.WALI_ALAHID_EXT+MyApplication.MATCHES_CM);
+            args3.putInt("LEAGUE_ID", 2);
             matchFragmetn.setArguments(args3);
 
             Bundle args5 = new Bundle();

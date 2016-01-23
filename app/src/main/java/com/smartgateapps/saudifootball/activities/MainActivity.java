@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.ParseAnalytics;
 import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
 import com.google.android.gms.ads.AdListener;
@@ -86,6 +87,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         matchFilterLL = (LinearLayout) findViewById(R.id.choseMathcFilterLL);

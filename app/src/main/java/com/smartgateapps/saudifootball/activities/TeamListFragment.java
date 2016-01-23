@@ -135,7 +135,6 @@ public class TeamListFragment extends Fragment {
         int screenSize = getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK;
         if (screenSize == Configuration.SCREENLAYOUT_SIZE_LARGE ||
-                screenSize == Configuration.SCREENLAYOUT_SIZE_NORMAL ||
                 screenSize == Configuration.SCREENLAYOUT_SIZE_XLARGE)
             lnLayoutMgr = new GridLayoutManager(getActivity(), 2);
         else

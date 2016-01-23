@@ -34,6 +34,7 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.parse.ParseAnalytics;
 import com.smartgateapps.saudifootball.Adapter.NewsRecyclerViewAdapter;
 import com.smartgateapps.saudifootball.Adapter.WrappingLinearLayoutMgr;
 import com.smartgateapps.saudifootball.R;
@@ -49,7 +50,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -199,6 +202,11 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_details);
+
+        Map<String, String> dimensions = new HashMap<>();
+        dimensions.put("category", "قراءة خبر");
+        dimensions.put("dayType", "weekday");
+        ParseAnalytics.trackEventInBackground("read", dimensions);
 
         webView = new WebView(MyApplication.APP_CTX);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -420,7 +428,6 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
                             news.setUrl(a.attr("href"));
                             news.setImgUrl(imgUrl.substring(0, imgUrl.indexOf("&")));
                             news.setTitle(title);
-                            news.save();
                             newsNews.setRightId(news.getId());
                             newsNews.save();
                             relatedNews.add(news);

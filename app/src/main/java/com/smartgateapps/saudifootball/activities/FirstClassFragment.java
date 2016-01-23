@@ -9,9 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.parse.ParseAnalytics;
 import com.smartgateapps.saudifootball.Adapter.ViewPagerAdapter;
 import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Raafat on 14/01/2016.
@@ -39,6 +43,11 @@ public class FirstClassFragment extends Fragment {
             placesFragmend = new PlacedListFragment();
             matchFragment = new MatchFragment();
 
+            Map<String, String> dimensions = new HashMap<>();
+            dimensions.put("category", "دوري الدرجة الاولى");
+            dimensions.put("dayType", "weekday");
+            ParseAnalytics.trackEventInBackground("read", dimensions);
+
             Bundle args = new Bundle();
             args.putString("URL_EXT", MyApplication.FIRST_CLASS_NEWS_EXT);
             args.putInt("RES", R.layout.news_card_layout_2);
@@ -55,6 +64,7 @@ public class FirstClassFragment extends Fragment {
 
             Bundle args4 = new Bundle();
             args4.putString("URL_EXT", MyApplication.FIRST_CLASS_EXT + MyApplication.MATCHES_CM);
+            args4.putInt("LEAGUE_ID",4);
             matchFragment.setArguments(args4);
 
             Bundle args5 = new Bundle();
