@@ -48,7 +48,7 @@ public class AboutFragment extends Fragment implements View.OnClickListener {
         int id = v.getId();
         switch (id) {
             case R.id.facebookImgView:
-                Intent intent1 = getOpenFacebookIntent(getContext(), "https://www.facebook.com/makanisyria");
+                Intent intent1 = getOpenFacebookIntent(getContext(), "https://www.facebook.com/smartgateapps");
                 startActivity(intent1);
                 break;
 
