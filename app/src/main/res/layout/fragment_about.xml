@@ -43,6 +43,18 @@
         android:textColor="#000"
         android:textSize="18sp" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="info@smartgate.com"
+        android:autoLink="email"
+        android:textColorLink="#48a3ff"
+        android:textColor="#000"
+        android:textSize="18sp" />
 
     <LinearLayout
         android:layout_width="match_parent"

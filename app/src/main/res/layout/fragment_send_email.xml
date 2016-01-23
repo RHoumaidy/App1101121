@@ -56,7 +56,7 @@
         android:paddingRight="60dp"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:background="@color/colorPrimary2"
+        android:background="@color/colorPrimaryDark"
         android:text="ارسال" />
 
 </RelativeLayout>
