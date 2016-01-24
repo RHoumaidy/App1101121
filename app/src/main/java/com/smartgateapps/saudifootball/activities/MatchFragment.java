@@ -213,9 +213,9 @@ public class MatchFragment extends Fragment {
 
         Map<String, String> dimensions = new HashMap<>();
         dimensions.put("category", "استعراض مباريات : "+Legue.load(Long.valueOf(leagueId)).get(0).getName());
-        ParseAnalytics.trackEventInBackground("read", dimensions);
+        ParseAnalytics.trackEventInBackground("open", dimensions);
         dimensions.put("category", "استعراض مباريات");
-        ParseAnalytics.trackEventInBackground("read", dimensions);
+        ParseAnalytics.trackEventInBackground("open", dimensions);
 
         if (!MyApplication.instance.isNetworkAvailable()) {
             try {

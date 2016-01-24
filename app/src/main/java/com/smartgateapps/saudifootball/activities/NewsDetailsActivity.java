@@ -39,6 +39,7 @@ import com.smartgateapps.saudifootball.Adapter.NewsRecyclerViewAdapter;
 import com.smartgateapps.saudifootball.Adapter.WrappingLinearLayoutMgr;
 import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.model.LeaguNews;
+import com.smartgateapps.saudifootball.model.Legue;
 import com.smartgateapps.saudifootball.model.News;
 import com.smartgateapps.saudifootball.model.NewsNews;
 import com.smartgateapps.saudifootball.model.TeamNews;
@@ -203,9 +204,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_details);
 
-        Map<String, String> dimensions = new HashMap<>();
-        dimensions.put("category", "قراءة خبر");
-        ParseAnalytics.trackEventInBackground("read", dimensions);
+
 
         webView = new WebView(MyApplication.APP_CTX);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -248,7 +247,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
                 if (MyApplication.mInterstitialAd.isLoaded())
                     MyApplication.mInterstitialAd.show();
 
-                startActivity(Intent.createChooser(getShareNewsIntent(news),"مشاركة بواسطة .."));
+                startActivity(Intent.createChooser(getShareNewsIntent(news), "مشاركة بواسطة .."));
             }
         });
 
@@ -272,8 +271,8 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
                     News news = relatedNews.get(pos);
                     Intent intent1 = new Intent(NewsDetailsActivity.this, NewsDetailsActivity.class);
                     intent1.putExtra("NEW", news);
-                    intent1.putExtra("LEAGUE_ID",leaguId);
-                    intent1.putExtra("IS_LEAGUE",isLeague);
+                    intent1.putExtra("LEAGUE_ID", leaguId);
+                    intent1.putExtra("IS_LEAGUE", isLeague);
                     NewsDetailsActivity.this.startActivity(intent1);
                     NewsDetailsActivity.this.finish();
 
@@ -299,6 +298,10 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
         leaguId = getIntent().getLongExtra("LEAGUE_ID",0);
         news = (News) getIntent().getSerializableExtra("NEW");
         news = News.load(news.getId(), null, null);
+
+        Map<String, String> dimensions = new HashMap<>();
+        dimensions.put("category", Legue.load(leaguId).get(0).getName());
+        ParseAnalytics.trackEventInBackground("read news", dimensions);
 
         url = news.getUrl();
         MyApplication.picasso
