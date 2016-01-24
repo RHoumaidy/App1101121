@@ -1,10 +1,12 @@
 package com.smartgateapps.saudifootball.activities;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.PendingIntent;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,23 +23,21 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdSize;
-import com.parse.ParseAnalytics;
-import com.smartgateapps.saudifootball.R;
-import com.smartgateapps.saudifootball.saudi.MyApplication;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.parse.ParseAnalytics;
+import com.smartgateapps.saudifootball.R;
+import com.smartgateapps.saudifootball.saudi.MyApplication;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity
     private AdView mAdView;
     private Fragment prevFragment = null;
     private PreferenceFragment prevFragment1 = null;
+    private NavigationView navigationView;
 
     @Override
     protected void onPause() {
@@ -153,7 +154,7 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         actionBar.setTitle(getString(R.string.news_menu_item));
@@ -180,7 +181,7 @@ public class MainActivity extends AppCompatActivity
                 .add(R.id.fragmentContainer, newsListFragment)
                 .commit();
         prevFragment = newsListFragment;
-        navigationView.setCheckedItem(R.id.newsItemId);
+        navigationView.getMenu().getItem(0).setChecked(true);
 
     }
 
@@ -231,7 +232,6 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
             return false;
         }
-        prevSelectedId = id;
 
         switch (id) {
             case R.id.newsItemId:
@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.abdAlatifItemId:
                 fragment = abdAlatifFragment;
-                if(MyApplication.mInterstitialAd.isLoaded())
+                if (MyApplication.mInterstitialAd.isLoaded())
                     MyApplication.mInterstitialAd.show();
                 break;
 
@@ -262,8 +262,22 @@ public class MainActivity extends AppCompatActivity
             case R.id.aboutItmeId:
                 fragment = aboutfraFragment;
                 break;
+            case R.id.liveCastItemId:
+
+                Map<String, String> dimensions = new HashMap<>();
+                dimensions.put("category", "البث المباشر");
+                ParseAnalytics.trackEventInBackground("open", dimensions);
+
+                navigationView.getMenu().findItem(prevSelectedId).setChecked(true);
+                MenuItem prevItem = navigationView.getMenu().findItem(prevSelectedId);
+                toolbar.setTitle(prevItem.getTitle());
+
+                openNewApplication(MyApplication.LIVE_CAST_APP_PACKAGE_NAME);
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
 
         }
+        prevSelectedId = id;
 
         if (fragment != null) {
             supportManager.beginTransaction()
@@ -290,12 +304,13 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     private boolean backPressed = false;
 
     @Override
     public void onBackPressed() {
 
-        if(!backPressed) {
+        if (!backPressed) {
             backPressed = true;
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
@@ -305,10 +320,45 @@ public class MainActivity extends AppCompatActivity
                 }
             }, 3500);
             Toast.makeText(this, ("اضغط مرة اخرى للاغلاق"), Toast.LENGTH_LONG).show();
-        }else {
-            if(MyApplication.mInterstitialAd.isLoaded())
+        } else {
+            if (MyApplication.mInterstitialAd.isLoaded())
                 MyApplication.mInterstitialAd.show();
             super.onBackPressed();
+        }
+    }
+
+    public boolean isPackageInstalled(String packagename) {
+        PackageManager pm = this.getPackageManager();
+        try {
+            pm.getPackageInfo(packagename, 0);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
+
+
+    public void openNewApplication(final String appPackageName) {
+        if (isPackageInstalled(appPackageName)) {
+            Intent toLiveSport = this.getPackageManager().getLaunchIntentForPackage(appPackageName);
+            this.startActivity(toLiveSport);
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("لم يتم العثور على تطبيق ")
+                    .setMessage("لا يوجد تطبيق البث المباشر مثبت على جهازك \n هل تريد تثبيت التطبيق ؟")
+                    .setCancelable(false)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            MyApplication.openPlayStor(appPackageName);
+                        }
+                    }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            }).show();
+
         }
     }
 }

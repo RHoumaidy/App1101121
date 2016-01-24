@@ -1,13 +1,18 @@
 package com.smartgateapps.saudifootball.saudi;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.Application;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.webkit.WebView;
 
@@ -62,6 +67,7 @@ public class MyApplication extends Application {
     public static final String SCORERS_CM = "&scorers=true";
 
     public static Context APP_CTX;
+    public static final String LIVE_CAST_APP_PACKAGE_NAME = "com.smartgateapps.livesport";
 
     public static Picasso picasso;
     public static WebView webView;
@@ -271,6 +277,21 @@ public class MyApplication extends Application {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
     }
+
+
+
+
+    public static void openPlayStor(String appPackageName){
+        try {
+            APP_CTX.startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("market://details?id=" + appPackageName)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        }
+        catch (android.content.ActivityNotFoundException anfe) {
+            APP_CTX.startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        }
+    }
+
 
 
 }

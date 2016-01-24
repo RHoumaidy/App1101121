@@ -28,5 +28,6 @@
     <string name="wali_notification_pref_key">WALI_NOTIFICATION_KEY</string>
     <string name="first_notification_pref_key">FIRST_NOTIFICAITON_KEY</string>
     <string name="toast_featch_data_error">نأسف .. حدث خطأ في جلب بعض البيانات!</string>
+    <string name="live_sport_item_menu">البث المباشر للمباريات</string>
 
 </resources>

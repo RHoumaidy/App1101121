@@ -301,6 +301,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
 
         Map<String, String> dimensions = new HashMap<>();
         dimensions.put("category", Legue.load(leaguId).get(0).getName());
+        if(leaguId != 0)
         ParseAnalytics.trackEventInBackground("read news", dimensions);
 
         url = news.getUrl();

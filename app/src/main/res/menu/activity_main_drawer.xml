@@ -29,6 +29,11 @@
             android:title="@string/first_class_dawri_menu_item"
             android:id="@+id/firstClassItemId"
             android:icon="@mipmap/drawer_league_1"/>
+        <item
+            android:checkable="true"
+            android:id="@+id/liveCastItemId"
+            android:icon="@mipmap/live_sport"
+            android:title="@string/live_sport_item_menu"/>
     </group>
     <group
         android:menuCategory="secondary"
