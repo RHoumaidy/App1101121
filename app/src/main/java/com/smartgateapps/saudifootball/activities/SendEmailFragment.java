@@ -40,7 +40,7 @@ public class SendEmailFragment extends android.support.v4.app.Fragment {
             public void onClick(View v) {
                 PackageInfo pInfo = null;
                 try {
-                    pInfo = getContext().getPackageManager().getPackageInfo(getContext().getPackageName(), 0);
+                    pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                 }

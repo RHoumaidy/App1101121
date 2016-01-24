@@ -138,7 +138,7 @@ public class TeamListFragment extends Fragment {
                 screenSize == Configuration.SCREENLAYOUT_SIZE_XLARGE)
             lnLayoutMgr = new GridLayoutManager(getActivity(), 2);
         else
-            lnLayoutMgr = new GridLayoutManager(getContext(), 1);
+            lnLayoutMgr = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(lnLayoutMgr);
         recyclerView.setAdapter(adapter);
 
@@ -157,7 +157,7 @@ public class TeamListFragment extends Fragment {
                 if (child != null && mGestureDetector.onTouchEvent(e)) {
                     int pos = rv.getChildAdapterPosition(child);
                     Team currTeam = allTeams.get(pos);
-                    Intent toTeamDetail = new Intent(getContext(), TeamDetailsActivity.class);
+                    Intent toTeamDetail = new Intent(getActivity(), TeamDetailsActivity.class);
                     toTeamDetail.putExtra("TEAM_ID", currTeam.getId());
                     startActivity(toTeamDetail);
                     return true;

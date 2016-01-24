@@ -192,7 +192,7 @@ public class NewsListFragment extends android.support.v4.app.Fragment {
         if (screenSize == Configuration.SCREENLAYOUT_SIZE_LARGE && res != R.layout.news_card_layout_2)
             lnLayoutMgr = new GridLayoutManager(getActivity(), 2);
         else
-            lnLayoutMgr = new GridLayoutManager(getContext(), 1);
+            lnLayoutMgr = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(lnLayoutMgr);
         recyclerView.setAdapter(adapter);
 

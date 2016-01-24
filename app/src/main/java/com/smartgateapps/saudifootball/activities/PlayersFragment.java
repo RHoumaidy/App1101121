@@ -157,11 +157,11 @@ public class PlayersFragment extends Fragment {
         progressBarTxtV = (TextView) view.findViewById(R.id.playerGoalerProgressBarTxtV);
         relativeLayout = (RelativeLayout) view.findViewById(R.id.listRelativeLayout);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setNestedScrollingEnabled(true);
         final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(adapter);
         recyclerView.addItemDecoration(headersDecor);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
         adapter.registerAdapterDataObserver((new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {

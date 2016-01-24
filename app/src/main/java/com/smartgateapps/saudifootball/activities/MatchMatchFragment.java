@@ -147,11 +147,11 @@ public class MatchMatchFragment extends Fragment {
 
 
         int orientation = getLayoutManagerOrientation(getResources().getConfiguration().orientation);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), orientation, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), orientation, false));
 
         final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(adapter);
         recyclerView.addItemDecoration(headersDecor);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
         adapter.registerAdapterDataObserver((new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
