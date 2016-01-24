@@ -205,7 +205,6 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
 
         Map<String, String> dimensions = new HashMap<>();
         dimensions.put("category", "قراءة خبر");
-        dimensions.put("dayType", "weekday");
         ParseAnalytics.trackEventInBackground("read", dimensions);
 
         webView = new WebView(MyApplication.APP_CTX);

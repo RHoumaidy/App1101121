@@ -37,18 +37,22 @@ public class GetAllDawriNewsReciever extends WakefulBroadcastReceiver {
         newsListFragment1.urlExtention = MyApplication.SAUDI_EXT_HOME;
         newsListFragment1.leaguId = 0;
         newsListFragment1.pageIdx = 1;
+        newsListFragment1.isLeague = true;
 
         newsListFragment2.urlExtention = MyApplication.ABD_ALATIF_NEWS_EXT;
         newsListFragment2.leaguId = 1;
         newsListFragment2.pageIdx = 1;
+        newsListFragment2.isLeague=true;
 
         newsListFragment3.urlExtention = MyApplication.WALI_ALAHID_NEWS_EXT;
         newsListFragment3.leaguId = 2;
         newsListFragment3.pageIdx = 1;
+        newsListFragment3.isLeague = true;
 
         newsListFragment4.urlExtention = MyApplication.KHADIM_ALHARAMIN_NEWS_EXT;
         newsListFragment4.leaguId = 3;
         newsListFragment4.pageIdx = 1;
+        newsListFragment4.isLeague = true;
 
 
         newsListFragment1.featchData();

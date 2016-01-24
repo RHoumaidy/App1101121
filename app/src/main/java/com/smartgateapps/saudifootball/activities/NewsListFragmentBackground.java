@@ -23,7 +23,6 @@ public class NewsListFragmentBackground {
     public String urlExtention;
     private String urlExtentionPg;
     private WebView webView;
-    private List<News> allNews;
     public boolean isLeague;
 
 
@@ -31,7 +30,6 @@ public class NewsListFragmentBackground {
     public int leaguId;
 
     public NewsListFragmentBackground() {
-        allNews = new ArrayList<>();
         webView = new WebView(MyApplication.APP_CTX);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setAppCacheEnabled(true);
@@ -96,19 +94,27 @@ public class NewsListFragmentBackground {
                     news.setSubTitle(subTitle);
                     news.setTitle(title);
                     news.save();
-                    LeaguNews leaguNews = new LeaguNews();
-                    leaguNews.setLeaguId(leaguId);
-                    leaguNews.setNewsId(news.getId());
-                    leaguNews.setPageIdx(pageIdx);
-                    leaguNews.setIsSeen(false);
-                    leaguNews.save();
+                    if(isLeague) {
+                        LeaguNews leaguNews1 = new LeaguNews();
+                        leaguNews1.setLeaguId(leaguId);
+                        leaguNews1.setNewsId(news.getId());
+                        leaguNews1.setPageIdx(pageIdx);
+                        leaguNews1.setIsSeen(false);
+                        leaguNews1.save();
+                    }else{
+
+                    }
+                    LeaguNews leaguNews2 = new LeaguNews();
+                    leaguNews2.setLeaguId(0);
+                    leaguNews2.setNewsId(news.getId());
+                    leaguNews2.setPageIdx(pageIdx);
+                    leaguNews2.setIsSeen(false);
+                    leaguNews2.save();
 
 
-                    allNewsTmp.add(news);
                     //adapter.notifyDataSetChanged();
                 }
 
-                allNews.addAll(allNewsTmp);
             } catch (Exception e) {
                 String st = e.getMessage();
 

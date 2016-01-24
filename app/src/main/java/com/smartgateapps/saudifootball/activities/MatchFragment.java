@@ -83,7 +83,6 @@ public class MatchFragment extends Fragment {
         webView.getSettings().setGeolocationEnabled(true);
         webView.getSettings().setLoadsImagesAutomatically(false);
 
-        webView.getSettings().setUserAgentString("Mozilla/5.0 (Linux; Android 4.3; Nexus 7 Build/JSS15Q) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2307.2 Safari/537.36");
         //setListShown(false);
 //        featchData();
         timer = new Timer();
