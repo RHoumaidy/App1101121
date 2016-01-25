@@ -107,20 +107,6 @@ public class MainActivity extends AppCompatActivity
 
         mAdView = (AdView) findViewById(R.id.adView);
 
-//        int screenSize = getResources().getConfiguration().screenLayout &
-//                Configuration.SCREENLAYOUT_SIZE_MASK;
-//        if(screenSize == Configuration.SCREENLAYOUT_SIZE_LARGE) {
-//
-//            WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
-//            Display display = wm.getDefaultDisplay();
-//            DisplayMetrics metrics = new DisplayMetrics();
-//            display.getMetrics(metrics);
-//            int width = metrics.widthPixels;
-//            int height = metrics.heightPixels;
-//            mAdView.setAdSize(new AdSize(width,150));
-//
-//        }
-
         mAdView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {

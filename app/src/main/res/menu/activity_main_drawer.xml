@@ -18,21 +18,21 @@
             android:checkable="true"
             android:title="@string/kadem_alharamin_menu_item"
             android:id="@+id/alHaraminItemId"
-            android:icon="@mipmap/drawer_league_1"/>
+            android:icon="@mipmap/drawer_league_2"/>
         <item
             android:checkable="true"
             android:title="@string/wali_alahd_menu_item"
             android:id="@+id/waliItemId"
-            android:icon="@mipmap/drawer_league_1"/>
+            android:icon="@mipmap/drawer_league_3"/>
         <item
             android:checkable="true"
             android:title="@string/first_class_dawri_menu_item"
             android:id="@+id/firstClassItemId"
-            android:icon="@mipmap/drawer_league_1"/>
+            android:icon="@mipmap/drawer_league_4"/>
         <item
             android:checkable="true"
             android:id="@+id/liveCastItemId"
-            android:icon="@mipmap/live_sport"
+            android:icon="@drawable/television"
             android:title="@string/live_sport_item_menu"/>
     </group>
     <group
@@ -46,12 +46,12 @@
         <item
             android:checkable="true"
             android:title="تواصل معنا"
-            android:icon="@android:drawable/ic_menu_call"
+            android:icon="@mipmap/drawer_call"
             android:id="@+id/contactUsItemId"/>
         <item
             android:checked="true"
             android:title="حول التطبيق"
             android:id="@+id/aboutItmeId"
-            android:icon="@mipmap/drawer_about"/>
+            android:icon="@mipmap/drawer_info"/>
     </group>
 </menu>

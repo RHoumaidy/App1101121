@@ -296,6 +296,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
 
         isLeague = getIntent().getBooleanExtra("IS_LEAGUE", true);
         leaguId = getIntent().getLongExtra("LEAGUE_ID",0);
+
         news = (News) getIntent().getSerializableExtra("NEW");
         news = News.load(news.getId(), null, null);
 
@@ -408,8 +409,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
                         relatedNews.clear();
 
                         timer.cancel();
-                        newsDetailTxtV.setText(Html.fromHtml(text));
-                        dateTxtView.setText(dateText);
+
 
                         news.setContent(text);
                         news.setDate(dateText);
@@ -426,11 +426,12 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
                             Element strong = a.getElementsByTag("strong").first();
                             String title = strong.text();
 
-                            NewsNews newsNews = new NewsNews(news.getId(),0l);
+                            NewsNews newsNews = new NewsNews(news.getId(),0L);
                             News news = new News();
                             news.setUrl(a.attr("href"));
                             news.setImgUrl(imgUrl.substring(0, imgUrl.indexOf("&")));
                             news.setTitle(title);
+                            news.save();
                             newsNews.setRightId(news.getId());
                             newsNews.save();
                             relatedNews.add(news);
@@ -452,6 +453,10 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
 
 
                         }
+
+                        newsDetailTxtV.setText(Html.fromHtml(news.getContent()));
+                        dateTxtView.setText(news.getDate());
+
                     }catch (Exception e){
                         Snackbar snackbar = Snackbar.make(coordinatorLayout, "نأسف حدث حطأ في جلب بعض البيانات!", Snackbar.LENGTH_INDEFINITE)
                                 .setAction("اعد المحاولة", new View.OnClickListener() {

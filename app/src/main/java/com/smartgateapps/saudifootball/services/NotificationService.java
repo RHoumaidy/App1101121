@@ -70,6 +70,7 @@ public class NotificationService extends IntentService {
         String contentTitle = "يوجد " + listSize + " من الاخبار الجديدة ";
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
         String summaryText = (listSize>5)?"+" + (listSize - 5) + "more":"";
+        summaryText += "   يمكن ايقاف الاشعارات من اعدادات التطبيق ..";
         Notification.Style style = new Notification.InboxStyle()
                 .addLine(lines[0])
                 .addLine(lines[1])
