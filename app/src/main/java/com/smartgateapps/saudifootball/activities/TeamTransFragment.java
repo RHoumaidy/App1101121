@@ -97,7 +97,7 @@ public class TeamTransFragment extends Fragment {
             }
         };
 
-        timer.scheduleAtFixedRate(timerTask, 0, 1000);
+        timer.scheduleAtFixedRate(timerTask, 0, 800);
     }
 
     @Override

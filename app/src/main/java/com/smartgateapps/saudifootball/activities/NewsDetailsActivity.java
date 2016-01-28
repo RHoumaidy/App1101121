@@ -127,8 +127,8 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
         v.startAnimation(alphaAnimation);
     }
 
-    public static void startRotatAnimation(View v,boolean b){
-        if(!b) {
+    public static void startRotatAnimation(View v, boolean b) {
+        if (!b) {
             v.setAnimation(null);
             v.setRotationX(0);
             v.setRotationY(0);
@@ -136,8 +136,8 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
         }
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) v.getLayoutParams();
         int centerX = layoutParams.leftMargin + (v.getWidth() / 2);
-        int centerY = layoutParams.topMargin + (v.getHeight()/2);
-        RotateAnimation r = new RotateAnimation(0f,360f,centerX,centerY); // HERE
+        int centerY = layoutParams.topMargin + (v.getHeight() / 2);
+        RotateAnimation r = new RotateAnimation(0f, 360f, centerX, centerY); // HERE
         r.setStartOffset(0);
         r.setDuration(1000);
         r.setRepeatCount(Animation.INFINITE);
@@ -190,10 +190,10 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
         mAdView.loadAd(adRequest);
     }
 
-    private Intent getShareNewsIntent(News news){
+    private Intent getShareNewsIntent(News news) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT,MyApplication.BASE_URL + news.getUrl());
+        intent.putExtra(Intent.EXTRA_TEXT, MyApplication.BASE_URL + news.getUrl());
         return intent;
 
     }
@@ -203,7 +203,6 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_details);
-
 
 
         webView = new WebView(MyApplication.APP_CTX);
@@ -295,15 +294,18 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
 
 
         isLeague = getIntent().getBooleanExtra("IS_LEAGUE", true);
-        leaguId = getIntent().getLongExtra("LEAGUE_ID",0);
+        leaguId = getIntent().getLongExtra("LEAGUE_ID", 0);
 
         news = (News) getIntent().getSerializableExtra("NEW");
         news = News.load(news.getId(), null, null);
 
         Map<String, String> dimensions = new HashMap<>();
         dimensions.put("category", Legue.load(leaguId).get(0).getName());
-        if(leaguId != 0)
-        ParseAnalytics.trackEventInBackground("read news", dimensions);
+        dimensions.put("dayType", "weekday");
+        ParseAnalytics.trackEventInBackground("read_news", dimensions);
+        dimensions.put("category", "قراءة خبر ");
+        ParseAnalytics.trackEventInBackground("read_news", dimensions);
+
 
         url = news.getUrl();
         MyApplication.picasso
@@ -338,7 +340,6 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
         }
 
 
-
         initParallaxValues();
 
     }
@@ -359,7 +360,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
             textView.setTextColor(Color.YELLOW);
 
             snackbar.show();
-        }else{
+        } else {
             featchData();
         }
     }
@@ -426,7 +427,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
                             Element strong = a.getElementsByTag("strong").first();
                             String title = strong.text();
 
-                            NewsNews newsNews = new NewsNews(news.getId(),0L);
+                            NewsNews newsNews = new NewsNews(news.getId(), 0L);
                             News news = new News();
                             news.setUrl(a.attr("href"));
                             news.setImgUrl(imgUrl.substring(0, imgUrl.indexOf("&")));
@@ -435,14 +436,14 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
                             newsNews.setRightId(news.getId());
                             newsNews.save();
                             relatedNews.add(news);
-                            if(isLeague) {
+                            if (isLeague) {
                                 LeaguNews leaguNews = new LeaguNews();
                                 leaguNews.setLeaguId(leaguId);
                                 leaguNews.setNewsId(news.getId());
                                 leaguNews.setPageIdx(3);
                                 leaguNews.setIsSeen(true);
                                 leaguNews.save();
-                            }else{
+                            } else {
                                 TeamNews teamN = new TeamNews();
                                 teamN.setTeamId(leaguId);
                                 teamN.setNewsId(news.getId());
@@ -457,7 +458,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
                         newsDetailTxtV.setText(Html.fromHtml(news.getContent()));
                         dateTxtView.setText(news.getDate());
 
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         Snackbar snackbar = Snackbar.make(coordinatorLayout, "نأسف حدث حطأ في جلب بعض البيانات!", Snackbar.LENGTH_INDEFINITE)
                                 .setAction("اعد المحاولة", new View.OnClickListener() {
                                     @Override
@@ -472,7 +473,7 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
                         textView.setTextColor(Color.YELLOW);
 
                         snackbar.show();
-                    }finally {
+                    } finally {
                         startRotatAnimation(fab, false);
                         fab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_share));
                         adapter.notifyDataSetChanged();

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.parse.ParseAnalytics;
 import com.smartgateapps.saudifootball.Adapter.ViewPagerAdapter;
 import com.smartgateapps.saudifootball.R;
+import com.smartgateapps.saudifootball.model.Legue;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
 
 import java.util.HashMap;
@@ -32,15 +33,12 @@ public class AbdAlatifFragment extends Fragment {
     private ViewPager viewPager;
     private TabLayout tabLayout;
 
+    private int leagueId = 1;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
-
-            Map<String, String> dimensions = new HashMap<>();
-            dimensions.put("category", "عبداللطيف جميل");
-            dimensions.put("dayType", "weekday");
-            ParseAnalytics.trackEventInBackground("read", dimensions);
 
             newsListFragment = new NewsListFragment();
             teamsFragment = new TeamListFragment();
@@ -117,6 +115,33 @@ public class AbdAlatifFragment extends Fragment {
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(0);
         tabLayout.setupWithViewPager(viewPager);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 3) {
+                    Map<String, String> dimensions = new HashMap<>();
+                    dimensions.put("category", "استعراض مباريات : " + Legue.load((long) leagueId).get(0).getName());
+                    ParseAnalytics.trackEventInBackground("open_match", dimensions);
+                    dimensions.put("category", "استعراض مباريات");
+                    ParseAnalytics.trackEventInBackground("open_match", dimensions);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        Map<String, String> dimensions = new HashMap<>();
+        dimensions.put("category", "عبداللطيف جميل");
+        dimensions.put("dayType", "weekday");
+        ParseAnalytics.trackEventInBackground("open_league", dimensions);
 
         return view;
 

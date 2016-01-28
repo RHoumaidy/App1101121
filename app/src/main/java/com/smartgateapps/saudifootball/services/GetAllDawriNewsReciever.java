@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.WakefulBroadcastReceiver;
+import android.widget.Toast;
 
 import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.activities.NewsListFragmentBackground;
@@ -26,6 +27,7 @@ public class GetAllDawriNewsReciever extends WakefulBroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
+//        Toast.makeText(context,"started",Toast.LENGTH_LONG).show();
 
         Intent intentActivationUpateNewsService = new Intent(MyApplication.ACTION_ACTIVATION);
 
@@ -80,6 +82,7 @@ public class GetAllDawriNewsReciever extends WakefulBroadcastReceiver {
             startWakefulService(context, toNotification);
         }
 
+        completeWakefulIntent(intent);
 
     }
 

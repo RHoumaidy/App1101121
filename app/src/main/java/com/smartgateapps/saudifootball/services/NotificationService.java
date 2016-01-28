@@ -48,7 +48,6 @@ public class NotificationService extends IntentService {
         if (unSeenNewsMap.size() > 0)
             sentNotification();
 
-
     }
 
     private void sentNotification() {

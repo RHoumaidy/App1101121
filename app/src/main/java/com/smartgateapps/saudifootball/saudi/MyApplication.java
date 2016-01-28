@@ -284,7 +284,7 @@ public class MyApplication extends Application {
     public static void openPlayStor(String appPackageName){
         try {
             APP_CTX.startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("market://details?id=" + appPackageName)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    Uri.parse(appPackageName)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         }
         catch (android.content.ActivityNotFoundException anfe) {
             APP_CTX.startActivity(new Intent(Intent.ACTION_VIEW,

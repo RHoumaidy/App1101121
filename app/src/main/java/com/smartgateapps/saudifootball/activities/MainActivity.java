@@ -69,14 +69,10 @@ public class MainActivity extends AppCompatActivity
     private PreferenceFragment prevFragment1 = null;
     private NavigationView navigationView;
 
-    @Override
-    protected void onPause() {
-        Intent intentActivationUpateNewsService = new Intent(MyApplication.ACTION_ACTIVATION);
-        PendingIntent pendingIntent =
-                PendingIntent.getBroadcast(MyApplication.APP_CTX, 0, intentActivationUpateNewsService, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        MyApplication.alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, pendingIntent);
-        super.onPause();
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -252,7 +248,7 @@ public class MainActivity extends AppCompatActivity
 
                 Map<String, String> dimensions = new HashMap<>();
                 dimensions.put("category", "البث المباشر");
-                ParseAnalytics.trackEventInBackground("open", dimensions);
+                ParseAnalytics.trackEventInBackground("open_app", dimensions);
 
                 navigationView.getMenu().findItem(prevSelectedId).setChecked(true);
                 MenuItem prevItem = navigationView.getMenu().findItem(prevSelectedId);
@@ -336,7 +332,7 @@ public class MainActivity extends AppCompatActivity
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            MyApplication.openPlayStor(appPackageName);
+                            MyApplication.openPlayStor("http://makanisyria.com/assets/downloads/LiveSport-1.0.apk   ");
                         }
                     }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                 @Override

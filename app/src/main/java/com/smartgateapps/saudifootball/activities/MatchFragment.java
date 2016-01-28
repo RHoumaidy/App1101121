@@ -194,6 +194,12 @@ public class MatchFragment extends Fragment {
                         if (position != prevSpinnerSelected) {
                             featchData();
                             setListShown(false);
+
+                            Map<String, String> dimensions = new HashMap<>();
+                            dimensions.put("category", "استعراض مباريات : " + Legue.load((long) leagueId).get(0).getName());
+                            ParseAnalytics.trackEventInBackground("open_match", dimensions);
+                            dimensions.put("category", "استعراض مباريات");
+                            ParseAnalytics.trackEventInBackground("open_match", dimensions);
                         }
 
                         prevSpinnerSelected = position;
@@ -211,11 +217,7 @@ public class MatchFragment extends Fragment {
 
     private void featchData() {
 
-        Map<String, String> dimensions = new HashMap<>();
-        dimensions.put("category", "استعراض مباريات : "+Legue.load(Long.valueOf(leagueId)).get(0).getName());
-        ParseAnalytics.trackEventInBackground("open", dimensions);
-        dimensions.put("category", "استعراض مباريات");
-        ParseAnalytics.trackEventInBackground("open", dimensions);
+
 
         if (!MyApplication.instance.isNetworkAvailable()) {
             try {

@@ -12,10 +12,13 @@ import android.view.ViewGroup;
 import com.parse.ParseAnalytics;
 import com.smartgateapps.saudifootball.Adapter.ViewPagerAdapter;
 import com.smartgateapps.saudifootball.R;
+import com.smartgateapps.saudifootball.model.Legue;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by Raafat on 14/01/2016.
@@ -31,6 +34,7 @@ public class FirstClassFragment extends Fragment {
     private ViewPagerAdapter adapter;
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    private int leagueId = 2;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,10 +47,6 @@ public class FirstClassFragment extends Fragment {
             placesFragmend = new PlacedListFragment();
             matchFragment = new MatchFragment();
 
-            Map<String, String> dimensions = new HashMap<>();
-            dimensions.put("category", "دوري الدرجة الاولى");
-            dimensions.put("dayType", "weekday");
-            ParseAnalytics.trackEventInBackground("read", dimensions);
 
             Bundle args = new Bundle();
             args.putString("URL_EXT", MyApplication.FIRST_CLASS_NEWS_EXT);
@@ -116,6 +116,34 @@ public class FirstClassFragment extends Fragment {
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(0);
         tabLayout.setupWithViewPager(viewPager);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 2) {
+                    Map<String, String> dimensions = new HashMap<>();
+                    dimensions.put("category", "استعراض مباريات : " + Legue.load((long) leagueId).get(0).getName());
+                    ParseAnalytics.trackEventInBackground("open_match", dimensions);
+                    dimensions.put("category", "استعراض مباريات");
+                    ParseAnalytics.trackEventInBackground("open_match", dimensions);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        Map<String, String> dimensions = new HashMap<>();
+        dimensions.put("category", "دوري الدرجة الاولى");
+        dimensions.put("dayType", "weekday");
+        ParseAnalytics.trackEventInBackground("open_league", dimensions);
 
         return view;
 

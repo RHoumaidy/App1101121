@@ -30,4 +30,8 @@
     <string name="toast_featch_data_error">نأسف .. حدث خطأ في جلب بعض البيانات!</string>
     <string name="live_sport_item_menu">البث المباشر للمباريات</string>
 
+    <string name="title_activity_splash1">Splash1</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 </resources>

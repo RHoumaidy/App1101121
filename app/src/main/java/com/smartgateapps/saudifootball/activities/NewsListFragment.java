@@ -112,7 +112,7 @@ public class NewsListFragment extends android.support.v4.app.Fragment {
                 });
             }
         };
-        timer.scheduleAtFixedRate(timerTask, 0, 1000);
+        timer.scheduleAtFixedRate(timerTask, 0, 800);
 
 
     }

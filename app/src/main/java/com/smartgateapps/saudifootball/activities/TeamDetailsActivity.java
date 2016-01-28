@@ -112,9 +112,9 @@ public class TeamDetailsActivity extends AppCompatActivity {
 
         Map<String, String> dimensions = new HashMap<>();
         dimensions.put("category", "استعراض فريق");
-        ParseAnalytics.trackEventInBackground("open", dimensions);
+        ParseAnalytics.trackEventInBackground("open_team", dimensions);
         dimensions.put("category", curTeam.getTeamName());
-        ParseAnalytics.trackEventInBackground("open", dimensions);
+        ParseAnalytics.trackEventInBackground("open_team", dimensions);
 
         teamNewsFragment = new NewsListFragment();
         teamPlayersFragment = new PlayersFragment();
