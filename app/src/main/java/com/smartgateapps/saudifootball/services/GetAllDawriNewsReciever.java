@@ -23,6 +23,7 @@ public class GetAllDawriNewsReciever extends WakefulBroadcastReceiver {
     private NewsListFragmentBackground newsListFragment2 = new NewsListFragmentBackground();
     private NewsListFragmentBackground newsListFragment3 = new NewsListFragmentBackground();
     private NewsListFragmentBackground newsListFragment4 = new NewsListFragmentBackground();
+    private NewsListFragmentBackground newsListFragment5 = new NewsListFragmentBackground();
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -56,11 +57,17 @@ public class GetAllDawriNewsReciever extends WakefulBroadcastReceiver {
         newsListFragment4.pageIdx = 1;
         newsListFragment4.isLeague = true;
 
+        newsListFragment5.urlExtention = MyApplication.FIRST_CLASS_EXT;
+        newsListFragment5.leaguId = 4;
+        newsListFragment5.pageIdx = 1;
+        newsListFragment5.isLeague = true;
+
 
         newsListFragment1.featchData();
         newsListFragment2.featchData();
         newsListFragment3.featchData();
         newsListFragment4.featchData();
+        newsListFragment5.featchData();
 
 
         Set<String> selectedLeagues = new HashSet<>();

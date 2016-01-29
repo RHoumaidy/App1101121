@@ -87,7 +87,9 @@ public class LeaguNews {
             do {
 
                 News news = News.load(c.getLong(c.getColumnIndex(COL_NEWS_ID)), null, null);
-                LeaguNews leaguNews = LeaguNews.load(new Long(leaguId),new Long(news.getId()));
+                LeaguNews.load((long)(leaguId),(news.getId()));
+
+
                 if (news != null)
                     res.add(news);
             } while (c.moveToNext());
@@ -105,7 +107,15 @@ public class LeaguNews {
         if (c.moveToFirst()) {
             do {
                 News news = News.load(c.getLong(c.getColumnIndex(COL_NEWS_ID)), null, null);
-                LeaguNews leaguNews = LeaguNews.load(new Long(leaguId),new Long(news.getId()));
+                LeaguNews.load((long)(leaguId),(news.getId()));
+
+                //add news to Main NewsList;
+                LeaguNews leaguNews;
+                leaguNews = new LeaguNews();
+                leaguNews.setLeaguId(0);
+                leaguNews.setIsSeen(true);
+                leaguNews.setPageIdx(1);
+                leaguNews.setNewsId(news.getId());
                 if (news != null)
                     res.add(news);
             } while (c.moveToNext());

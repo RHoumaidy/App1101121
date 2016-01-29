@@ -104,12 +104,7 @@ public class NewsListFragmentBackground {
                     }else{
 
                     }
-                    LeaguNews leaguNews2 = new LeaguNews();
-                    leaguNews2.setLeaguId(0);
-                    leaguNews2.setNewsId(news.getId());
-                    leaguNews2.setPageIdx(pageIdx);
-                    leaguNews2.setIsSeen(false);
-                    leaguNews2.save();
+                   
 
 
                     //adapter.notifyDataSetChanged();

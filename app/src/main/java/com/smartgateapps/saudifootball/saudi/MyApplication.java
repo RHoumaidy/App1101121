@@ -240,7 +240,7 @@ public class MyApplication extends Application {
 
         pref = PreferenceManager.getDefaultSharedPreferences(MyApplication.APP_CTX);
         boolean b = pref.getBoolean(getString(R.string.abd_alatif_notificatin_pref_key),true);
-        pref.edit().putBoolean(getString(R.string.abd_alatif_notificatin_pref_key),b).commit();
+        pref.edit().putBoolean(getString(R.string.abd_alatif_notificatin_pref_key),b).apply();
         notificationManager = (NotificationManager) APP_CTX.getSystemService(NOTIFICATION_SERVICE);
 
         alarmManager = (AlarmManager) APP_CTX.getSystemService(ALARM_SERVICE);

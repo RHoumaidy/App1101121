@@ -9,6 +9,8 @@ import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.parse.ParseAnalytics;
+import com.parse.ParsePush;
 import com.parse.ParsePushBroadcastReceiver;
 import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.activities.MainActivity;
