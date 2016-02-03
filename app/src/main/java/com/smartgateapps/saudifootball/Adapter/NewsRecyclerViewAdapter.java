@@ -76,7 +76,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
                     .into(holder.imageView);
         }
 
-//        setAnimation(holder.itemView,position);
+        setAnimation(holder.itemView,position);
     }
 
     @Override

@@ -113,7 +113,7 @@ public class LeaguNews {
                 LeaguNews leaguNews;
                 leaguNews = new LeaguNews();
                 leaguNews.setLeaguId(0);
-                leaguNews.setIsSeen(true);
+                leaguNews.setIsSeen(false);
                 leaguNews.setPageIdx(1);
                 leaguNews.setNewsId(news.getId());
                 if (news != null)
