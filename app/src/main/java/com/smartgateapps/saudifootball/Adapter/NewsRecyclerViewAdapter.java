@@ -53,14 +53,15 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
         if(holder.imageView2 != null) {
             MyApplication.picasso
                     .load(currNews.getImgUrl())
+                    .placeholder(R.drawable.water_mark)
                     .into(holder.imageView2, new Callback() {
                         @Override
                         public void onSuccess() {
-                            if(Build.VERSION.SDK_INT > 17 ) {
+                            if (Build.VERSION.SDK_INT > 17) {
                                 Bitmap bitmap = ((BitmapDrawable) holder.imageView2.getDrawable()).getBitmap();
                                 bitmap = BlurBuilder.blurRenderScript(MyApplication.APP_CTX, bitmap, 20);
                                 holder.imageView.setImageBitmap(bitmap);
-                            }else{
+                            } else {
                                 holder.imageView2.setScaleType(ImageView.ScaleType.CENTER_CROP);
                             }
                         }
@@ -73,6 +74,7 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
         }else{
             MyApplication.picasso
                     .load(currNews.getImgUrl())
+                    .placeholder(R.drawable.water_mark)
                     .into(holder.imageView);
         }
 

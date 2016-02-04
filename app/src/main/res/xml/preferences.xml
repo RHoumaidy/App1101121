@@ -23,7 +23,7 @@
         <SwitchPreference
             android:key="@string/first_notification_pref_key"
             android:summary="الحصول على تنبيهات دوري الدرجة الاولى"
-            android:title="@string/first_class_dawri_menu_item" />
+            android:title="@string/first_notification_pref_key" />
 
     </PreferenceCategory>
 

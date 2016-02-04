@@ -50,7 +50,7 @@ public class TeamLeague {
         if(c.moveToFirst()){
             res = new ArrayList<>();
             do {
-                Team team  = Team.load(c.getInt(c.getColumnIndex(COL_TEAM_ID)));
+                Team team  = Team.load(c.getLong(c.getColumnIndex(COL_TEAM_ID)),null);
                 res.add(team);
             }while (c.moveToNext());
         }

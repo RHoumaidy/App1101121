@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -48,24 +49,31 @@ public class MatchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         View convertView = holder.itemView;
         Match currMatch = this.getItem(position);
         LinearLayout headerLayout = (LinearLayout)convertView.findViewById(R.id.headerLinearLayout);
-        LinearLayout childLayout = (LinearLayout)convertView.findViewById(R.id.childLinearLayout);
+        View childLayout = convertView.findViewById(R.id.childLinearLayout);
 
         if(!currMatch.isHeader()) {
             childLayout.setVisibility(View.VISIBLE);
             headerLayout.setVisibility(View.GONE);
+
             TextView matchTimeTxtV = (TextView) convertView.findViewById(R.id.matchTimeTxtV);
             TextView matchTeamRTxtV = (TextView) convertView.findViewById(R.id.matchTeamRTxtV);
             TextView matchTeamLTxtV = (TextView) convertView.findViewById(R.id.matchTeamLTxtV);
             TextView matchReslutRTxtV = (TextView) convertView.findViewById(R.id.matchResultRTxtV);
             TextView matchResultLTxtV = (TextView) convertView.findViewById(R.id.matchResultLTxtV);
+            ImageView teamLImgView = (ImageView) convertView.findViewById(R.id.matchTeamLImgV);
+            ImageView teamRImgView = (ImageView) convertView.findViewById(R.id.matchTEamRImgV);
 
-            matchTimeTxtV.setText((currMatch.getTime()));
-            matchTeamRTxtV.setText((currMatch.getTeamR()));
+            matchTimeTxtV.setText(currMatch.getTime());
+            matchTeamRTxtV.setText(currMatch.getTeamR().getTeamName());
 
+            matchReslutRTxtV.setText(currMatch.getResultR());
+            matchResultLTxtV.setText(currMatch.getResultL());
 
-            matchReslutRTxtV.setText((currMatch.getResultR()));
-            matchResultLTxtV.setText((currMatch.getResultL()));
-            matchTeamLTxtV.setText((currMatch.getTeamL()));
+            matchTeamLTxtV.setText(currMatch.getTeamL().getTeamName());
+
+            teamRImgView.setImageDrawable(ctx.getResources().getDrawable(currMatch.getTeamR().getTeamLogo()));
+            teamLImgView.setImageDrawable(ctx.getResources().getDrawable(currMatch.getTeamL().getTeamLogo()));
+
             setAnimation(convertView, position);
         }else{
             headerLayout.setVisibility(View.VISIBLE);

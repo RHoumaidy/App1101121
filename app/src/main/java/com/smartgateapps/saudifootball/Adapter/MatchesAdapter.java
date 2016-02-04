@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.smartgateapps.saudifootball.R;
@@ -54,14 +55,20 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView matchTeamLTxtV = (TextView) convertView.findViewById(R.id.matchTeamLTxtV);
         TextView matchReslutRTxtV = (TextView) convertView.findViewById(R.id.matchResultRTxtV);
         TextView matchResultLTxtV = (TextView) convertView.findViewById(R.id.matchResultLTxtV);
+        ImageView teamLImgView = (ImageView) convertView.findViewById(R.id.matchTeamLImgV);
+        ImageView teamRImgView = (ImageView) convertView.findViewById(R.id.matchTEamRImgV);
 
-        matchTimeTxtV.setText((currMatch.getTime()));
-        matchTeamRTxtV.setText((currMatch.getTeamR()));
+        matchTimeTxtV.setText(currMatch.getTime());
+        matchTeamRTxtV.setText(currMatch.getTeamR().getTeamName());
 
+        matchReslutRTxtV.setText(currMatch.getResultR());
+        matchResultLTxtV.setText(currMatch.getResultL());
 
-        matchReslutRTxtV.setText((currMatch.getResultR()));
-        matchResultLTxtV.setText((currMatch.getResultL()));
-        matchTeamLTxtV.setText((currMatch.getTeamL()));
+        matchTeamLTxtV.setText(currMatch.getTeamL().getTeamName());
+
+        teamRImgView.setImageDrawable(ctx.getResources().getDrawable(currMatch.getTeamR().getTeamLogo()));
+        teamLImgView.setImageDrawable(ctx.getResources().getDrawable(currMatch.getTeamL().getTeamLogo()));
+
         setAnimation(convertView, position);
 
     }

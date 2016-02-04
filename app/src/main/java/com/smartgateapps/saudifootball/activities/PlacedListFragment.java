@@ -17,7 +17,6 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.smartgateapps.saudifootball.Adapter.DividerItemDecoration;
 import com.smartgateapps.saudifootball.Adapter.TeamPlaceAdapter;
@@ -253,7 +252,7 @@ public class PlacedListFragment extends Fragment {
                             String pointsVal = points.text();
                             String teamUrl = tA.attr("href");
 
-                            Team team = new Team();
+                            Team team = new Team("");
                             team.setTeamName(teamNameVal);
                             team.setTeamUrl(teamUrl);
                             team.setMatchPlayed(matchPlayedVal);

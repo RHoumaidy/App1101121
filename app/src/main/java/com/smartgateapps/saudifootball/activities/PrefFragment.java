@@ -18,7 +18,6 @@ import java.util.List;
 public class PrefFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener,
         SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private List<Legue> allLegues;
 
     private SwitchPreference abdAlatifPref,
             waliAlahidPref,
@@ -39,7 +38,7 @@ public class PrefFragment extends PreferenceFragment implements Preference.OnPre
         boolean abdAlatifNotification = MyApplication.pref.getBoolean(getString(R.string.abd_alatif_notificatin_pref_key), false);
         boolean waliAlahidNotificatin = MyApplication.pref.getBoolean(getString(R.string.wali_notification_pref_key), false);
         boolean khadimAlhrmNotification = MyApplication.pref.getBoolean(getString(R.string.khadim_notification_pref_key), false);
-        boolean firstClassNotification = MyApplication.pref.getBoolean(getString(R.string.first_class_dawri_menu_item), false);
+        boolean firstClassNotification = MyApplication.pref.getBoolean(getString(R.string.first_notification_pref_key), false);
 
         abdAlatifPref.setChecked(abdAlatifNotification);
         waliAlahidPref.setChecked(waliAlahidNotificatin);
@@ -114,7 +113,7 @@ public class PrefFragment extends PreferenceFragment implements Preference.OnPre
         boolean abdAlatifNotification = MyApplication.pref.getBoolean(getString(R.string.abd_alatif_notificatin_pref_key), false);
         boolean waliAlahidNotificatin = MyApplication.pref.getBoolean(getString(R.string.wali_notification_pref_key), false);
         boolean khadimAlhrmNotification = MyApplication.pref.getBoolean(getString(R.string.khadim_notification_pref_key), false);
-        boolean firstClassNotification = MyApplication.pref.getBoolean(getString(R.string.first_class_dawri_menu_item), false);
+        boolean firstClassNotification = MyApplication.pref.getBoolean(getString(R.string.first_notification_pref_key), false);
 
         if (key.equalsIgnoreCase(getString(R.string.abd_alatif_notificatin_pref_key))) {
             abdAlatifPref.setChecked(abdAlatifNotification);

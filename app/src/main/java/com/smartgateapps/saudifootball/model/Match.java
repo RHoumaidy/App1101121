@@ -9,8 +9,8 @@ import java.text.ParseException;
  */
 public class Match {
 
-    private String teamL;
-    private String teamR;
+    private Team teamL;
+    private Team teamR;
     private String time;
     private String resultR;
     private String resultL;
@@ -57,20 +57,20 @@ public class Match {
 
     public Match(){}
 
-    public String getTeamL() {
+    public Team getTeamL() {
         return teamL;
     }
 
     public void setTeamL(String teamL) {
-        this.teamL = teamL;
+        this.teamL = Team.load(null,teamL);
     }
 
-    public String getTeamR() {
+    public Team getTeamR() {
         return teamR;
     }
 
     public void setTeamR(String teamR) {
-        this.teamR = teamR;
+        this.teamR = Team.load(null,teamR);
     }
 
     public String getTime() {

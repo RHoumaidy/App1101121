@@ -3,10 +3,11 @@ package com.smartgateapps.saudifootball.model;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteConstraintException;
 
+import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,17 +27,25 @@ public class Team {
                 COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ," +
                 COL_NAME + " TEXT ," +
                 COL_LOGO + " INTEGER ," +
-                COL_TEAM_URL + " TEXT );" ;
+                COL_TEAM_URL + " TEXT );";
     }
 
 
-    public static Team load(int id) {
+    public static Team load(Long id, String teamName) {
 
-        Cursor c = MyApplication.dbr.query(TABLE_NAME, COLS, COL_ID + " =? ", new String[]{String.valueOf(id)}, null, null, null);
+        String where = " 1 = 1 ";
+        where += (id == null) ? "" : " AND " + COL_ID + " =? ";
+        where += (teamName == null) ? "" : " AND " + COL_NAME + " =? ";
+        List<String> args = new ArrayList<>();
+        if (id != null)
+            args.add(String.valueOf(id));
+        if (teamName != null)
+            args.add(teamName);
 
-        Team res = null;
+        Cursor c = MyApplication.dbr.query(TABLE_NAME, COLS,where ,args.toArray(new String[args.size()]), null, null, null);
+
+        Team res = new Team(teamName);
         if (c.moveToFirst()) {
-            res = new Team();
             res.setTeamName(c.getString(c.getColumnIndex(COL_NAME)));
             res.setId(c.getInt(c.getColumnIndex(COL_ID)));
             res.setTeamLogo(c.getInt(c.getColumnIndex(COL_LOGO)));
@@ -54,15 +63,14 @@ public class Team {
         cv.put(COL_TEAM_URL, this.getTeamUrl());
 
         try {
-            TeamLeague teamLeague = new TeamLeague(this.id,this.leagueId);
+            TeamLeague teamLeague = new TeamLeague(this.id, this.leagueId);
             teamLeague.save();
-            return MyApplication.dbw.insert(TABLE_NAME,null,cv)>0;
+            return MyApplication.dbw.insert(TABLE_NAME, null, cv) > 0;
         } catch (SQLException e) {
             //Error
         }
         return false;
     }
-
 
 
     private int id;
@@ -79,7 +87,9 @@ public class Team {
     private int leagueId;
     private List<Player> players;
 
-    public Team() {
+    public Team(String teamName) {
+        this.setTeamLogo(R.mipmap.t_unknown);
+        this.setTeamName(teamName);
     }
 
 

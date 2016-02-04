@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -21,18 +20,14 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.smartgateapps.saudifootball.Adapter.DividerItemDecoration;
 import com.smartgateapps.saudifootball.Adapter.TeamsAdapter;
 import com.smartgateapps.saudifootball.R;
-import com.smartgateapps.saudifootball.model.News;
 import com.smartgateapps.saudifootball.model.Team;
 import com.smartgateapps.saudifootball.model.TeamLeague;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
-import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -277,8 +272,8 @@ public class TeamListFragment extends Fragment {
                             Element al = tdl.getElementsByTag("a").first();
                             Element ar = tdr.getElementsByTag("a").first();
 
-                            Team team1 = new Team();
-                            Team team2 = new Team();
+                            Team team1 = new Team("");
+                            Team team2 = new Team("");
 
                             String team1N = al.text();
                             String team2N = ar.text();
@@ -305,8 +300,8 @@ public class TeamListFragment extends Fragment {
                             team2.setTeamUrl(team2Url);
                             team2.setLeagueId(leaguId);
 
-                            int logo1 = keys.contains(new Integer(team1Id)) ? MyApplication.teamsLogos.get(team1Id) : R.drawable.water_mark;
-                            int logo2 = keys.contains(new Integer(team2Id)) ? MyApplication.teamsLogos.get(team2Id) : R.drawable.water_mark;
+                            int logo1 = keys.contains(new Integer(team1Id)) ? MyApplication.teamsLogos.get(team1Id) : R.mipmap.t_unknown;
+                            int logo2 = keys.contains(new Integer(team2Id)) ? MyApplication.teamsLogos.get(team2Id) : R.mipmap.t_unknown;
 
                             team1.setTeamLogo(logo1);
                             team2.setTeamLogo(logo2);

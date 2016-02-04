@@ -107,7 +107,7 @@ public class TeamDetailsActivity extends AppCompatActivity {
 
         int teamId = getIntent().getIntExtra("TEAM_ID", 0);
 //        int  teamId = 144;
-        curTeam = Team.load(teamId);
+        curTeam = Team.load(Long.valueOf(teamId),null);
         teamUrl = curTeam.getTeamUrl();
 
         Map<String, String> dimensions = new HashMap<>();
