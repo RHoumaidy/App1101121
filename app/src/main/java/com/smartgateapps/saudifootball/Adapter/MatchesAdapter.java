@@ -1,6 +1,7 @@
 package com.smartgateapps.saudifootball.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.smartgateapps.saudifootball.R;
+import com.smartgateapps.saudifootball.activities.TeamDetailsActivity;
 import com.smartgateapps.saudifootball.model.Match;
+import com.smartgateapps.saudifootball.model.Team;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.List;
@@ -48,7 +51,8 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         View convertView = holder.itemView;
         Match currMatch = this.getItem(position);
-
+        final Team teamL = currMatch.getTeamL();
+        final Team teamR = currMatch.getTeamR();
 
         TextView matchTimeTxtV = (TextView) convertView.findViewById(R.id.matchTimeTxtV);
         TextView matchTeamRTxtV = (TextView) convertView.findViewById(R.id.matchTeamRTxtV);
@@ -59,15 +63,33 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         ImageView teamRImgView = (ImageView) convertView.findViewById(R.id.matchTEamRImgV);
 
         matchTimeTxtV.setText(currMatch.getTime());
-        matchTeamRTxtV.setText(currMatch.getTeamR().getTeamName());
+        matchTeamRTxtV.setText(teamR.getTeamName());
 
         matchReslutRTxtV.setText(currMatch.getResultR());
         matchResultLTxtV.setText(currMatch.getResultL());
 
-        matchTeamLTxtV.setText(currMatch.getTeamL().getTeamName());
+        matchTeamLTxtV.setText(teamL.getTeamName());
 
-        teamRImgView.setImageDrawable(ctx.getResources().getDrawable(currMatch.getTeamR().getTeamLogo()));
-        teamLImgView.setImageDrawable(ctx.getResources().getDrawable(currMatch.getTeamL().getTeamLogo()));
+        teamRImgView.setImageDrawable(ctx.getResources().getDrawable(teamR.getTeamLogo()));
+        teamLImgView.setImageDrawable(ctx.getResources().getDrawable(teamL.getTeamLogo()));
+
+        teamLImgView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent toTeamDetail = new Intent(ctx, TeamDetailsActivity.class);
+                toTeamDetail.putExtra("TEAM_ID", teamL.getId());
+                ctx.startActivity(toTeamDetail);
+            }
+        });
+
+        teamRImgView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent toTeamDetail = new Intent(ctx, TeamDetailsActivity.class);
+                toTeamDetail.putExtra("TEAM_ID", teamR.getId());
+                ctx.startActivity(toTeamDetail);
+            }
+        });
 
         setAnimation(convertView, position);
 
