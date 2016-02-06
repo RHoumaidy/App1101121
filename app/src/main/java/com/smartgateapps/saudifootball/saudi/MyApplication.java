@@ -27,6 +27,7 @@ import com.smartgateapps.saudifootball.model.Legue;
 import com.smartgateapps.saudifootball.model.News;
 import com.squareup.picasso.Picasso;
 
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -97,10 +98,10 @@ public class MyApplication extends Application {
         try {
 
             long dated = 0;
-            if (date != "" && date != null)
+            if (date != null && !date.equalsIgnoreCase(""))
                 dated = sourceDateFormat.parse(date).getTime();
             long timed = 0;
-            if (time != "" && time != null)
+            if (time != null && !time.equalsIgnoreCase(""))
                 timed = sourceDF.parse(time).getTime();
             long dateTime = timed + dated;
             return destDF.format(dateTime);
@@ -117,7 +118,7 @@ public class MyApplication extends Application {
             if (date != "" && date != null)
                 dated = sourceDateFormat.parse(date).getTime();
             long timed = 0;
-            if (time != "" && time != null)
+            if (time != null && !time.equalsIgnoreCase(""))
                 timed = sourceDF.parse(time).getTime();
             long dateTime = timed + dated;
             return destDateFormat.format(dateTime);
