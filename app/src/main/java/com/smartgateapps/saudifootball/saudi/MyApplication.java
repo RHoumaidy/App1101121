@@ -1,14 +1,11 @@
 package com.smartgateapps.saudifootball.saudi;
 
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.Application;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -20,20 +17,15 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.parse.Parse;
-import com.parse.ParseAnalytics;
 import com.parse.ParseInstallation;
 import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.model.Legue;
-import com.smartgateapps.saudifootball.model.News;
 import com.squareup.picasso.Picasso;
 
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.TimeZone;
 
 /**
@@ -83,10 +75,15 @@ public class MyApplication extends Application {
     public static HashMap<Integer, Integer> teamsLogos = new HashMap<>();
 
     public static String ACTION_ACTIVATION = "ACTION_ACTIVATION";
+    public static String UPATE_MATCH = "UPATE_MATCH";
+    public static String DO_AT_2_AM = "DO_AT_2_AM";
+
     public static NotificationManager notificationManager;
 
-    public static SimpleDateFormat sourceDF = new SimpleDateFormat("HH:mm");
-    public static SimpleDateFormat destDF = new SimpleDateFormat("HH:mm");
+    public static SimpleDateFormat sourceTimeFormate = new SimpleDateFormat("HH:mm");
+    public static SimpleDateFormat dateFormat = new SimpleDateFormat("E d MMMM yyy", new Locale("ar"));
+    public static SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+    public static SimpleDateFormat destTimeFormate = new SimpleDateFormat("HH:mm");
     public static SimpleDateFormat sourceDateFormat = new SimpleDateFormat("E d MMMM yyy", new Locale("ar"));
     public static SimpleDateFormat destDateFormat = new SimpleDateFormat("E d MMMM yyy", new Locale("ar"));
 
@@ -102,24 +99,46 @@ public class MyApplication extends Application {
                 dated = sourceDateFormat.parse(date).getTime();
             long timed = 0;
             if (time != null && !time.equalsIgnoreCase(""))
-                timed = sourceDF.parse(time).getTime();
+                timed = sourceTimeFormate.parse(time).getTime();
             long dateTime = timed + dated;
-            return destDF.format(dateTime);
+            return destTimeFormate.format(dateTime);
 
         } catch (Exception e) {
             return "";
         }
     }
 
+    public static Long parseDateTime(String date, String time) {
+
+        Long dateL = 0L;
+        Long timeL = System.currentTimeMillis();
+        try {
+            dateL = sourceDateFormat.parse(date).getTime();
+            timeL = sourceTimeFormate.parse(time).getTime();
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return dateL + timeL;
+    }
+
+    public static String[] formatDateTime(Long dateTime) {
+        String date = sourceDateFormat.format(dateTime);
+        String time = sourceTimeFormate.format(dateTime);
+
+        return new String[]{date, time};
+    }
+
     public static String converteDate(String time, String date) throws ParseException {
         try {
 
             long dated = 0;
-            if (date != "" && date != null)
+            if (date != null && !date.equalsIgnoreCase(""))
                 dated = sourceDateFormat.parse(date).getTime();
             long timed = 0;
             if (time != null && !time.equalsIgnoreCase(""))
-                timed = sourceDF.parse(time).getTime();
+                timed = sourceTimeFormate.parse(time).getTime();
             long dateTime = timed + dated;
             return destDateFormat.format(dateTime);
         } catch (Exception e) {
@@ -163,8 +182,8 @@ public class MyApplication extends Application {
         requestNewInterstitial();
 
         currentTimeZone = TimeZone.getDefault();
-        sourceDF.setTimeZone(TimeZone.getTimeZone("UTC"));
-        destDF.setTimeZone(currentTimeZone);
+        sourceTimeFormate.setTimeZone(TimeZone.getTimeZone("UTC"));
+        destTimeFormate.setTimeZone(currentTimeZone);
         sourceDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         destDateFormat.setTimeZone(currentTimeZone);
 
@@ -227,11 +246,11 @@ public class MyApplication extends Application {
 
         picasso = Picasso.with(this);
 
-        Legue saudi = new Legue(0, "السعودية");
-        Legue abdAlatif = new Legue(1, "دوري عبداللطيف جميل");
-        Legue waliAlahid = new Legue(2, "كأس ولي العد");
-        Legue kadimAlaharmin = new Legue(3, "كأس خادم الحرمين الشريفين");
-        Legue firstClass = new Legue(4, "دوري الدرجة الاولى");
+        Legue saudi = new Legue(0L, "السعودية","?y=sa");
+        Legue abdAlatif = new Legue(1L, "دوري عبداللطيف جميل",ABD_ALATIF_EXT);
+        Legue waliAlahid = new Legue(2L, "كأس ولي العد",WALI_ALAHID_EXT);
+        Legue kadimAlaharmin = new Legue(3L, "كأس خادم الحرمين الشريفين",KHADIM_ALHARAMIN_EXT);
+        Legue firstClass = new Legue(4L, "دوري الدرجة الاولى",FIRST_CLASS_EXT);
 
         saudi.save();
         abdAlatif.save();
@@ -240,8 +259,8 @@ public class MyApplication extends Application {
         firstClass.save();
 
         pref = PreferenceManager.getDefaultSharedPreferences(MyApplication.APP_CTX);
-        boolean b = pref.getBoolean(getString(R.string.abd_alatif_notificatin_pref_key),true);
-        pref.edit().putBoolean(getString(R.string.abd_alatif_notificatin_pref_key),b).apply();
+        boolean b = pref.getBoolean(getString(R.string.abd_alatif_notificatin_pref_key), true);
+        pref.edit().putBoolean(getString(R.string.abd_alatif_notificatin_pref_key), b).apply();
         notificationManager = (NotificationManager) APP_CTX.getSystemService(NOTIFICATION_SERVICE);
 
         alarmManager = (AlarmManager) APP_CTX.getSystemService(ALARM_SERVICE);
@@ -269,7 +288,6 @@ public class MyApplication extends Application {
 //        ParseAnalytics.trackEventInBackground("read", dimensions);
 
 
-
     }
 
     public boolean isNetworkAvailable() {
@@ -280,19 +298,15 @@ public class MyApplication extends Application {
     }
 
 
-
-
-    public static void openPlayStor(String appPackageName){
+    public static void openPlayStor(String appPackageName) {
         try {
             APP_CTX.startActivity(new Intent(Intent.ACTION_VIEW,
                     Uri.parse(appPackageName)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        }
-        catch (android.content.ActivityNotFoundException anfe) {
+        } catch (android.content.ActivityNotFoundException anfe) {
             APP_CTX.startActivity(new Intent(Intent.ACTION_VIEW,
                     Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         }
     }
-
 
 
 }

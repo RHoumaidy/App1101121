@@ -6,6 +6,7 @@ import android.webkit.WebViewClient;
 
 import com.smartgateapps.saudifootball.model.LeaguNews;
 import com.smartgateapps.saudifootball.model.News;
+import com.smartgateapps.saudifootball.model.TeamNews;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
 
 import org.jsoup.Jsoup;
@@ -103,6 +104,12 @@ public class NewsListFragmentBackground {
                         leaguNews1.save();
                     }else{
 
+                        TeamNews teamNew = new TeamNews();
+                        teamNew.setTeamId(leaguId);
+                        teamNew.setNewsId(news.getId());
+                        teamNew.setPageIdx(pageIdx);
+                        teamNew.setIsSeen(false);
+                        teamNew.save();
                     }
                    
 

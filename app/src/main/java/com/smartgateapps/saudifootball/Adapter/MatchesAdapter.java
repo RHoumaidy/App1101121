@@ -15,6 +15,7 @@ import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.activities.TeamDetailsActivity;
 import com.smartgateapps.saudifootball.model.Match;
 import com.smartgateapps.saudifootball.model.Team;
+import com.smartgateapps.saudifootball.saudi.MyApplication;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.List;
@@ -62,7 +63,9 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         ImageView teamLImgView = (ImageView) convertView.findViewById(R.id.matchTeamLImgV);
         ImageView teamRImgView = (ImageView) convertView.findViewById(R.id.matchTEamRImgV);
 
-        matchTimeTxtV.setText(currMatch.getTime());
+        String time = MyApplication.formatDateTime(currMatch.getDateTime())[1];
+
+        matchTimeTxtV.setText(time);
         matchTeamRTxtV.setText(teamR.getTeamName());
 
         matchReslutRTxtV.setText(currMatch.getResultR());
@@ -111,7 +114,9 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
         TextView matchDateTxtV = (TextView) holder.itemView.findViewById(R.id.matchDateTxtV);
-        matchDateTxtV.setText(this.getItem(position).getDate());
+        Match currMatch = this.getItem(position);
+        String date = MyApplication.formatDateTime(currMatch.getDateTime())[0];
+        matchDateTxtV.setText(date);
 
     }
 

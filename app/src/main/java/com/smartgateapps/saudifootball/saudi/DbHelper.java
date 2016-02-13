@@ -6,8 +6,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.smartgateapps.saudifootball.model.LeaguNews;
 import com.smartgateapps.saudifootball.model.Legue;
+import com.smartgateapps.saudifootball.model.Match;
 import com.smartgateapps.saudifootball.model.News;
 import com.smartgateapps.saudifootball.model.NewsNews;
+import com.smartgateapps.saudifootball.model.Stage;
 import com.smartgateapps.saudifootball.model.Team;
 import com.smartgateapps.saudifootball.model.TeamLeague;
 import com.smartgateapps.saudifootball.model.TeamNews;
@@ -37,6 +39,8 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(LeaguNews.getCreateSql());
         db.execSQL(NewsNews.getCreateSql());
         db.execSQL(TeamNews.getCreateSql());
+        db.execSQL(Stage.getCreateSql());
+        db.execSQL(Match.getCreateSql());
     }
 
     @Override

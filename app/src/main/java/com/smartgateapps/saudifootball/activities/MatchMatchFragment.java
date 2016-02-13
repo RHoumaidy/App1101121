@@ -3,6 +3,7 @@ package com.smartgateapps.saudifootball.activities;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -14,12 +15,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.smartgateapps.saudifootball.Adapter.DividerItemDecoration;
 import com.smartgateapps.saudifootball.Adapter.MatchAdapterAdapter;
@@ -39,6 +44,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import it.michelelacorte.elasticprogressbar.ElasticDownloadView;
+
 /**
  * Created by Raafat on 15/01/2016.
  */
@@ -50,6 +57,7 @@ public class MatchMatchFragment extends Fragment {
     private WebView webView;
     private RecyclerView recyclerView;
     private LinearLayout progressBarLL;
+    private ElasticDownloadView progressBar;
     private TextView progressBarTxtV;
 
     private Timer timer;
@@ -68,6 +76,39 @@ public class MatchMatchFragment extends Fragment {
         webView.getSettings().setAppCacheEnabled(true);
         webView.getSettings().setLoadsImagesAutomatically(false);
         webView.getSettings().setGeolocationEnabled(true);
+
+        webView.addJavascriptInterface(new MyJavaScriptInterface(), "HtmlViewer");
+        webView.setWebChromeClient(new WebChromeClient() {
+
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                progressBar.setProgress(newProgress);
+            }
+        });
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                webView.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+            }
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                progressBar.fail();
+            }
+
+            @Override
+            public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                super.onReceivedHttpError(view, request, errorResponse);
+                progressBar.fail();
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                super.onReceivedSslError(view, handler, error);
+                progressBar.fail();
+            }
+        });
+
         //setListShown(false);
 //        featchData();
         timer = new Timer();
@@ -121,6 +162,8 @@ public class MatchMatchFragment extends Fragment {
 
         recyclerView.setVisibility(listViewVisibility);
         progressBarLL.setVisibility(progressBarVisibility);
+        if(progressBarLL.getVisibility() == View.VISIBLE)
+            progressBar.startIntro();
     }
 
     @Nullable
@@ -144,7 +187,7 @@ public class MatchMatchFragment extends Fragment {
         progressBarLL = (LinearLayout) view.findViewById(R.id.playerGoalerProgressBarLL);
         progressBarTxtV = (TextView) view.findViewById(R.id.playerGoalerProgressBarTxtV);
         relativeLayout = (RelativeLayout) view.findViewById(R.id.listRelativeLayout);
-
+        progressBar = (ElasticDownloadView) view.findViewById(R.id.progressBar);
 
         int orientation = getLayoutManagerOrientation(getResources().getConfiguration().orientation);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), orientation, false));
@@ -164,6 +207,9 @@ public class MatchMatchFragment extends Fragment {
     }
 
     private void featchData() {
+
+        progressBar.startIntro();
+        progressBar.setProgress(0);
         if (!MyApplication.instance.isNetworkAvailable()) {
             try {
                 Snackbar snackbar = Snackbar.make(relativeLayout, "لا يوجد اتصال بالانترنت", Snackbar.LENGTH_INDEFINITE)
@@ -184,15 +230,7 @@ public class MatchMatchFragment extends Fragment {
 
             }
         } else {
-            webView.addJavascriptInterface(new MyJavaScriptInterface(), "HtmlViewer");
-            webView.setWebViewClient(new WebViewClient() {
-                @Override
-                public void onPageFinished(WebView view, String url) {
-                    webView.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
-                }
-            });
 
-            //String url = MyApplication.BASE_URL+MyApplication.ABD_ALATIF_EXT;
             webView.stopLoading();
             webView.loadUrl(MyApplication.BASE_URL + urlExtention);
         }
@@ -249,7 +287,7 @@ public class MatchMatchFragment extends Fragment {
                                         tmpList.add(matchMatch);
                                     }
                                     hIdx2 = 0;
-                                    hIdx1 ++;
+                                    hIdx1++;
                                     leageName = tds.get(0).text();
                                     leagoIconUrl = tds.get(0).getElementsByTag("img").attr("src");
                                     tmpChildList.clear();
@@ -260,7 +298,8 @@ public class MatchMatchFragment extends Fragment {
                                     date = tds.first().text();
                                     Match header = new Match();
                                     header.setIsHeader(true);
-                                    header.setDate(date);
+                                    time ="12:00";
+                                    header.setDateTime(MyApplication.parseDateTime(date,time));
                                     tmpChildList.add(header);
                                 }
                             } else {
@@ -286,9 +325,12 @@ public class MatchMatchFragment extends Fragment {
 
                                 Match match = new Match();
 
-                                match.setDate(date);
+                                String tmpDate = date;
+//                                tmpDate = MyApplication.converteDate(time,date);
+//                                time = MyApplication.converteTime(time,date);
+
+                                match.setDateTime(MyApplication.parseDateTime(tmpDate,time));
                                 match.sethId(hIdx2);
-                                match.setTime(time);
                                 match.setTeamR(teamR);
                                 match.setTeamL(teamL);
                                 match.setResultL(resultL);
@@ -307,6 +349,12 @@ public class MatchMatchFragment extends Fragment {
                         mathList.clear();
                         mathList.addAll(tmpList);
 
+                        adapter.notifyDataSetChanged();
+                        try {
+                            setListShown(true);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     } catch (Exception e) {
                         Snackbar snackbar = Snackbar.make(relativeLayout, "نأسف حدث حطأ في جلب بعض البيانات!", Snackbar.LENGTH_INDEFINITE)
                                 .setAction("اعد المحاولة", new View.OnClickListener() {
@@ -320,16 +368,11 @@ public class MatchMatchFragment extends Fragment {
                         View sbView = snackbar.getView();
                         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                         textView.setTextColor(Color.YELLOW);
-
+                        progressBar.fail();
                         snackbar.show();
                     }
 
-                    adapter.notifyDataSetChanged();
-                    try {
-                        setListShown(true);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+
 
                 }
             });

@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity
         newsListFragment.setArguments(args);
 
         supportManager.beginTransaction()
-                .add(R.id.fragmentContainer, newsListFragment)
+                .replace(R.id.fragmentContainer, newsListFragment)
                 .commit();
         prevFragment = newsListFragment;
         navigationView.getMenu().getItem(0).setChecked(true);

@@ -62,6 +62,10 @@ public class News implements Serializable {
         return res;
     }
 
+    public static void deleteAll(){
+        MyApplication.dbw.delete(TABLE_NAME,null,null);
+    }
+
     public long save(){
         ContentValues cv = new ContentValues();
         cv.put(COL_URL,this.getUrl());

@@ -3,6 +3,7 @@ package com.smartgateapps.saudifootball.model;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.database.sqlite.SQLiteException;
 
 import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
@@ -42,7 +43,7 @@ public class Team {
         if (teamName != null)
             args.add(teamName);
 
-        Cursor c = MyApplication.dbr.query(TABLE_NAME, COLS,where ,args.toArray(new String[args.size()]), null, null, null);
+        Cursor c = MyApplication.dbr.query(TABLE_NAME, COLS, where, args.toArray(new String[args.size()]), null, null, null);
 
         Team res = new Team(teamName);
         if (c.moveToFirst()) {
@@ -72,6 +73,13 @@ public class Team {
         return false;
     }
 
+    public static void deleteAll() {
+        try {
+            MyApplication.dbw.delete(TABLE_NAME, null, null);
+        } catch (SQLiteException e) {
+
+        }
+    }
 
     private int id;
     private String teamName;

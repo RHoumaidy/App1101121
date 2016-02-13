@@ -124,7 +124,7 @@ public class Splash extends AppCompatActivity {
     protected void onDestroy() {
         Intent intentActivationUpateNewsService = new Intent(MyApplication.ACTION_ACTIVATION);
         PendingIntent pendingIntent =
-                PendingIntent.getBroadcast(MyApplication.APP_CTX, 0, intentActivationUpateNewsService, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.getBroadcast(MyApplication.APP_CTX, 22, intentActivationUpateNewsService, PendingIntent.FLAG_UPDATE_CURRENT);
 
         MyApplication.alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000, pendingIntent);
         super.onDestroy();

@@ -3,6 +3,7 @@ package com.smartgateapps.saudifootball.activities;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -14,6 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
@@ -21,7 +27,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.parse.ParseAnalytics;
 import com.smartgateapps.saudifootball.Adapter.DividerItemDecoration;
@@ -46,6 +51,8 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import it.michelelacorte.elasticprogressbar.ElasticDownloadView;
+
 /**
  * Created by Raafat on 16/12/2015.
  */
@@ -57,6 +64,7 @@ public class MatchFragment extends Fragment {
     private WebView webView;
     private RecyclerView recyclerView;
     private LinearLayout progressBarLL;
+    private ElasticDownloadView progressBar;
     private LinearLayout matchFilterLL;
     private TextView progressBarTxtV;
     private SpinnerAdapter spinnerAdapter;
@@ -67,8 +75,8 @@ public class MatchFragment extends Fragment {
     private TimerTask timerTask;
     private String[] waiting = new String[]{"يرجى الإنتظار ", "يرجى الإنتظار .", "يرجى الإنتظار ..", "يرجى الإنتظار ..."};
     private int idx = 0;
-    private int prevSpinnerSelected = 0;
-    private int leagueId;
+    private int prevSpinnerSelected = -1;
+    private Legue legue;
 
     private RelativeLayout relativeLayout;
 
@@ -80,8 +88,41 @@ public class MatchFragment extends Fragment {
         webView = new WebView(MyApplication.APP_CTX);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setAppCacheEnabled(true);
-        webView.getSettings().setGeolocationEnabled(true);
         webView.getSettings().setLoadsImagesAutomatically(false);
+        webView.getSettings().setGeolocationEnabled(true);
+
+        webView.addJavascriptInterface(new MyJavaScriptInterface(), "HtmlViewer");
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                progressBar.setProgress(newProgress);
+            }
+        });
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                webView.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+            }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                progressBar.fail();
+            }
+
+            @Override
+            public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                super.onReceivedHttpError(view, request, errorResponse);
+                progressBar.fail();
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                super.onReceivedSslError(view, handler, error);
+                progressBar.fail();
+            }
+        });
+
 
         //setListShown(false);
 //        featchData();
@@ -95,8 +136,9 @@ public class MatchFragment extends Fragment {
 
         Bundle args = getArguments();
         urlExtention = args.getString("URL_EXT");
-        leagueId = args.getInt("LEAGUE_ID");
-
+        int leagueId = args.getInt("LEAGUE_ID");
+        legue = Legue.load(new Long(leagueId)).get(0);
+        stageList = Stage.getAllStagesForLeague(legue.getId());
         adapter = new MatchesAdapter(getActivity(), R.layout.fragment_match_item, mathList);
         spinnerAdapter = new SpinnerAdapter(getActivity(), android.R.layout.simple_list_item_checked, stageList);
 
@@ -124,18 +166,27 @@ public class MatchFragment extends Fragment {
     public void onResume() {
         super.onResume();
 //        featchData();
-        if (mathList.size() == 0) {
+        if (stageList.size() == 0) {
             setListShown(false);
             featchData();
-        } else
-            setListShown(true);
+        } else {
+            mathList.clear();
+            Stage s = ((Stage) stageSpinner.getItemAtPosition(0));
+            mathList.addAll(s.getAllMatches());
+            if (mathList.size() == 0) {
+                setListShown(false);
+                featchData();
+            } else {
+                setListShown(true);
+                adapter.notifyDataSetChanged();
+            }
+        }
 
     }
 
     private void setListShown(boolean b) {
         int listViewVisibility = b ? View.VISIBLE : View.GONE;
         int progressBarVisibility = b ? View.GONE : View.VISIBLE;
-
 
         recyclerView.setVisibility(listViewVisibility);
         matchFilterLL.setVisibility(listViewVisibility);
@@ -164,7 +215,9 @@ public class MatchFragment extends Fragment {
         progressBarTxtV = (TextView) view.findViewById(R.id.playerGoalerProgressBarTxtV);
         matchFilterLL = (LinearLayout) view.findViewById(R.id.choseMathcFilterLL);
         stageSpinner = (Spinner) view.findViewById(R.id.matchStageSpinner);
-        relativeLayout = (RelativeLayout)view.findViewById(R.id.listRelativeLayout);
+        relativeLayout = (RelativeLayout) view.findViewById(R.id.listRelativeLayout);
+        progressBar = (ElasticDownloadView) view.findViewById(R.id.progressBar);
+
         stageSpinner.setAdapter(spinnerAdapter);
 
         int orientation = getLayoutManagerOrientation(getResources().getConfiguration().orientation);
@@ -182,7 +235,6 @@ public class MatchFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
 
-
         stageSpinner.post(new Runnable() {
             @Override
             public void run() {
@@ -192,11 +244,16 @@ public class MatchFragment extends Fragment {
                         Stage selStage = ((Stage) parent.getItemAtPosition(position));
                         urlExtention = "?" + selStage.getUrl();
                         if (position != prevSpinnerSelected) {
-                            featchData();
-                            setListShown(false);
+                            mathList.clear();
+                            mathList.addAll(selStage.getAllMatches());
+                            if (mathList.size() == 0) {
+                                featchData();
+                                setListShown(false);
+                            } else
+                                adapter.notifyDataSetChanged();
 
                             Map<String, String> dimensions = new HashMap<>();
-                            dimensions.put("category", "استعراض مباريات : " + Legue.load((long) leagueId).get(0).getName());
+                            dimensions.put("category", "استعراض مباريات : " + Legue.load(legue.getId()).get(0).getName());
                             ParseAnalytics.trackEventInBackground("open_match", dimensions);
                             dimensions.put("category", "استعراض مباريات");
                             ParseAnalytics.trackEventInBackground("open_match", dimensions);
@@ -213,12 +270,14 @@ public class MatchFragment extends Fragment {
             }
         });
 
+        stageSpinner.setSelection(0);
+
     }
 
     private void featchData() {
 
-
-
+        progressBar.startIntro();
+        progressBar.setProgress(0);
         if (!MyApplication.instance.isNetworkAvailable()) {
             try {
                 Snackbar snackbar = Snackbar.make(relativeLayout, "لا يوجد اتصال بالانترنت", Snackbar.LENGTH_INDEFINITE)
@@ -235,19 +294,11 @@ public class MatchFragment extends Fragment {
                 textView.setTextColor(Color.YELLOW);
 
                 snackbar.show();
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
         } else {
-            webView.addJavascriptInterface(new MyJavaScriptInterface(), "HtmlViewer");
-            webView.setWebViewClient(new WebViewClient() {
-                @Override
-                public void onPageFinished(WebView view, String url) {
-                    webView.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
-                }
-            });
 
-            //String url = MyApplication.BASE_URL+MyApplication.ABD_ALATIF_EXT;
             webView.stopLoading();
             webView.loadUrl(MyApplication.BASE_URL + urlExtention);
         }
@@ -268,27 +319,25 @@ public class MatchFragment extends Fragment {
 
                         Element contentTable = doc.getElementById("contentTable");
                         Element seasonpicker = contentTable.getElementsByClass("seasonpicker").get(1);
-
-                        if (stageList.size() == 0) {
-                            int idx = 0;
-                            boolean b = false;
-                            for (Element option : seasonpicker.getElementsByTag("option")) {
-                                String url = option.attr("value");
-                                String name = option.text();
-                                if (name.equalsIgnoreCase("المراكز"))
-                                    continue;
-                                Stage stage = new Stage(name, url);
-                                String selected = option.attr("selected");
-                                if (!option.hasAttr("selected") && !b) {
-                                    idx++;
-                                } else
-                                    b = true;
-                                stageList.add(stage);
-                            }
-                            prevSpinnerSelected = idx;
-                            stageSpinner.setSelection(idx);
-                            spinnerAdapter.notifyDataSetChanged();
+                        stageList.clear();
+                        int idx = 0;
+                        boolean b = false;
+                        for (Element option : seasonpicker.getElementsByTag("option")) {
+                            String url = option.attr("value");
+                            String name = option.text();
+                            if (name.equalsIgnoreCase("المراكز"))
+                                continue;
+                            Stage stage = new Stage(name, url, legue.getId());
+                            stage.save();
+                            if (!option.hasAttr("selected") && !b) {
+                                idx++;
+                            } else
+                                b = true;
+                            stageList.add(stage);
                         }
+                        prevSpinnerSelected = idx;
+                        stageSpinner.setSelection(idx);
+                        spinnerAdapter.notifyDataSetChanged();
 
 
                         Element tbody = contentTable.getElementsByTag("tbody").first();
@@ -299,6 +348,9 @@ public class MatchFragment extends Fragment {
 
                         int hIdx = 0;
                         String date = "";
+                        if(legue.getLeagueDate() == null || legue.getLeagueDate().equalsIgnoreCase("")){
+
+                        }
                         for (int i = 4; i < trs.size(); ++i) {
 
                             Elements tds = trs.get(i).getElementsByTag("td");
@@ -319,7 +371,13 @@ public class MatchFragment extends Fragment {
                                 date = tds.first().text();
                             } else {
 
+                                String matchLocation = trs.get(i).attr("onclick");
+                                String[] matchLocationSplit = matchLocation.split("=");
+                                Long matchId = Long.valueOf(matchLocationSplit[2].substring(0, matchLocationSplit[2].length() - 2));
+
                                 time = tds.get(0).text();
+                                String tmpD = date;
+
                                 Element teamD = tds.get(1);
                                 Element teamF = teamD.getElementsByTag("font").first();
                                 if (teamF != null)
@@ -327,14 +385,14 @@ public class MatchFragment extends Fragment {
                                 else
                                     teamR = tds.get(1).text();
                                 Element tdRes = tds.get(2).getElementsByTag("span").first();
-                                if(tdRes == null)
-                                    tdRes=tds.get(2);
+                                if (tdRes == null)
+                                    tdRes = tds.get(2);
                                 Element tdResEx = tds.get(2).getElementsByTag("div").first();
                                 resultR = Html.fromHtml(tdRes.text()).toString();
                                 resultL = resultR.split(":")[0].replaceAll("\\s+", "");
                                 resultR = resultR.split(":")[1].replaceAll("\\s+", "");
 
-                                if(tdResEx != null){
+                                if (tdResEx != null) {
                                     resultReX = Html.fromHtml(tdResEx.text()).toString();
                                     resultLeX = resultReX.split(":")[0].replaceAll("\\s+", "");
                                     resultReX = resultReX.split(":")[1].replaceAll("\\s+", "");
@@ -343,8 +401,8 @@ public class MatchFragment extends Fragment {
                                     int resR = Integer.valueOf(resultR);
                                     int resL = Integer.valueOf(resultR);
 
-                                    resultR = resR + resRex +"";
-                                    resultL = resL +resLeX +"";
+                                    resultR = resR + resRex + "";
+                                    resultL = resL + resLeX + "";
                                 }
 
                                 teamD = tds.get(3);
@@ -356,25 +414,42 @@ public class MatchFragment extends Fragment {
 
                                 Match match = new Match();
 
-                                match.setDate(date);
+                                match.setId(matchId);
                                 match.sethId(hIdx);
-                                match.setTime(time);
+                                match.setDateTime(MyApplication.parseDateTime(tmpD, time));
                                 match.setTeamR(teamR);
                                 match.setTeamL(teamL);
                                 match.setResultL(resultL);
                                 match.setResultR(resultR);
+                                match.setStage(((Stage) stageSpinner.getSelectedItem()));
+                                match.save();
+
+                                if(match.getResultL().equalsIgnoreCase("--") || match.getResultR().equalsIgnoreCase("--"))
+                                    match.registerMatchUpdateFirstTime();
 
                                 tmpList.add(match);
                             }
 
                         }
-                        Match m = new Match();
-                        m.setDate("جدول مباريات المسابقة غير متوفر حالياً");
-                        if (tmpList.size() == 0)
-                            tmpList.add(m);
+//                        Match m = new Match();
+//                        if (tmpList.size() == 0)
+//                            tmpList.add(m);
                         mathList.clear();
                         mathList.addAll(tmpList);
+                        if(mathList.size() == 0){
+                            Snackbar snackbar = Snackbar.make(relativeLayout, "جدول مباريات المسابقة غير متوفر حالياً", Snackbar.LENGTH_INDEFINITE);
+                            View sbView = snackbar.getView();
+                            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                            textView.setTextColor(Color.YELLOW);
+                            snackbar.show();
 
+                        }
+                        adapter.notifyDataSetChanged();
+                        try {
+                            setListShown(true);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     } catch (Exception e) {
                         Snackbar snackbar = Snackbar.make(relativeLayout, "نأسف حدث حطأ في جلب بعض البيانات!", Snackbar.LENGTH_INDEFINITE)
                                 .setAction("اعد المحاولة", new View.OnClickListener() {
@@ -388,16 +463,11 @@ public class MatchFragment extends Fragment {
                         View sbView = snackbar.getView();
                         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                         textView.setTextColor(Color.YELLOW);
-
+                        progressBar.fail();
                         snackbar.show();
                     }
 
-                    adapter.notifyDataSetChanged();
-                    try {
-                        setListShown(true);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+
 
                 }
             });

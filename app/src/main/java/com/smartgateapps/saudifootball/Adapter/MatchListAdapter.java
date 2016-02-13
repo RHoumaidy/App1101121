@@ -13,13 +13,14 @@ import android.widget.TextView;
 
 import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.model.Match;
+import com.smartgateapps.saudifootball.saudi.MyApplication;
 
 import java.util.List;
 
 /**
  * Created by Raafat on 16/01/2016.
  */
-public class MatchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class MatchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Match> data;
     private Context ctx;
@@ -48,10 +49,12 @@ public class MatchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         View convertView = holder.itemView;
         Match currMatch = this.getItem(position);
-        LinearLayout headerLayout = (LinearLayout)convertView.findViewById(R.id.headerLinearLayout);
+        LinearLayout headerLayout = (LinearLayout) convertView.findViewById(R.id.headerLinearLayout);
         View childLayout = convertView.findViewById(R.id.childLinearLayout);
-
-        if(!currMatch.isHeader()) {
+        String time = MyApplication.formatDateTime(currMatch.getDateTime())[1];
+        String date = MyApplication.formatDateTime(currMatch.getDateTime())[0];
+        
+        if (!currMatch.isHeader()) {
             childLayout.setVisibility(View.VISIBLE);
             headerLayout.setVisibility(View.GONE);
 
@@ -63,7 +66,8 @@ public class MatchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ImageView teamLImgView = (ImageView) convertView.findViewById(R.id.matchTeamLImgV);
             ImageView teamRImgView = (ImageView) convertView.findViewById(R.id.matchTEamRImgV);
 
-            matchTimeTxtV.setText(currMatch.getTime());
+
+            matchTimeTxtV.setText(time);
             matchTeamRTxtV.setText(currMatch.getTeamR().getTeamName());
 
             matchReslutRTxtV.setText(currMatch.getResultR());
@@ -75,11 +79,11 @@ public class MatchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             teamLImgView.setImageDrawable(ctx.getResources().getDrawable(currMatch.getTeamL().getTeamLogo()));
 
             setAnimation(convertView, position);
-        }else{
+        } else {
             headerLayout.setVisibility(View.VISIBLE);
             childLayout.setVisibility(View.GONE);
-            TextView matchDateTxtV = (TextView)convertView.findViewById(R.id.matchDateTxtV);
-            matchDateTxtV.setText(currMatch.getDate());
+            TextView matchDateTxtV = (TextView) convertView.findViewById(R.id.matchDateTxtV);
+            matchDateTxtV.setText(date);
         }
     }
 
@@ -92,11 +96,9 @@ public class MatchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return this.data.get(position);
     }
 
-    private void setAnimation(View viewToAnimate, int position)
-    {
+    private void setAnimation(View viewToAnimate, int position) {
         // If the bound view wasn't previously displayed on screen, it's animated
-        if (position > lastPosition)
-        {
+        if (position > lastPosition) {
             Animation animation = AnimationUtils.loadAnimation(ctx, android.R.anim.slide_in_left);
             viewToAnimate.startAnimation(animation);
             lastPosition = position;

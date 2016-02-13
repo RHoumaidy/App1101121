@@ -48,7 +48,25 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".services.UpdateMatch">
+            <intent-filter>
+                <action android:name="UPATE_MATCH"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".services.BootCompletReciever">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".services.DoAt2AmService">
+            <intent-filter>
+                <action android:name="DO_AT_2_AM"/>
+            </intent-filter>
+        </receiver>
+
         <service android:name=".services.NotificationService" />
+        <service android:name=".services.MatchNotification"/>
         <service android:name="com.parse.PushService" />
 
         <receiver

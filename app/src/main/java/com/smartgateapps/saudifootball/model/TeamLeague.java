@@ -3,6 +3,7 @@ package com.smartgateapps.saudifootball.model;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
+import android.database.sqlite.SQLiteException;
 
 import com.smartgateapps.saudifootball.saudi.MyApplication;
 
@@ -56,6 +57,14 @@ public class TeamLeague {
         }
 
         return res;
+    }
+
+    public static void deleteAll(){
+        try {
+            MyApplication.dbw.delete(TABLE_NAME, null, null);
+        }catch (SQLiteException e){
+
+        }
     }
 
 
