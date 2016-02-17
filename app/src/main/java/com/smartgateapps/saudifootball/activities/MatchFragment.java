@@ -326,6 +326,7 @@ public class MatchFragment extends Fragment {
                         @Override
                         public void onClick(View v) {
                             chkdTxtV.setChecked(!chkdTxtV.isChecked());
+                            currMatch.setNotifyMe(chkdTxtV.isChecked());
                         }
                     });
                     chkdTxtV.setChecked(currMatch.isNotifyMe());
