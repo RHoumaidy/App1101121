@@ -31,15 +31,18 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustNothing" />
+
         <activity
             android:name=".activities.NewsDetailsActivity"
             android:label="@string/title_activity_news_details"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".activities.TeamDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
+
 
         <receiver android:name=".services.GetAllDawriNewsReciever">
             <intent-filter>
@@ -47,13 +50,11 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
         <receiver android:name=".services.UpdateMatch">
             <intent-filter>
                 <action android:name="UPATE_MATCH"/>
             </intent-filter>
         </receiver>
-
         <receiver android:name=".services.BootCompletReciever">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>

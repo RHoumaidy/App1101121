@@ -328,6 +328,7 @@ public class MatchFragment extends Fragment {
                             chkdTxtV.setChecked(!chkdTxtV.isChecked());
                         }
                     });
+                    chkdTxtV.setChecked(currMatch.isNotifyMe());
 
                     teamLImgV.setOnClickListener(new View.OnClickListener() {
                         @Override
