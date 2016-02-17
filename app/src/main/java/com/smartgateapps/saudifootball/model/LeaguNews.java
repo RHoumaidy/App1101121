@@ -116,6 +116,7 @@ public class LeaguNews {
                 leaguNews.setIsSeen(false);
                 leaguNews.setPageIdx(1);
                 leaguNews.setNewsId(news.getId());
+                leaguNews.save();
                 if (news != null)
                     res.add(news);
             } while (c.moveToNext());

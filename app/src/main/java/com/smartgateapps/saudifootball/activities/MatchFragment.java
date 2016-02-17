@@ -1,17 +1,22 @@
 package com.smartgateapps.saudifootball.activities;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
@@ -23,6 +28,8 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
+import android.widget.CheckedTextView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -35,6 +42,7 @@ import com.smartgateapps.saudifootball.Adapter.SpinnerAdapter;
 import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.model.Legue;
 import com.smartgateapps.saudifootball.model.Match;
+import com.smartgateapps.saudifootball.model.News;
 import com.smartgateapps.saudifootball.model.Stage;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
@@ -270,6 +278,94 @@ public class MatchFragment extends Fragment {
             }
         });
 
+        final GestureDetector mGestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                return true;
+            }
+        });
+
+        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                View child = rv.findChildViewUnder(e.getX(), e.getY());
+                if (child != null && mGestureDetector.onTouchEvent(e)) {
+
+                    int pos = rv.getChildAdapterPosition(child);
+                    final Match currMatch = mathList.get(pos);
+                    Dialog dialog = new Dialog(getActivity());
+                    dialog.setTitle(MyApplication.formatDateTime(currMatch.getDateTime())[0]);
+                    dialog.setCanceledOnTouchOutside(true);
+                    dialog.setContentView(R.layout.fragment_match_item);
+
+                    final CheckedTextView chkdTxtV = (CheckedTextView) dialog.findViewById(R.id.notifiMatchChTxt);
+                    TextView teamLtxtV = (TextView) dialog.findViewById(R.id.matchTeamLTxtV);
+                    TextView teamRtxtV = (TextView) dialog.findViewById(R.id.matchTeamRTxtV);
+                    ImageView teamLImgV = (ImageView) dialog.findViewById(R.id.matchTeamLImgV);
+                    ImageView teamRImgV = (ImageView) dialog.findViewById(R.id.matchTEamRImgV);
+                    TextView resultRtxtV = (TextView) dialog.findViewById(R.id.matchResultRTxtV);
+                    TextView resultLtxtV = (TextView) dialog.findViewById(R.id.matchResultLTxtV);
+                    TextView timeTxtV = (TextView) dialog.findViewById(R.id.matchTimeTxtV);
+                    teamLtxtV.setText(currMatch.getTeamL().getTeamName());
+                    teamRtxtV.setText(currMatch.getTeamR().getTeamName());
+                    resultLtxtV.setText(currMatch.getResultL());
+                    resultRtxtV.setText(currMatch.getResultR());
+                    timeTxtV.setText(MyApplication.formatDateTime(currMatch.getDateTime())[1]);
+                    MyApplication.picasso
+                            .load(currMatch.getTeamL().getTeamLogo())
+                            .placeholder(R.drawable.water_mark)
+                            .into(teamLImgV);
+                    MyApplication.picasso
+                            .load(currMatch.getTeamR().getTeamLogo())
+                            .placeholder(R.drawable.water_mark)
+                            .into(teamRImgV);
+
+                    if (currMatch.getDateTime() + 90 * 60 * 1000 >= System.currentTimeMillis())
+                        chkdTxtV.setVisibility(View.VISIBLE);
+                    chkdTxtV.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            chkdTxtV.setChecked(!chkdTxtV.isChecked());
+                        }
+                    });
+
+                    teamLImgV.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent toTeamDetail = new Intent(getActivity(), TeamDetailsActivity.class);
+                            toTeamDetail.putExtra("TEAM_ID", currMatch.getTeamL().getId());
+                            getActivity().startActivity(toTeamDetail);
+                        }
+                    });
+
+                    teamRImgV.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent toTeamDetail = new Intent(getActivity(), TeamDetailsActivity.class);
+                            toTeamDetail.putExtra("TEAM_ID", currMatch.getTeamR().getId());
+                            getActivity().startActivity(toTeamDetail);
+                        }
+                    });
+
+                    dialog.show();
+
+                    return true;
+                }
+
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+
         stageSpinner.setSelection(0);
 
     }
@@ -348,8 +444,12 @@ public class MatchFragment extends Fragment {
 
                         int hIdx = 0;
                         String date = "";
-                        if(legue.getLeagueDate() == null || legue.getLeagueDate().equalsIgnoreCase("")){
-
+                        if (legue.getLeagueDate() == null || legue.getLeagueDate().equalsIgnoreCase("")) {
+                            Element tr0 = trs.get(0);
+                            Element table_title = tr0.getElementsByClass("table_title").first();
+                            Element span = table_title.getAllElements().get(2);
+                            legue.setLeagueDate(Html.fromHtml(span.text()).toString());
+                            legue.update();
                         }
                         for (int i = 4; i < trs.size(); ++i) {
 
@@ -421,11 +521,16 @@ public class MatchFragment extends Fragment {
                                 match.setTeamL(teamL);
                                 match.setResultL(resultL);
                                 match.setResultR(resultR);
+                                match.setHasBeenUpdated(true);
                                 match.setStage(((Stage) stageSpinner.getSelectedItem()));
+                                match.setNotifyDateTime(MyApplication.parseDateTime(tmpD, time));
                                 match.save();
 
-                                if(match.getResultL().equalsIgnoreCase("--") || match.getResultR().equalsIgnoreCase("--"))
+                                if(match.getDateTime() > System.currentTimeMillis()){
                                     match.registerMatchUpdateFirstTime();
+                                    match.setHasBeenUpdated(false);
+                                    match.update();
+                                }
 
                                 tmpList.add(match);
                             }
@@ -436,7 +541,7 @@ public class MatchFragment extends Fragment {
 //                            tmpList.add(m);
                         mathList.clear();
                         mathList.addAll(tmpList);
-                        if(mathList.size() == 0){
+                        if (mathList.size() == 0) {
                             Snackbar snackbar = Snackbar.make(relativeLayout, "جدول مباريات المسابقة غير متوفر حالياً", Snackbar.LENGTH_INDEFINITE);
                             View sbView = snackbar.getView();
                             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
@@ -466,7 +571,6 @@ public class MatchFragment extends Fragment {
                         progressBar.fail();
                         snackbar.show();
                     }
-
 
 
                 }

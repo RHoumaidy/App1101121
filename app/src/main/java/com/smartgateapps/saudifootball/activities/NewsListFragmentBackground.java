@@ -3,11 +3,14 @@ package com.smartgateapps.saudifootball.activities;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.smartgateapps.saudifootball.model.LeaguNews;
+import com.smartgateapps.saudifootball.model.Legue;
 import com.smartgateapps.saudifootball.model.News;
 import com.smartgateapps.saudifootball.model.TeamNews;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
+import com.smartgateapps.saudifootball.services.GetAllDawriNewsReciever;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,19 +26,91 @@ public class NewsListFragmentBackground {
 
     public String urlExtention;
     private String urlExtentionPg;
-    private WebView webView;
+    private WebView webView1;
+    private WebView webView2;
+    private WebView webView3;
+    private WebView webView4;
+    private WebView webView5;
+    private WebView webView6;
+
     public boolean isLeague;
+    public static int number = 0;
 
 
     public int pageIdx = 1;
     public int leaguId;
 
     public NewsListFragmentBackground() {
-        webView = new WebView(MyApplication.APP_CTX);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setAppCacheEnabled(true);
-        webView.getSettings().setGeolocationEnabled(true);
-        webView.getSettings().setLoadsImagesAutomatically(false);
+        webView1 = new WebView(MyApplication.APP_CTX);
+        webView1.getSettings().setJavaScriptEnabled(true);
+        webView1.getSettings().setLoadsImagesAutomatically(false);
+        webView1.addJavascriptInterface(new MyJavaScriptInterface(), "HtmlViewer");
+        webView1.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                webView1.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                featchData2();
+            }
+        });
+
+        webView2 = new WebView(MyApplication.APP_CTX);
+        webView2.getSettings().setJavaScriptEnabled(true);
+        webView2.getSettings().setLoadsImagesAutomatically(false);
+        webView2.addJavascriptInterface(new MyJavaScriptInterface(), "HtmlViewer");
+        webView2.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                webView2.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                featchData3();
+            }
+        });
+
+        webView3 = new WebView(MyApplication.APP_CTX);
+        webView3.getSettings().setJavaScriptEnabled(true);
+        webView3.getSettings().setLoadsImagesAutomatically(false);
+        webView3.addJavascriptInterface(new MyJavaScriptInterface(), "HtmlViewer");
+        webView3.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                webView3.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                featchData4();
+            }
+        });
+
+        webView4 = new WebView(MyApplication.APP_CTX);
+        webView4.getSettings().setJavaScriptEnabled(true);
+        webView4.getSettings().setLoadsImagesAutomatically(false);
+        webView4.addJavascriptInterface(new MyJavaScriptInterface(), "HtmlViewer");
+        webView4.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                webView4.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                featchData5();
+            }
+        });
+
+        webView5 = new WebView(MyApplication.APP_CTX);
+        webView5.getSettings().setJavaScriptEnabled(true);
+        webView5.getSettings().setLoadsImagesAutomatically(false);
+        webView5.addJavascriptInterface(new MyJavaScriptInterface(), "HtmlViewer");
+        webView5.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                webView5.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                featchData6();
+            }
+        });
+
+        webView6 = new WebView(MyApplication.APP_CTX);
+        webView6.getSettings().setJavaScriptEnabled(true);
+        webView6.getSettings().setLoadsImagesAutomatically(false);
+        webView6.addJavascriptInterface(new MyJavaScriptInterface(), "HtmlViewer");
+        webView6.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                webView6.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+            }
+        });
 
     }
 
@@ -45,21 +120,120 @@ public class NewsListFragmentBackground {
         if (MyApplication.instance.isNetworkAvailable()) {
             urlExtentionPg = urlExtention + pageIdx;
             final String url = MyApplication.BASE_URL + urlExtentionPg;
-
-            webView.addJavascriptInterface(new MyJavaScriptInterface(), "HtmlViewer");
-            webView.setWebViewClient(new WebViewClient() {
-                @Override
-                public void onPageFinished(WebView view, String url) {
-                    webView.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
-                }
-            });
-
-            //String url = MyApplication.BASE_URL+MyApplication.ABD_ALATIF_EXT;
-            webView.stopLoading();
-            webView.loadUrl(url);
+            webView1.loadUrl(url);
+        } else {
+            number++;
+//            Toast.makeText(MyApplication.APP_CTX,number+"",Toast.LENGTH_LONG).show();
+            if (number == 5)
+                GetAllDawriNewsReciever.completeWakefulIntent(GetAllDawriNewsReciever.instance.intent);
+            else {
+                urlExtention = Legue.load((long) (number)).get(0).getNewsUrl();
+                featchData();
+            }
         }
 
     }
+    public void featchData2() {
+        urlExtention = Legue.load((long) (number)).get(0).getNewsUrl();
+        leaguId = number;
+        if (MyApplication.instance.isNetworkAvailable()) {
+            urlExtentionPg = urlExtention + pageIdx;
+            final String url = MyApplication.BASE_URL + urlExtentionPg;
+            webView2.loadUrl(url);
+        } else {
+            number++;
+//            Toast.makeText(MyApplication.APP_CTX,number+"",Toast.LENGTH_LONG).show();
+            if (number == 5)
+                GetAllDawriNewsReciever.completeWakefulIntent(GetAllDawriNewsReciever.instance.intent);
+            else {
+                urlExtention = Legue.load((long) (number)).get(0).getNewsUrl();
+                featchData2();
+            }
+        }
+
+    }
+
+    public void featchData3() {
+        urlExtention = Legue.load((long) (number)).get(0).getNewsUrl();
+        leaguId = number;
+        if (MyApplication.instance.isNetworkAvailable()) {
+            urlExtentionPg = urlExtention + pageIdx;
+            final String url = MyApplication.BASE_URL + urlExtentionPg;
+            webView3.loadUrl(url);
+        } else {
+            number++;
+//            Toast.makeText(MyApplication.APP_CTX,number+"",Toast.LENGTH_LONG).show();
+            if (number == 5)
+                GetAllDawriNewsReciever.completeWakefulIntent(GetAllDawriNewsReciever.instance.intent);
+            else {
+                urlExtention = Legue.load((long) (number)).get(0).getNewsUrl();
+                featchData3();
+            }
+        }
+
+    }
+
+    public void featchData4() {
+        urlExtention = Legue.load((long) (number)).get(0).getNewsUrl();
+        leaguId = number;
+        if (MyApplication.instance.isNetworkAvailable()) {
+            urlExtentionPg = urlExtention + pageIdx;
+            final String url = MyApplication.BASE_URL + urlExtentionPg;
+            webView4.loadUrl(url);
+        } else {
+            number++;
+//            Toast.makeText(MyApplication.APP_CTX,number+"",Toast.LENGTH_LONG).show();
+            if (number == 5)
+                GetAllDawriNewsReciever.completeWakefulIntent(GetAllDawriNewsReciever.instance.intent);
+            else {
+                urlExtention = Legue.load((long) (number)).get(0).getNewsUrl();
+                featchData4();
+            }
+        }
+
+    }
+
+    public void featchData5() {
+        urlExtention = Legue.load((long) (number)).get(0).getNewsUrl();
+        leaguId = number;
+        if (MyApplication.instance.isNetworkAvailable()) {
+            urlExtentionPg = urlExtention + pageIdx;
+            final String url = MyApplication.BASE_URL + urlExtentionPg;
+            webView5.loadUrl(url);
+        } else {
+            number++;
+//            Toast.makeText(MyApplication.APP_CTX,number+"",Toast.LENGTH_LONG).show();
+            if (number == 5)
+                GetAllDawriNewsReciever.completeWakefulIntent(GetAllDawriNewsReciever.instance.intent);
+            else {
+                urlExtention = Legue.load((long) (number)).get(0).getNewsUrl();
+                featchData5();
+            }
+        }
+
+    }
+
+    public void featchData6() {
+        urlExtention = Legue.load((long) (number)).get(0).getNewsUrl();
+        leaguId = number;
+        if (MyApplication.instance.isNetworkAvailable()) {
+            urlExtentionPg = urlExtention + pageIdx;
+            final String url = MyApplication.BASE_URL + urlExtentionPg;
+            webView6.loadUrl(url);
+        } else {
+            number++;
+//            Toast.makeText(MyApplication.APP_CTX,number+"",Toast.LENGTH_LONG).show();
+            if (number == 5)
+                GetAllDawriNewsReciever.completeWakefulIntent(GetAllDawriNewsReciever.instance.intent);
+            else {
+                urlExtention = Legue.load((long) (number)).get(0).getNewsUrl();
+                featchData6();
+            }
+        }
+
+    }
+
+
 
     class MyJavaScriptInterface {
 
@@ -95,14 +269,14 @@ public class NewsListFragmentBackground {
                     news.setSubTitle(subTitle);
                     news.setTitle(title);
                     news.save();
-                    if(isLeague) {
+                    if (isLeague) {
                         LeaguNews leaguNews1 = new LeaguNews();
                         leaguNews1.setLeaguId(leaguId);
                         leaguNews1.setNewsId(news.getId());
                         leaguNews1.setPageIdx(pageIdx);
                         leaguNews1.setIsSeen(false);
                         leaguNews1.save();
-                    }else{
+                    } else {
 
                         TeamNews teamNew = new TeamNews();
                         teamNew.setTeamId(leaguId);
@@ -111,9 +285,6 @@ public class NewsListFragmentBackground {
                         teamNew.setIsSeen(false);
                         teamNew.save();
                     }
-                   
-
-
                     //adapter.notifyDataSetChanged();
                 }
 
@@ -122,6 +293,11 @@ public class NewsListFragmentBackground {
 
 
             } finally {
+
+                number++;
+//                Toast.makeText(MyApplication.APP_CTX,number+"",Toast.LENGTH_LONG).show();
+                if (number == 6)
+                    GetAllDawriNewsReciever.completeWakefulIntent(GetAllDawriNewsReciever.instance.intent);
 
 
             }

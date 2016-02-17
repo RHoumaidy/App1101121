@@ -60,7 +60,7 @@ public class MyApplication extends Application {
     public static final String SCORERS_CM = "&scorers=true";
 
     public static Context APP_CTX;
-    public static final String LIVE_CAST_APP_PACKAGE_NAME = "com.smartgateapps.livesport";
+    public static final String LIVE_CAST_APP_PACKAGE_NAME = "com.smartgateapps.livesports";
 
     public static Picasso picasso;
     public static WebView webView;
@@ -91,22 +91,7 @@ public class MyApplication extends Application {
 
     public static InterstitialAd mInterstitialAd;
 
-    public static String converteTime(String time, String date) throws ParseException {
-        try {
 
-            long dated = 0;
-            if (date != null && !date.equalsIgnoreCase(""))
-                dated = sourceDateFormat.parse(date).getTime();
-            long timed = 0;
-            if (time != null && !time.equalsIgnoreCase(""))
-                timed = sourceTimeFormate.parse(time).getTime();
-            long dateTime = timed + dated;
-            return destTimeFormate.format(dateTime);
-
-        } catch (Exception e) {
-            return "";
-        }
-    }
 
     public static Long parseDateTime(String date, String time) {
 
@@ -145,6 +130,23 @@ public class MyApplication extends Application {
             return "";
         }
 
+    }
+
+    public static String converteTime(String time, String date) throws ParseException {
+        try {
+
+            long dated = 0;
+            if (date != null && !date.equalsIgnoreCase(""))
+                dated = sourceDateFormat.parse(date).getTime();
+            long timed = 0;
+            if (time != null && !time.equalsIgnoreCase(""))
+                timed = sourceTimeFormate.parse(time).getTime();
+            long dateTime = timed + dated;
+            return destTimeFormate.format(dateTime);
+
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     private void requestNewInterstitial() {
@@ -246,11 +248,11 @@ public class MyApplication extends Application {
 
         picasso = Picasso.with(this);
 
-        Legue saudi = new Legue(0L, "السعودية","?y=sa");
-        Legue abdAlatif = new Legue(1L, "دوري عبداللطيف جميل",ABD_ALATIF_EXT);
-        Legue waliAlahid = new Legue(2L, "كأس ولي العد",WALI_ALAHID_EXT);
-        Legue kadimAlaharmin = new Legue(3L, "كأس خادم الحرمين الشريفين",KHADIM_ALHARAMIN_EXT);
-        Legue firstClass = new Legue(4L, "دوري الدرجة الاولى",FIRST_CLASS_EXT);
+        Legue saudi = new Legue(0L, "السعودية","?y=sa",SAUDI_EXT_HOME);
+        Legue abdAlatif = new Legue(1L, "دوري عبداللطيف جميل",ABD_ALATIF_EXT,ABD_ALATIF_NEWS_EXT);
+        Legue waliAlahid = new Legue(2L, "كأس ولي العد",WALI_ALAHID_EXT,WALI_ALAHID_NEWS_EXT);
+        Legue kadimAlaharmin = new Legue(3L, "كأس خادم الحرمين الشريفين",KHADIM_ALHARAMIN_EXT,KHADIM_ALHARAMIN_NEWS_EXT);
+        Legue firstClass = new Legue(4L, "دوري الدرجة الاولى",FIRST_CLASS_EXT,FIRST_CLASS_NEWS_EXT);
 
         saudi.save();
         abdAlatif.save();

@@ -8,7 +8,9 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 import android.widget.Toast;
 
 import com.smartgateapps.saudifootball.R;
+import com.smartgateapps.saudifootball.activities.NewsListFragment;
 import com.smartgateapps.saudifootball.activities.NewsListFragmentBackground;
+import com.smartgateapps.saudifootball.model.News;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
 
 import java.util.HashSet;
@@ -25,17 +27,29 @@ public class GetAllDawriNewsReciever extends WakefulBroadcastReceiver {
     private NewsListFragmentBackground newsListFragment4 = new NewsListFragmentBackground();
     private NewsListFragmentBackground newsListFragment5 = new NewsListFragmentBackground();
 
+    public static GetAllDawriNewsReciever instance;
+    public Intent intent;
+
+    public GetAllDawriNewsReciever() {
+        super();
+        instance = this;
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
-
-//        Toast.makeText(context,"started",Toast.LENGTH_LONG).show();
-
+        this.intent = intent;
+//        Toast.makeText(context,"started News",Toast.LENGTH_LONG).show();
         Intent intentActivationUpateNewsService = new Intent(MyApplication.ACTION_ACTIVATION);
-
         PendingIntent pendingIntent =
-                PendingIntent.getBroadcast(MyApplication.APP_CTX, 0, intentActivationUpateNewsService, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.getBroadcast(MyApplication.APP_CTX, 22, intentActivationUpateNewsService, PendingIntent.FLAG_NO_CREATE);
+        if (pendingIntent != null)
+            pendingIntent.cancel();
+        pendingIntent =
+                PendingIntent.getBroadcast(MyApplication.APP_CTX, 22, intentActivationUpateNewsService, PendingIntent.FLAG_ONE_SHOT);
 
-        MyApplication.alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60 * 10 * 1000, pendingIntent);
+        MyApplication.alarmManager.set(
+                AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10*60*1000, pendingIntent);
+
 
         newsListFragment1.urlExtention = MyApplication.SAUDI_EXT_HOME;
         newsListFragment1.leaguId = 0;
@@ -62,12 +76,14 @@ public class GetAllDawriNewsReciever extends WakefulBroadcastReceiver {
         newsListFragment5.pageIdx = 1;
         newsListFragment5.isLeague = true;
 
-
-        newsListFragment1.featchData();
-        newsListFragment2.featchData();
-        newsListFragment3.featchData();
-        newsListFragment4.featchData();
-        newsListFragment5.featchData();
+        if(NewsListFragmentBackground.number >=5 || NewsListFragmentBackground.number ==0) {
+            NewsListFragmentBackground.number = 0;
+            newsListFragment1.featchData();
+        }
+//        newsListFragment2.featchData();
+//        newsListFragment3.featchData();
+//        newsListFragment4.featchData();
+//        newsListFragment5.featchData();
 
 
         Set<String> selectedLeagues = new HashSet<>();
@@ -89,7 +105,7 @@ public class GetAllDawriNewsReciever extends WakefulBroadcastReceiver {
             startWakefulService(context, toNotification);
         }
 
-        completeWakefulIntent(intent);
+       // completeWakefulIntent(intent);
 
     }
 

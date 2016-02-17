@@ -1,6 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     android:id="@+id/splashLinearLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#3C3F41"
@@ -12,7 +14,7 @@
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
         android:layout_height="256dp"
-        android:src="@drawable/logo" />
+        android:src="@drawable/logo"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -22,12 +24,16 @@
         android:padding="10dp"
         android:text="@string/app_name"
         android:textColor="@color/colorAccent"
-        android:textSize="24dp" />
+        android:textSize="24dp"/>
 
-    <ProgressBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="25dp" />
+    <com.leo.simplearcloader.SimpleArcLoader
+        android:id="@+id/loader"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:visibility="visible"
+        app:arc_margin="3dp"
+        app:arc_speed="medium"
+        app:arc_style="simple_arc">
+    </com.leo.simplearcloader.SimpleArcLoader>
 
 </LinearLayout>

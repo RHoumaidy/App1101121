@@ -12,6 +12,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.activities.MainActivity;
+import com.smartgateapps.saudifootball.model.Legue;
 import com.smartgateapps.saudifootball.model.Match;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
 
@@ -35,7 +36,7 @@ public class MatchNotification extends IntentService {
     }
 
     public void sendNotification(Match match) {
-        String contentTitle = "بدء مباراة";
+        String contentTitle = "بدء مباراة  " + Legue.load((long)match.getLeagueId()).get(0).getName();
         String contentText = match.getTeamL().getTeamName()+" X " + match.getTeamR().getTeamName();
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
 

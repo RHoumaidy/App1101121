@@ -18,6 +18,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.model.Match;
 import com.smartgateapps.saudifootball.model.Stage;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
@@ -44,15 +45,45 @@ public class UpdateMatch extends WakefulBroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Long mId = intent.getLongExtra("MATCH_ID", 0);
         Match match = Match.load(mId);
-
         featchDate(match.getMatchUrl());
 
         long currDateTime = Calendar.getInstance().getTimeInMillis();
-        if (match.getDateTime() < currDateTime && (currDateTime - match.getDateTime())<=HOUR_IN_MILLIS*2) {
+        if (match.getNotifyDateTime() < currDateTime &&
+                (currDateTime - match.getNotifyDateTime())<=HOUR_IN_MILLIS*2+10*1000 &&
+                MyApplication.instance.isNetworkAvailable()) {
             match.registerMatchUpdateDate(currDateTime + MINUTE_IN_MILLIS * 2);
+        }else if(!(match.getNotifyDateTime() < currDateTime &&
+                (currDateTime - match.getNotifyDateTime())<=HOUR_IN_MILLIS*2+10*1000)) {
+            match.setHasBeenUpdated(true);
+            match.update();
+        }else{
+            match.setNotifyDateTime(match.getDateTime()+10*60*1000);
+            match.update();
+            match.registerMatchUpdateFirstTime();
         }
 
-        if(match.getResultL().equalsIgnoreCase("--")){
+        int leagueId = match.getLeagueId();
+        boolean isChecked = false;
+        switch (leagueId){
+            case 1: //abdAlatif
+                isChecked =
+                        MyApplication.pref.getBoolean(MyApplication.APP_CTX.getString(R.string.abd_alatif_notificatin_pref_key), false);
+                break;
+            case 2: //waliAlAhid
+                isChecked =
+                        MyApplication.pref.getBoolean(MyApplication.APP_CTX.getString(R.string.wali_notification_pref_key), false);
+                break;
+            case 3: //khadim
+                isChecked =
+                        MyApplication.pref.getBoolean(MyApplication.APP_CTX.getString(R.string.khadim_notification_pref_key), false);
+                break;
+            case 4: //first class
+                isChecked =
+                        MyApplication.pref.getBoolean(MyApplication.APP_CTX.getString(R.string.first_notification_pref_key), false);
+                break;
+        }
+
+        if(match.getResultL().equalsIgnoreCase("--") && isChecked){
             Intent toNotification = new Intent(context, MatchNotification.class);
             toNotification.putExtra("MATCH_ID",mId);
             startWakefulService(context, toNotification);

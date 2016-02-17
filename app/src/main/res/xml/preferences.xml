@@ -4,7 +4,7 @@
     <PreferenceCategory
         android:key="@string/selected_leagues_pref_key"
         android:summary="تنبيهات بالمستجدات"
-        android:title="التنبيهات">
+        android:title="تنبيهات الاخبار و المباريات">
         <SwitchPreference
             android:key="@string/abd_alatif_notificatin_pref_key"
             android:summary="الحصول على تنبيهات دوري عبد اللطيف جميل"

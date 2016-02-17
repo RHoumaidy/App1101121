@@ -20,7 +20,7 @@ import com.smartgateapps.saudifootball.model.TeamNews;
 public class DbHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "MY_DB";
-    public static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 2;
     private Context ctx;
 
     public DbHelper(Context context) {
@@ -46,5 +46,15 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+        db.execSQL("DROP TABLE IF EXISTS "+Legue.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+Team.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+TeamLeague.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+News.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+LeaguNews.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+TeamNews.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+Stage.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+Match.TABLE_NAME);
+
+        this.onCreate(db);
     }
 }
