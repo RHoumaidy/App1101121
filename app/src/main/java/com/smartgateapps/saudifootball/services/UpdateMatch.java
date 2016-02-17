@@ -40,9 +40,12 @@ public class UpdateMatch extends WakefulBroadcastReceiver {
     private static long MINUTE_IN_MILLIS = 60 * 1000;
     private static long HOUR_IN_MILLIS = MINUTE_IN_MILLIS *60;
     private WebView webView;
+    private Intent intent;
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        this.intent = intent;
+
         Long mId = intent.getLongExtra("MATCH_ID", 0);
         Match match = Match.load(mId);
         featchDate(match.getMatchUrl());
@@ -62,26 +65,7 @@ public class UpdateMatch extends WakefulBroadcastReceiver {
             match.registerMatchUpdateFirstTime();
         }
 
-        int leagueId = match.getLeagueId();
-        boolean isChecked = false;
-        switch (leagueId){
-            case 1: //abdAlatif
-                isChecked =
-                        MyApplication.pref.getBoolean(MyApplication.APP_CTX.getString(R.string.abd_alatif_notificatin_pref_key), false);
-                break;
-            case 2: //waliAlAhid
-                isChecked =
-                        MyApplication.pref.getBoolean(MyApplication.APP_CTX.getString(R.string.wali_notification_pref_key), false);
-                break;
-            case 3: //khadim
-                isChecked =
-                        MyApplication.pref.getBoolean(MyApplication.APP_CTX.getString(R.string.khadim_notification_pref_key), false);
-                break;
-            case 4: //first class
-                isChecked =
-                        MyApplication.pref.getBoolean(MyApplication.APP_CTX.getString(R.string.first_notification_pref_key), false);
-                break;
-        }
+        boolean isChecked = match.isNotifyMe();
 
         if(match.getResultL().equalsIgnoreCase("--") && isChecked){
             Intent toNotification = new Intent(context, MatchNotification.class);
@@ -89,7 +73,6 @@ public class UpdateMatch extends WakefulBroadcastReceiver {
             startWakefulService(context, toNotification);
         }
 
-        completeWakefulIntent(intent);
     }
 
 
@@ -176,6 +159,7 @@ public class UpdateMatch extends WakefulBroadcastReceiver {
             } catch (Exception e) {
 
             }
+            completeWakefulIntent(intent);
 
         }
 
