@@ -102,6 +102,7 @@ public class MatchAdapterAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 .load(currItme.getLeagueImageUrl())
                 .into(iconImgV);
         titleTxtV.setText(currItme.getLeague());
+        titleTxtV.setTypeface(MyApplication.font);
     }
 
     public MatchMatch getItem(int position) {

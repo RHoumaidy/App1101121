@@ -13,10 +13,10 @@
         android:id="@+id/posTxtV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
         android:gravity="center"
         android:paddingLeft="5dp"
+        android:layout_gravity="center_vertical"
+        android:textColor="#000"
         android:paddingRight="5dp"
         android:text="1"
         android:textStyle="bold"
@@ -26,20 +26,19 @@
         android:id="@+id/teamTxtV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/posTxtV"
         android:gravity="right"
         android:paddingLeft="5dp"
+        android:textColor="#000"
         android:paddingRight="5dp"
-        android:layout_marginRight="10dp"
-        android:text="الأهلي"
+        android:text="النصري البورسعيدي"
         android:textStyle="bold"
-        android:layout_weight="20"/>
+        android:layout_weight="23"/>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_gravity="center_vertical"
         android:layout_weight="40"
         android:orientation="horizontal">
 
@@ -49,6 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="25"
             android:text="ل"
+            android:textColor="#000"
             android:textStyle="bold"
             android:gravity="center"
             android:layout_alignParentRight="true"/>
@@ -59,6 +59,7 @@
             android:layout_height="wrap_content"
             android:text="ف"
             android:layout_weight="25"
+            android:textColor="#000"
             android:textStyle="bold"
             android:gravity="center"
             android:layout_toLeftOf="@id/playTxtView"/>
@@ -68,6 +69,7 @@
             android:layout_height="wrap_content"
             android:text="ت"
             android:layout_weight="25"
+            android:textColor="#000"
             android:textStyle="bold"
             android:gravity="center"
             android:layout_toLeftOf="@id/winTxtV"/>
@@ -76,6 +78,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="خ"
+            android:textColor="#000"
             android:layout_weight="25"
             android:textStyle="bold"
             android:gravity="center"
@@ -86,11 +89,10 @@
         android:id="@+id/pointTxtV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/loseTxtV"
         android:gravity="center"
+        android:layout_gravity="center_vertical"
         android:text="27"
+        android:textColor="#000"
         android:textStyle="bold"
         android:layout_weight="12"/>
 

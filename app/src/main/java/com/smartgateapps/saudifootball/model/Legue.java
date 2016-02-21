@@ -49,6 +49,7 @@ public class Legue {
                 res.add(legue);
             } while (c.moveToNext());
         }
+        c.close();
 
         return res;
     }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.model.Team;
+import com.smartgateapps.saudifootball.model.TeamNews;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
 
 import java.util.List;
@@ -42,6 +43,7 @@ public class TeamsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         ImageView teamLogoImV = (ImageView)convertView.findViewById(R.id.teamLogoImV);
         TextView teamNameTV = (TextView)convertView.findViewById(R.id.teamNameTV);
+        teamNameTV.setTypeface(MyApplication.font);
 
         teamLogoImV.setImageResource(currTeam.getTeamLogo());
         teamLogoImV.setScaleType(ImageView.ScaleType.FIT_CENTER);

@@ -49,6 +49,8 @@ public class NewsRecyclerViewAdapter extends RecyclerView.Adapter<NewsRecyclerVi
         News currNews = data.get(position);
         holder.titleTxtView.setText(currNews.getTitle());
         holder.descTxtView.setText(currNews.getSubTitle());
+        holder.titleTxtView.setTypeface(MyApplication.font);
+        holder.descTxtView.setTypeface(MyApplication.font);
 
         if(holder.imageView2 != null) {
             MyApplication.picasso

@@ -1,6 +1,11 @@
 package com.smartgateapps.saudifootball.activities;
 
+import android.net.http.SslError;
 import android.webkit.JavascriptInterface;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -48,8 +53,27 @@ public class NewsListFragmentBackground {
         webView1.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                webView1.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                webView1.loadUrl(
+                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
                 featchData2();
+            }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                number++;
+            }
+
+            @Override
+            public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                super.onReceivedHttpError(view, request, errorResponse);
+                number++;
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                super.onReceivedSslError(view, handler, error);
+                number++;
             }
         });
 
@@ -60,8 +84,27 @@ public class NewsListFragmentBackground {
         webView2.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                webView2.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                webView2.loadUrl(
+                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
                 featchData3();
+            }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                number++;
+            }
+
+            @Override
+            public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                super.onReceivedHttpError(view, request, errorResponse);
+                number++;
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                super.onReceivedSslError(view, handler, error);
+                number++;
             }
         });
 
@@ -72,8 +115,27 @@ public class NewsListFragmentBackground {
         webView3.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                webView3.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                webView3.loadUrl(
+                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
                 featchData4();
+            }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                number++;
+            }
+
+            @Override
+            public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                super.onReceivedHttpError(view, request, errorResponse);
+                number++;
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                super.onReceivedSslError(view, handler, error);
+                number++;
             }
         });
 
@@ -84,8 +146,27 @@ public class NewsListFragmentBackground {
         webView4.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                webView4.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                webView4.loadUrl(
+                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
                 featchData5();
+            }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                number++;
+            }
+
+            @Override
+            public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                super.onReceivedHttpError(view, request, errorResponse);
+                number++;
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                super.onReceivedSslError(view, handler, error);
+                number++;
             }
         });
 
@@ -96,8 +177,27 @@ public class NewsListFragmentBackground {
         webView5.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                webView5.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                webView5.loadUrl(
+                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
                 featchData6();
+            }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                number++;
+            }
+
+            @Override
+            public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                super.onReceivedHttpError(view, request, errorResponse);
+                number++;
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                super.onReceivedSslError(view, handler, error);
+                number++;
             }
         });
 
@@ -108,7 +208,26 @@ public class NewsListFragmentBackground {
         webView6.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
-                webView6.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                webView6.loadUrl(
+                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+            }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+                number++;
+            }
+
+            @Override
+            public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                super.onReceivedHttpError(view, request, errorResponse);
+                number++;
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                super.onReceivedSslError(view, handler, error);
+                number++;
             }
         });
 
@@ -123,16 +242,13 @@ public class NewsListFragmentBackground {
             webView1.loadUrl(url);
         } else {
             number++;
-//            Toast.makeText(MyApplication.APP_CTX,number+"",Toast.LENGTH_LONG).show();
             if (number == 5)
                 GetAllDawriNewsReciever.completeWakefulIntent(GetAllDawriNewsReciever.instance.intent);
-            else {
-                urlExtention = Legue.load((long) (number)).get(0).getNewsUrl();
-                featchData();
-            }
+
         }
 
     }
+
     public void featchData2() {
         urlExtention = Legue.load((long) (number)).get(0).getNewsUrl();
         leaguId = number;
@@ -142,13 +258,9 @@ public class NewsListFragmentBackground {
             webView2.loadUrl(url);
         } else {
             number++;
-//            Toast.makeText(MyApplication.APP_CTX,number+"",Toast.LENGTH_LONG).show();
             if (number == 5)
                 GetAllDawriNewsReciever.completeWakefulIntent(GetAllDawriNewsReciever.instance.intent);
-            else {
-                urlExtention = Legue.load((long) (number)).get(0).getNewsUrl();
-                featchData2();
-            }
+
         }
 
     }
@@ -162,13 +274,9 @@ public class NewsListFragmentBackground {
             webView3.loadUrl(url);
         } else {
             number++;
-//            Toast.makeText(MyApplication.APP_CTX,number+"",Toast.LENGTH_LONG).show();
             if (number == 5)
                 GetAllDawriNewsReciever.completeWakefulIntent(GetAllDawriNewsReciever.instance.intent);
-            else {
-                urlExtention = Legue.load((long) (number)).get(0).getNewsUrl();
-                featchData3();
-            }
+
         }
 
     }
@@ -182,13 +290,9 @@ public class NewsListFragmentBackground {
             webView4.loadUrl(url);
         } else {
             number++;
-//            Toast.makeText(MyApplication.APP_CTX,number+"",Toast.LENGTH_LONG).show();
             if (number == 5)
                 GetAllDawriNewsReciever.completeWakefulIntent(GetAllDawriNewsReciever.instance.intent);
-            else {
-                urlExtention = Legue.load((long) (number)).get(0).getNewsUrl();
-                featchData4();
-            }
+
         }
 
     }
@@ -202,13 +306,9 @@ public class NewsListFragmentBackground {
             webView5.loadUrl(url);
         } else {
             number++;
-//            Toast.makeText(MyApplication.APP_CTX,number+"",Toast.LENGTH_LONG).show();
             if (number == 5)
                 GetAllDawriNewsReciever.completeWakefulIntent(GetAllDawriNewsReciever.instance.intent);
-            else {
-                urlExtention = Legue.load((long) (number)).get(0).getNewsUrl();
-                featchData5();
-            }
+
         }
 
     }
@@ -222,17 +322,12 @@ public class NewsListFragmentBackground {
             webView6.loadUrl(url);
         } else {
             number++;
-//            Toast.makeText(MyApplication.APP_CTX,number+"",Toast.LENGTH_LONG).show();
             if (number == 5)
                 GetAllDawriNewsReciever.completeWakefulIntent(GetAllDawriNewsReciever.instance.intent);
-            else {
-                urlExtention = Legue.load((long) (number)).get(0).getNewsUrl();
-                featchData6();
-            }
+
         }
 
     }
-
 
 
     class MyJavaScriptInterface {
@@ -269,28 +364,18 @@ public class NewsListFragmentBackground {
                     news.setSubTitle(subTitle);
                     news.setTitle(title);
                     news.save();
-                    if (isLeague) {
-                        LeaguNews leaguNews1 = new LeaguNews();
-                        leaguNews1.setLeaguId(leaguId);
-                        leaguNews1.setNewsId(news.getId());
-                        leaguNews1.setPageIdx(pageIdx);
-                        leaguNews1.setIsSeen(false);
-                        leaguNews1.save();
-                    } else {
 
-                        TeamNews teamNew = new TeamNews();
-                        teamNew.setTeamId(leaguId);
-                        teamNew.setNewsId(news.getId());
-                        teamNew.setPageIdx(pageIdx);
-                        teamNew.setIsSeen(false);
-                        teamNew.save();
-                    }
+                    LeaguNews leaguNews1 = new LeaguNews();
+                    leaguNews1.setLeaguId(leaguId);
+                    leaguNews1.setNewsId(news.getId());
+                    leaguNews1.setPageIdx(pageIdx);
+                    leaguNews1.setIsSeen(false);
+                    leaguNews1.save();
                     //adapter.notifyDataSetChanged();
                 }
 
             } catch (Exception e) {
                 String st = e.getMessage();
-
 
             } finally {
 

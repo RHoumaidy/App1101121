@@ -48,6 +48,7 @@ public class TeamNews {
             res.updateThis();
 
         }
+        c.close();
 
         return res;
     }
@@ -92,6 +93,7 @@ public class TeamNews {
                     res.add(news);
             } while (c.moveToNext());
         }
+        c.close();
 
         return res;
     }
@@ -110,6 +112,7 @@ public class TeamNews {
                     res.add(news);
             } while (c.moveToNext());
         }
+        c.close();
 
         return res;
     }

@@ -166,6 +166,7 @@ public class TeamDetailsActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         initParallaxValues();
         checkInternet();
+        MyApplication.changeTabsFont(tabLayout);
 
     }
 
@@ -225,7 +226,9 @@ public class TeamDetailsActivity extends AppCompatActivity {
                     try {
                         MyApplication.picasso
                                 .load(teamImage_mt20.attr("src"))
+                                .fit()
                                 .into(backdrop);
+                        backdrop.setScaleType(ImageView.ScaleType.FIT_XY);
                     } catch (Exception e) {
                         Toast.makeText(MyApplication.APP_CTX, R.string.toast_featch_data_error, Toast.LENGTH_LONG).show();
                     }

@@ -58,6 +58,7 @@ public class News implements Serializable {
             res.setContent(c.getString(c.getColumnIndex(COL_CONTENT)));
             res.setImgUrl(c.getString(c.getColumnIndex(COL_IMG_URL)));
         }
+        c.close();
 
         return res;
     }

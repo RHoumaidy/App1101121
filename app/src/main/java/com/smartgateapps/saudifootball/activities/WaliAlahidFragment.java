@@ -134,6 +134,7 @@ public class WaliAlahidFragment extends Fragment {
         dimensions.put("category", "كأس ولي العهد");
         dimensions.put("dayType", "weekday");
         ParseAnalytics.trackEventInBackground("open_league", dimensions);
+        MyApplication.changeTabsFont(tabLayout);
 
         return view;
 

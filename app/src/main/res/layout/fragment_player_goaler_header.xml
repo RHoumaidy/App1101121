@@ -15,11 +15,10 @@
         android:text="الأهداف"
         android:textColor="#fff"
         android:textStyle="bold"
+        android:textSize="16sp"
         android:gravity="right"
-        android:paddingRight="5dp"
-        android:paddingLeft="5dp"
-        android:layout_weight="15"
-        android:layout_alignParentRight="true"/>
+        android:layout_weight="10"
+        />
 
     <TextView
         android:id="@+id/playerGoalerNameTxtV"
@@ -28,21 +27,20 @@
         android:gravity="right"
         android:text="اسم اللاعب"
         android:textColor="#fff"
+        android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_marginRight="20dp"
-        android:paddingRight="20dp"
-        android:layout_weight="40"
-        android:layout_toRightOf="@+id/playerGoalerTeamTxtV"
-        android:layout_toLeftOf="@id/playerGoalerGoalsTxtV"/>
+        android:layout_weight="30"
+        android:paddingRight="10dp"/>
 
     <TextView
-        android:id="@id/playerGoalerTeamTxtV"
+        android:id="@+id/playerGoalerTeamTxtV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="15"
         android:text="الفريق"
         android:textColor="#fff"
         android:textStyle="bold"
+        android:textSize="16sp"
         android:layout_marginRight="10dp"
         android:paddingLeft="5dp"
         android:layout_alignParentLeft="true"/>

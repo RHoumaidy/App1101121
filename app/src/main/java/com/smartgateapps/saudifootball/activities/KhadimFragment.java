@@ -135,6 +135,7 @@ public class KhadimFragment extends Fragment {
         dimensions.put("dayType", "weekday");
         ParseAnalytics.trackEventInBackground("open_league", dimensions);
 
+        MyApplication.changeTabsFont(tabLayout);
 
         return view;
 

@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 
 import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.model.Stage;
+import com.smartgateapps.saudifootball.saudi.MyApplication;
 
 import java.util.List;
 
@@ -62,6 +63,7 @@ public class SpinnerAdapter extends ArrayAdapter<Stage> {
             textView.setText(currStage.getName());
             textView.setChecked(true);
             textView.setTextColor(ctx.getResources().getColor(R.color.nav_item_state_color));
+            textView.setTypeface(MyApplication.font);
         }
         return convertView;
     }

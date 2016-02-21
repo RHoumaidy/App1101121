@@ -38,7 +38,7 @@ public class Match {
     public static final String COL_NOTIFY_DATE_TIME = "NOTIFY_DATE";
     public static final String[] COLS = new String[]
             {COL_ID, COL_TEAML_ID, COL_TEAMR_ID, COL_RESULTL, COL_RESULTR, COL_DATE_TIME, COL_H_ID,
-                    COL_STG_ID, COL_IS_HEADER, COL_LEAGUE_ID,COL_NOTIFY_ME,COL_HAS_UPDATED,COL_NOTIFY_DATE_TIME};
+                    COL_STG_ID, COL_IS_HEADER, COL_LEAGUE_ID, COL_NOTIFY_ME, COL_HAS_UPDATED, COL_NOTIFY_DATE_TIME};
 
     public static String getCreateSql() {
         return "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
@@ -51,14 +51,15 @@ public class Match {
                 COL_H_ID + " INTEGER ," +
                 COL_STG_ID + " TEXT ," +
                 COL_LEAGUE_ID + " INTEGER DEFAULT NULL," +
-                COL_IS_HEADER + " BOOLEAN ," +
-                COL_NOTIFY_ME +" BOOLEAN ," +
-                COL_HAS_UPDATED +" BOOLEAN," +
-                COL_NOTIFY_DATE_TIME +" DATETIME );";
+                COL_IS_HEADER + " BOOLEAN DEFAULT 0 ," +
+                COL_NOTIFY_ME + " BOOLEAN DEFAULT 0," +
+                COL_HAS_UPDATED + " BOOLEAN DEFAULT 0," +
+                COL_NOTIFY_DATE_TIME + " DATETIME );";
     }
 
     public void save() {
         ContentValues cv = new ContentValues();
+
         cv.put(COL_ID, this.getId());
         cv.put(COL_TEAML_ID, this.getTeamL().getTeamName());
         cv.put(COL_TEAMR_ID, this.getTeamR().getTeamName());
@@ -67,10 +68,13 @@ public class Match {
         cv.put(COL_DATE_TIME, this.getDateTime());
         cv.put(COL_H_ID, this.gethId());
         cv.put(COL_STG_ID, this.getStage().getUrl());
-        cv.put(COL_IS_HEADER, this.isHeader());
-        cv.put(COL_NOTIFY_ME,this.isNotifyMe());
-        cv.put(COL_HAS_UPDATED,this.isHasBeenUpdated());
-        cv.put(COL_NOTIFY_DATE_TIME,this.getNotifyDateTime());
+        if (this.isHeader() != null)
+            cv.put(COL_IS_HEADER, this.isHeader());
+        if (this.isNotifyMe() != null)
+            cv.put(COL_NOTIFY_ME, this.isNotifyMe());
+        if (this.isHasBeenUpdated() != null)
+            cv.put(COL_HAS_UPDATED, this.isHasBeenUpdated());
+        cv.put(COL_NOTIFY_DATE_TIME, this.getNotifyDateTime());
 
         if (this.getLeagueId() != null)
             cv.put(COL_LEAGUE_ID, this.getLeagueId());
@@ -84,20 +88,28 @@ public class Match {
 
     public void update() {
         ContentValues cv = new ContentValues();
-
-        cv.put(COL_RESULTL, this.getResultL());
-        cv.put(COL_RESULTR, this.getResultR());
-        cv.put(COL_TEAML_ID, this.getTeamL().getTeamName());
-        cv.put(COL_TEAMR_ID, this.getTeamR().getTeamName());
-        cv.put(COL_RESULTL, this.getResultL());
-        cv.put(COL_RESULTR, this.getResultR());
-        cv.put(COL_DATE_TIME, this.getDateTime());
-        cv.put(COL_H_ID, this.gethId());
-        cv.put(COL_STG_ID, this.getStage().getUrl());
-        cv.put(COL_IS_HEADER, this.isHeader());
-        cv.put(COL_NOTIFY_ME,this.isNotifyMe());
-        cv.put(COL_HAS_UPDATED,this.isHasBeenUpdated());
-        cv.put(COL_NOTIFY_DATE_TIME,this.getNotifyDateTime());
+        if (this.getResultL() != null)
+            cv.put(COL_RESULTL, this.getResultL());
+        if (this.getResultR() != null)
+            cv.put(COL_RESULTR, this.getResultR());
+        if (this.getTeamL() != null)
+            cv.put(COL_TEAML_ID, this.getTeamL().getTeamName());
+        if (this.getTeamR() != null)
+            cv.put(COL_TEAMR_ID, this.getTeamR().getTeamName());
+        if (this.getDateTime() != null)
+            cv.put(COL_DATE_TIME, this.getDateTime());
+        if (this.gethId() != null)
+            cv.put(COL_H_ID, this.gethId());
+        if (this.getStage() != null)
+            cv.put(COL_STG_ID, this.getStage().getUrl());
+        if (this.isHeader() != null)
+            cv.put(COL_IS_HEADER, this.isHeader());
+        if (this.isNotifyMe() != null)
+            cv.put(COL_NOTIFY_ME, this.isNotifyMe());
+        if (this.isHasBeenUpdated() != null)
+            cv.put(COL_HAS_UPDATED, this.isHasBeenUpdated());
+        if (this.getNotifyDateTime() != null)
+            cv.put(COL_NOTIFY_DATE_TIME, this.getNotifyDateTime());
 
         if (this.getLeagueId() != null)
             cv.put(COL_LEAGUE_ID, this.getLeagueId());
@@ -128,11 +140,11 @@ public class Match {
             res.setNotifyMe(c.getInt(c.getColumnIndex(COL_NOTIFY_ME)) == 1);
             res.setNotifyDateTime(c.getLong(c.getColumnIndex(COL_NOTIFY_DATE_TIME)));
         }
-
+        c.close();
         return res;
     }
 
-    public static List<Match> getAllUnUpdatedMatches(){
+    public static List<Match> getAllUnUpdatedMatches() {
         List<Match> resL = new ArrayList<>();
         Cursor c = MyApplication.dbr.query(TABLE_NAME, COLS, COL_HAS_UPDATED + "=?",
                 new String[]{String.valueOf(false)}, null, null, null);
@@ -157,7 +169,7 @@ public class Match {
             } while (c.moveToNext());
 
         }
-
+        c.close();
         return resL;
     }
 
@@ -186,14 +198,15 @@ public class Match {
             } while (c.moveToNext());
 
         }
+        c.close();
 
         return resL;
     }
 
-    public static void deleteAll(){
+    public static void deleteAll() {
         try {
             MyApplication.dbw.delete(TABLE_NAME, null, null);
-        }catch (SQLiteException e){
+        } catch (SQLiteException e) {
 
         }
     }
@@ -204,12 +217,12 @@ public class Match {
     private Long dateTime;
     private String resultR;
     private String resultL;
-    private int hId;
+    private Integer hId;
     private Stage stage;
     private Integer leagueId;
-    private boolean isHeader = false;
-    private boolean notifyMe = false;
-    private boolean hasBeenUpdated = false;
+    private Boolean isHeader;
+    private Boolean notifyMe;
+    private Boolean hasBeenUpdated;
     private Long notifyDateTime;
 
     public Long getNotifyDateTime() {
@@ -220,19 +233,19 @@ public class Match {
         this.notifyDateTime = notifyDateTime;
     }
 
-    public boolean isNotifyMe() {
+    public Boolean isNotifyMe() {
         return notifyMe;
     }
 
-    public void setNotifyMe(boolean notifyMe) {
+    public void setNotifyMe(Boolean notifyMe) {
         this.notifyMe = notifyMe;
     }
 
-    public boolean isHasBeenUpdated() {
+    public Boolean isHasBeenUpdated() {
         return hasBeenUpdated;
     }
 
-    public void setHasBeenUpdated(boolean hasBeenUpdated) {
+    public void setHasBeenUpdated(Boolean hasBeenUpdated) {
         this.hasBeenUpdated = hasBeenUpdated;
     }
 
@@ -249,7 +262,7 @@ public class Match {
         Intent updateMatchIntent = new Intent(MyApplication.UPATE_MATCH);
         updateMatchIntent.putExtra("MATCH_ID", this.getId());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(MyApplication.APP_CTX, this.getId().intValue(), updateMatchIntent, PendingIntent.FLAG_NO_CREATE);
-        if(pendingIntent != null)
+        if (pendingIntent != null)
             pendingIntent.cancel();
         pendingIntent = PendingIntent.getBroadcast(MyApplication.APP_CTX, this.getId().intValue(), updateMatchIntent, PendingIntent.FLAG_ONE_SHOT);
 
@@ -261,13 +274,23 @@ public class Match {
         Intent updateMatchIntent = new Intent(MyApplication.UPATE_MATCH);
         updateMatchIntent.putExtra("MATCH_ID", this.getId());
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(MyApplication.APP_CTX,this.getId().intValue(), updateMatchIntent, PendingIntent.FLAG_NO_CREATE);
-        if(pendingIntent != null)
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MyApplication.APP_CTX, this.getId().intValue(), updateMatchIntent, PendingIntent.FLAG_NO_CREATE);
+        if (pendingIntent != null)
             pendingIntent.cancel();
 
         pendingIntent = PendingIntent.getBroadcast(MyApplication.APP_CTX, this.getId().intValue(), updateMatchIntent, PendingIntent.FLAG_ONE_SHOT);
 
         MyApplication.alarmManager.set(AlarmManager.RTC_WAKEUP, this.getNotifyDateTime(), pendingIntent);
+    }
+
+    public int matchProgress() {
+
+        Long currTime = System.currentTimeMillis();
+        if (this.isHasBeenUpdated())
+            return -1;
+        if (this.getDateTime() > currTime)
+            return 1;
+        return 0;
     }
 
     public Integer getLeagueId() {
@@ -294,11 +317,11 @@ public class Match {
         this.stage = stage;
     }
 
-    public boolean isHeader() {
+    public Boolean isHeader() {
         return isHeader;
     }
 
-    public void setIsHeader(boolean isHeader) {
+    public void setIsHeader(Boolean isHeader) {
         this.isHeader = isHeader;
     }
 
@@ -311,7 +334,7 @@ public class Match {
         this.resultL = resultL;
     }
 
-    public int gethId() {
+    public Integer gethId() {
         return hId;
     }
 

@@ -62,6 +62,27 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView matchResultLTxtV = (TextView) convertView.findViewById(R.id.matchResultLTxtV);
         ImageView teamLImgView = (ImageView) convertView.findViewById(R.id.matchTeamLImgV);
         ImageView teamRImgView = (ImageView) convertView.findViewById(R.id.matchTEamRImgV);
+        TextView endMatchTxtV = (TextView) convertView.findViewById(R.id.matchEdnTxtV);
+        TextView goingMatchtxtV = (TextView) convertView.findViewById(R.id.matchGoingTxtV);
+
+        matchTimeTxtV.setTypeface(MyApplication.font);
+        matchTeamRTxtV.setTypeface(MyApplication.font);
+        matchTeamLTxtV.setTypeface(MyApplication.font);
+        matchReslutRTxtV.setTypeface(MyApplication.font);
+        matchResultLTxtV.setTypeface(MyApplication.font);
+        endMatchTxtV.setTypeface(MyApplication.font);
+        goingMatchtxtV.setTypeface(MyApplication.font);
+
+        if (currMatch.matchProgress() < 0) {
+            endMatchTxtV.setVisibility(View.VISIBLE);
+            goingMatchtxtV.setVisibility(View.GONE);
+        } else if (currMatch.matchProgress() == 0) {
+            goingMatchtxtV.setVisibility(View.VISIBLE);
+            endMatchTxtV.setVisibility(View.VISIBLE);
+        }else{
+            goingMatchtxtV.setVisibility(View.GONE);
+            endMatchTxtV.setVisibility(View.GONE);
+        }
 
         String time = MyApplication.formatDateTime(currMatch.getDateTime())[1];
 
@@ -117,6 +138,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Match currMatch = this.getItem(position);
         String date = MyApplication.formatDateTime(currMatch.getDateTime())[0];
         matchDateTxtV.setText(date);
+        matchDateTxtV.setTypeface(MyApplication.font);
 
     }
 

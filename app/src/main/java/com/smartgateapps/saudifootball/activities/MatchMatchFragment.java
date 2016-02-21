@@ -31,6 +31,7 @@ import com.smartgateapps.saudifootball.Adapter.MatchAdapterAdapter;
 import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.model.Match;
 import com.smartgateapps.saudifootball.model.MatchMatch;
+import com.smartgateapps.saudifootball.model.Stage;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
@@ -40,6 +41,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -90,6 +92,7 @@ public class MatchMatchFragment extends Fragment {
             public void onPageFinished(WebView view, String url) {
                 webView.loadUrl("javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
             }
+
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 super.onReceivedError(view, request, error);
@@ -162,7 +165,7 @@ public class MatchMatchFragment extends Fragment {
 
         recyclerView.setVisibility(listViewVisibility);
         progressBarLL.setVisibility(progressBarVisibility);
-        if(progressBarLL.getVisibility() == View.VISIBLE)
+        if (progressBarLL.getVisibility() == View.VISIBLE)
             progressBar.startIntro();
     }
 
@@ -298,13 +301,33 @@ public class MatchMatchFragment extends Fragment {
                                     date = tds.first().text();
                                     Match header = new Match();
                                     header.setIsHeader(true);
-                                    time ="12:00";
-                                    header.setDateTime(MyApplication.parseDateTime(date,time));
+                                    time = "12:00";
+                                    header.setDateTime(MyApplication.parseDateTime(date, time));
                                     tmpChildList.add(header);
                                 }
                             } else {
 
-                                time = tds.get(1).text();
+                                String matchLocation = trs.get(i).attr("onclick");
+                                String[] matchLocationSplit = matchLocation.split("=");
+                                Long matchId = Long.valueOf(matchLocationSplit[2].substring(0, matchLocationSplit[2].length() - 2));
+
+                                int progress;
+                                Long currTime = System.currentTimeMillis();
+                                Long matchDateTime;
+                                if (tds.get(1).getAllElements().size() == 1) {
+
+                                    time = tds.get(1).text();
+                                    matchDateTime = MyApplication.parseDateTime(date, time);
+                                    if (matchDateTime < currTime)
+                                        progress = -1;
+                                    else
+                                        progress = 1;
+                                } else {
+                                    time = MyApplication.sourceTimeFormate.format(new Date(System.currentTimeMillis()));
+                                    progress = 0;
+                                    matchDateTime = MyApplication.parseDateTime(date, time);
+                                }
+
                                 Element teamD = tds.get(2);
                                 Element teamF = teamD.getElementsByTag("font").first();
                                 if (teamF != null)
@@ -329,13 +352,17 @@ public class MatchMatchFragment extends Fragment {
 //                                tmpDate = MyApplication.converteDate(time,date);
 //                                time = MyApplication.converteTime(time,date);
 
-                                match.setDateTime(MyApplication.parseDateTime(tmpDate,time));
+                                match.setId(matchId);
                                 match.sethId(hIdx2);
+                                match.setDateTime(matchDateTime);
                                 match.setTeamR(teamR);
                                 match.setTeamL(teamL);
                                 match.setResultL(resultL);
                                 match.setResultR(resultR);
-
+                                match.setHasBeenUpdated(progress == -1);
+                                match.setNotifyDateTime(matchDateTime);
+                                match.setIsHeader(false);
+                                match.setNotifyMe(false);
                                 tmpChildList.add(match);
                             }
                         }
@@ -371,7 +398,6 @@ public class MatchMatchFragment extends Fragment {
                         progressBar.fail();
                         snackbar.show();
                     }
-
 
 
                 }

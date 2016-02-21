@@ -6,4 +6,9 @@
     <color name="colorAccent">#FFD761</color>
     <color name="listItemSelected">#cccccc</color>
     <color name="black_overlay">#66000000</color>
+
+
+    <color name="prime_1">#16ffeb</color>
+    <color name="extra_1">#11ffc6</color>
+
 </resources>

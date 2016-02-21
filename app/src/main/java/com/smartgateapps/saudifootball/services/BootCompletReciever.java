@@ -24,7 +24,7 @@ public class BootCompletReciever extends WakefulBroadcastReceiver {
         List<Match> matches = Match.getAllUnUpdatedMatches();
         for(Match m : matches) {
             if(m.getNotifyDateTime() <= System.currentTimeMillis()){
-                m.setNotifyDateTime(System.currentTimeMillis()+8*60*1000);
+                m.setNotifyDateTime(System.currentTimeMillis()+4*60*1000);
                 m.update();
             }
             m.registerMatchUpdateFirstTime();

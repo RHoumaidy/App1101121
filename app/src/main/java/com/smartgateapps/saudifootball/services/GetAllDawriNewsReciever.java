@@ -22,10 +22,6 @@ import java.util.Set;
 public class GetAllDawriNewsReciever extends WakefulBroadcastReceiver {
 
     private NewsListFragmentBackground newsListFragment1 = new NewsListFragmentBackground();
-    private NewsListFragmentBackground newsListFragment2 = new NewsListFragmentBackground();
-    private NewsListFragmentBackground newsListFragment3 = new NewsListFragmentBackground();
-    private NewsListFragmentBackground newsListFragment4 = new NewsListFragmentBackground();
-    private NewsListFragmentBackground newsListFragment5 = new NewsListFragmentBackground();
 
     public static GetAllDawriNewsReciever instance;
     public Intent intent;
@@ -55,26 +51,6 @@ public class GetAllDawriNewsReciever extends WakefulBroadcastReceiver {
         newsListFragment1.leaguId = 0;
         newsListFragment1.pageIdx = 1;
         newsListFragment1.isLeague = true;
-
-        newsListFragment2.urlExtention = MyApplication.ABD_ALATIF_NEWS_EXT;
-        newsListFragment2.leaguId = 1;
-        newsListFragment2.pageIdx = 1;
-        newsListFragment2.isLeague=true;
-
-        newsListFragment3.urlExtention = MyApplication.WALI_ALAHID_NEWS_EXT;
-        newsListFragment3.leaguId = 2;
-        newsListFragment3.pageIdx = 1;
-        newsListFragment3.isLeague = true;
-
-        newsListFragment4.urlExtention = MyApplication.KHADIM_ALHARAMIN_NEWS_EXT;
-        newsListFragment4.leaguId = 3;
-        newsListFragment4.pageIdx = 1;
-        newsListFragment4.isLeague = true;
-
-        newsListFragment5.urlExtention = MyApplication.FIRST_CLASS_EXT;
-        newsListFragment5.leaguId = 4;
-        newsListFragment5.pageIdx = 1;
-        newsListFragment5.isLeague = true;
 
         if(NewsListFragmentBackground.number >=5 || NewsListFragmentBackground.number ==0) {
             NewsListFragmentBackground.number = 0;

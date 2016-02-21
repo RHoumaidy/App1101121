@@ -30,8 +30,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="222dp"
                 android:fitsSystemWindows="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/logo"
+                android:scaleType="center"
+                android:src="@drawable/water_mark"
                 app:layout_collapseMode="parallax" />
 
 

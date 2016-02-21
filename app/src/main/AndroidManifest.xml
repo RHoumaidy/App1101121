@@ -67,6 +67,7 @@
         </receiver>
 
         <service android:name=".services.NotificationService" />
+        <service android:name=".services.MatchGoalNotification"/>
         <service android:name=".services.MatchNotification"/>
         <service android:name="com.parse.PushService" />
 

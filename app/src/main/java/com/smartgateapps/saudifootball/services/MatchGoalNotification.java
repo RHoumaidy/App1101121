@@ -6,22 +6,19 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.provider.Settings;
-import android.support.v4.app.NotificationCompat;
 
 import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.activities.MainActivity;
-import com.smartgateapps.saudifootball.model.Legue;
 import com.smartgateapps.saudifootball.model.Match;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
 
 /**
  * Created by Raafat on 09/02/2016.
  */
-public class MatchNotification extends IntentService {
+public class MatchGoalNotification extends IntentService {
 
-    public MatchNotification() {
+    public MatchGoalNotification() {
         super("AlarmService");
     }
 
@@ -36,8 +33,9 @@ public class MatchNotification extends IntentService {
     }
 
     public void sendNotification(Match match) {
-        String contentTitle = "بدء مباراة";
+        String contentTitle = "غوووول";
         String contentText = match.getTeamL().getTeamName()+" X " + match.getTeamR().getTeamName();
+        contentText += "\n"+match.getResultL() +" - "+match.getResultR();
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
 
         Notification builder = new Notification.Builder(this)

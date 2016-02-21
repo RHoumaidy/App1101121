@@ -15,7 +15,6 @@ import java.util.List;
  * Created by Raafat on 19/01/2016.
  */
 public class Stage {
-
     public static final String TABLE_NAME = "STAGES";
     public static final String COL_ID = "ID";
     public static final String COL_NAME = "NAME";
@@ -38,14 +37,17 @@ public class Stage {
         where += (name == null) ? "" : " AND " + COL_NAME + "='" + name + "'";
         where += (url == null) ? "" : " AND " + COL_URL + "='" + url + "'";
 
+        Stage res = null;
         Cursor c = MyApplication.dbr.query(TABLE_NAME, COLS, where, null, null, null, null);
         if (c.moveToFirst())
-            return new Stage(
+            res = new Stage(
                     c.getString(c.getColumnIndex(COL_NAME)),
                     c.getString(c.getColumnIndex(COL_URL)),
                     c.getLong(c.getColumnIndex(COL_LEAGUE_ID))
             );
-        return null;
+        c.close();
+
+        return res;
     }
 
     public static List<Stage> getAllStagesForLeague(Long leagueId) {
@@ -62,6 +64,8 @@ public class Stage {
 
             } while (c.moveToNext());
         }
+        c.close();
+
         return res;
     }
 
@@ -80,7 +84,11 @@ public class Stage {
                 item.setDateTime(c.getLong(c.getColumnIndex(Match.COL_DATE_TIME)));
                 item.sethId(c.getInt(c.getColumnIndex(Match.COL_H_ID)));
                 item.setIsHeader(c.getInt(c.getColumnIndex(Match.COL_IS_HEADER)) == 1);
+                item.setHasBeenUpdated(c.getInt(c.getColumnIndex(Match.COL_HAS_UPDATED)) == 1);
+                item.setNotifyMe(c.getInt(c.getColumnIndex(Match.COL_NOTIFY_ME)) == 1);
+                item.setNotifyDateTime(c.getLong(c.getColumnIndex(Match.COL_NOTIFY_DATE_TIME)));
                 item.setStage(this);
+                item.setId(c.getLong(c.getColumnIndex(Match.COL_ID)));
 
                 res.add(item);
             }while (c.moveToNext());

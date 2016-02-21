@@ -65,7 +65,27 @@ public class MatchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             TextView matchResultLTxtV = (TextView) convertView.findViewById(R.id.matchResultLTxtV);
             ImageView teamLImgView = (ImageView) convertView.findViewById(R.id.matchTeamLImgV);
             ImageView teamRImgView = (ImageView) convertView.findViewById(R.id.matchTEamRImgV);
+            TextView endMatchTxtV = (TextView) convertView.findViewById(R.id.matchEdnTxtV);
+            TextView goingMatchtxtV = (TextView) convertView.findViewById(R.id.matchGoingTxtV);
 
+            matchTimeTxtV.setTypeface(MyApplication.font);
+            matchTeamRTxtV.setTypeface(MyApplication.font);
+            matchTeamLTxtV.setTypeface(MyApplication.font);
+            matchReslutRTxtV.setTypeface(MyApplication.font);
+            matchResultLTxtV.setTypeface(MyApplication.font);
+            endMatchTxtV.setTypeface(MyApplication.font);
+            goingMatchtxtV.setTypeface(MyApplication.font);
+
+            if (currMatch.matchProgress() < 0) {
+                endMatchTxtV.setVisibility(View.VISIBLE);
+                goingMatchtxtV.setVisibility(View.GONE);
+            } else if (currMatch.matchProgress() == 0) {
+                goingMatchtxtV.setVisibility(View.VISIBLE);
+                endMatchTxtV.setVisibility(View.VISIBLE);
+            }else{
+                goingMatchtxtV.setVisibility(View.GONE);
+                endMatchTxtV.setVisibility(View.GONE);
+            }
 
             matchTimeTxtV.setText(time);
             matchTeamRTxtV.setText(currMatch.getTeamR().getTeamName());
@@ -84,6 +104,7 @@ public class MatchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             childLayout.setVisibility(View.GONE);
             TextView matchDateTxtV = (TextView) convertView.findViewById(R.id.matchDateTxtV);
             matchDateTxtV.setText(date);
+            matchDateTxtV.setTypeface(MyApplication.font);
         }
     }
 

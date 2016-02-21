@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.parse.ParseAnalytics;
 import com.smartgateapps.saudifootball.Adapter.ViewPagerAdapter;
@@ -142,6 +143,8 @@ public class AbdAlatifFragment extends Fragment {
         dimensions.put("category", "عبداللطيف جميل");
         dimensions.put("dayType", "weekday");
         ParseAnalytics.trackEventInBackground("open_league", dimensions);
+
+        MyApplication.changeTabsFont(tabLayout);
 
         return view;
 

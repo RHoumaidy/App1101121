@@ -52,6 +52,7 @@ public class Team {
             res.setTeamLogo(c.getInt(c.getColumnIndex(COL_LOGO)));
             res.setTeamUrl(c.getString(c.getColumnIndex(COL_TEAM_URL)));
         }
+        c.close();
 
         return res;
     }

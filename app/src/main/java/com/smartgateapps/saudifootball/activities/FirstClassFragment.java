@@ -144,7 +144,7 @@ public class FirstClassFragment extends Fragment {
         dimensions.put("category", "دوري الدرجة الاولى");
         dimensions.put("dayType", "weekday");
         ParseAnalytics.trackEventInBackground("open_league", dimensions);
-
+        MyApplication.changeTabsFont(tabLayout);
         return view;
 
     }

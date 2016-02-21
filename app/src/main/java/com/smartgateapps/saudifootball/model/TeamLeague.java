@@ -55,6 +55,7 @@ public class TeamLeague {
                 res.add(team);
             }while (c.moveToNext());
         }
+        c.close();
 
         return res;
     }

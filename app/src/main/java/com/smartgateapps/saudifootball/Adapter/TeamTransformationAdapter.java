@@ -56,6 +56,11 @@ public class TeamTransformationAdapter extends RecyclerView.Adapter<RecyclerView
         ImageView teamCtryImgV = (ImageView) converView.findViewById(R.id.tTeamCntryTxtV);
         TextView typeTxtV = (TextView) converView.findViewById(R.id.tTypeTxtView);
 
+        dateTxtV.setTypeface(MyApplication.font);
+        playerNTxtV.setTypeface(MyApplication.font);
+        teamTxtV.setTypeface(MyApplication.font);
+        typeTxtV.setTypeface(MyApplication.font);
+
         if(position%2 == 0) {
             tLinearLayout.setBackground(new ColorDrawable(ctx.getResources().getColor(R.color.listItemSelected)));
             tLinearLayout.refreshDrawableState();

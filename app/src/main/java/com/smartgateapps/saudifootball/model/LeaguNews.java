@@ -48,6 +48,7 @@ public class LeaguNews {
             res.updateThis();
 
         }
+        c.close();
 
         return res;
     }
@@ -94,6 +95,7 @@ public class LeaguNews {
                     res.add(news);
             } while (c.moveToNext());
         }
+        c.close();
 
         return res;
     }
@@ -121,6 +123,7 @@ public class LeaguNews {
                     res.add(news);
             } while (c.moveToNext());
         }
+        c.close();
 
         return res;
     }

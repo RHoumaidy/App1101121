@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.preference.PreferenceFragment;
@@ -23,7 +24,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,6 +38,7 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.parse.ParseAnalytics;
+import com.smartgateapps.saudifootball.Adapter.CustomTypefaceSpan;
 import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
 
@@ -165,6 +171,31 @@ public class MainActivity extends AppCompatActivity
         prevFragment = newsListFragment;
         navigationView.getMenu().getItem(0).setChecked(true);
 
+        Menu menu = navigationView.getMenu();
+
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem mi = menu.getItem(i);
+
+            //for aapplying a font to subMenu ...
+            SubMenu subMenu = mi.getSubMenu();
+            if (subMenu != null && subMenu.size() > 0) {
+                for (int j = 0; j < subMenu.size(); j++) {
+                    MenuItem subMenuItem = subMenu.getItem(j);
+                    applyFontToMenuItem(subMenuItem);
+                }
+            }
+
+            //the method we have create in activity
+            applyFontToMenuItem(mi);
+        }
+
+    }
+
+    private void applyFontToMenuItem(MenuItem mi) {
+
+        SpannableString mNewTitle = new SpannableString(mi.getTitle());
+        mNewTitle.setSpan(new CustomTypefaceSpan("", MyApplication.font), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        mi.setTitle(mNewTitle);
     }
 
     public void checkInternet() {
@@ -292,20 +323,26 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
 
-        if (!backPressed) {
-            backPressed = true;
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    backPressed = false;
-                }
-            }, 3500);
-            Toast.makeText(this, ("اضغط مرة اخرى للاغلاق"), Toast.LENGTH_LONG).show();
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
         } else {
-            if (MyApplication.mInterstitialAd.isLoaded())
-                MyApplication.mInterstitialAd.show();
-            super.onBackPressed();
+
+            if (!backPressed) {
+                backPressed = true;
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        backPressed = false;
+                    }
+                }, 3500);
+                Toast.makeText(this, "إضغط مرة اخرى للإغلاق", Toast.LENGTH_LONG).show();
+
+            } else {
+                if (MyApplication.mInterstitialAd.isLoaded())
+                    MyApplication.mInterstitialAd.show();
+                super.onBackPressed();
+            }
         }
     }
 

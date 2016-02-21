@@ -88,7 +88,7 @@ public class NotificationService extends IntentService {
                 .setVibrate(new long[]{0, 100, 500, 1000})
                 .build();
 
-        int id = 0;
+        int id = 45;
 
         MyApplication.notificationManager.notify(id, builder);
 

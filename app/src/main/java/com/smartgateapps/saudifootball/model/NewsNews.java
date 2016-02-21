@@ -41,6 +41,7 @@ public class NewsNews {
                 res.add(itme);
             }while (c.moveToNext());
         }
+        c.close();
 
         return res;
     }

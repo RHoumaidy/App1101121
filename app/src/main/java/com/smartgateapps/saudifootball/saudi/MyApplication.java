@@ -7,11 +7,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.design.widget.TabLayout;
+import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -40,7 +45,7 @@ public class MyApplication extends Application {
     public static SQLiteDatabase dbw, dbr;
 
     public static int pageSize = 15;
-
+    public static Typeface font;
     public static final String BASE_URL = "http://m.kooora.com/";
     public static final String SAUDI_EXT_HOME = "?n=0&o=ncsa&pg=";
     public static final String ABD_ALATIF_EXT = "?c=7717";
@@ -67,7 +72,8 @@ public class MyApplication extends Application {
 
     public static final int HEADER_TYPE_GOALERS = 0;
 
-    public static String[] PLAYERS_POS = new String[]{"", "مدرب", "حارس", "دفاع", "وسط", "هجوم", "مساعد مدرب"};
+    public static String[] PLAYERS_POS = new String[]{"", "مدرب", "حارس", "دفاع", "وسط", "هجوم", "مساعد مدرب", " مدرب حراس", "مدرب بدني", "طبيب الفريق"};
+
     public static HashMap<String, Integer> monthOfTheYear = new HashMap<>(12);
 
     public static MyApplication instance;
@@ -90,7 +96,6 @@ public class MyApplication extends Application {
     public static TimeZone currentTimeZone;
 
     public static InterstitialAd mInterstitialAd;
-
 
 
     public static Long parseDateTime(String date, String time) {
@@ -241,18 +246,18 @@ public class MyApplication extends Application {
         teamsLogos.put(9281, R.mipmap.t9281);
 
         APP_CTX = getApplicationContext();
-
+        font = Typeface.createFromAsset(APP_CTX.getAssets(), "fonts/jf_flat_regular.ttf");
         dbHelper = new DbHelper(APP_CTX);
         dbw = dbHelper.getWritableDatabase();
         dbr = dbHelper.getReadableDatabase();
 
         picasso = Picasso.with(this);
 
-        Legue saudi = new Legue(0L, "السعودية","?y=sa",SAUDI_EXT_HOME);
-        Legue abdAlatif = new Legue(1L, "دوري عبداللطيف جميل",ABD_ALATIF_EXT,ABD_ALATIF_NEWS_EXT);
-        Legue waliAlahid = new Legue(2L, "كأس ولي العد",WALI_ALAHID_EXT,WALI_ALAHID_NEWS_EXT);
-        Legue kadimAlaharmin = new Legue(3L, "كأس خادم الحرمين الشريفين",KHADIM_ALHARAMIN_EXT,KHADIM_ALHARAMIN_NEWS_EXT);
-        Legue firstClass = new Legue(4L, "دوري الدرجة الاولى",FIRST_CLASS_EXT,FIRST_CLASS_NEWS_EXT);
+        Legue saudi = new Legue(0L, "السعودية", "?y=sa", SAUDI_EXT_HOME);
+        Legue abdAlatif = new Legue(1L, "دوري عبداللطيف جميل", ABD_ALATIF_EXT, ABD_ALATIF_NEWS_EXT);
+        Legue waliAlahid = new Legue(2L, "كأس ولي العد", WALI_ALAHID_EXT, WALI_ALAHID_NEWS_EXT);
+        Legue kadimAlaharmin = new Legue(3L, "كأس خادم الحرمين الشريفين", KHADIM_ALHARAMIN_EXT, KHADIM_ALHARAMIN_NEWS_EXT);
+        Legue firstClass = new Legue(4L, "دوري الدرجة الاولى", FIRST_CLASS_EXT, FIRST_CLASS_NEWS_EXT);
 
         saudi.save();
         abdAlatif.save();
@@ -307,6 +312,23 @@ public class MyApplication extends Application {
         } catch (android.content.ActivityNotFoundException anfe) {
             APP_CTX.startActivity(new Intent(Intent.ACTION_VIEW,
                     Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        }
+    }
+
+
+    public static void changeTabsFont(TabLayout tabLayout) {
+
+        ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
+        int tabsCount = vg.getChildCount();
+        for (int j = 0; j < tabsCount; j++) {
+            ViewGroup vgTab = (ViewGroup) vg.getChildAt(j);
+            int tabChildsCount = vgTab.getChildCount();
+            for (int i = 0; i < tabChildsCount; i++) {
+                View tabViewChild = vgTab.getChildAt(i);
+                if (tabViewChild instanceof TextView) {
+                    ((TextView) tabViewChild).setTypeface(MyApplication.font);
+                }
+            }
         }
     }
 

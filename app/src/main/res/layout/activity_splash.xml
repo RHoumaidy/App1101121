@@ -26,14 +26,11 @@
         android:textColor="@color/colorAccent"
         android:textSize="24dp"/>
 
-    <com.leo.simplearcloader.SimpleArcLoader
+    <com.greenfrvr.rubberloader.RubberLoaderView
         android:id="@+id/loader"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:visibility="visible"
-        app:arc_margin="3dp"
-        app:arc_speed="medium"
-        app:arc_style="simple_arc">
-    </com.leo.simplearcloader.SimpleArcLoader>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:loaderExtraColor="@color/colorPrimary"
+        app:loaderPrimeColor="@color/colorPrimary2"/>
 
 </LinearLayout>

@@ -229,6 +229,11 @@ public class NewsDetailsActivity extends AppCompatActivity implements AppBarLayo
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         dateTxtView.setText("");
 
+        newsToolBarTitleTxtV.setTypeface(MyApplication.font);
+        newsTitleTxtV.setTypeface(MyApplication.font);
+        newsDetailTxtV.setTypeface(MyApplication.font);
+        dateTxtView.setTypeface(MyApplication.font);
+
         //appBarLayout.offsetTopAndBottom(450);
         appBarLayout.addOnOffsetChangedListener(this);
 
