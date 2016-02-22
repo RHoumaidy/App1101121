@@ -175,7 +175,7 @@ public class NewsListFragment extends android.support.v4.app.Fragment {
             else
                 featchData();
         }
-
+        adapter.notifyDataSetChanged();
     }
 
     @Nullable

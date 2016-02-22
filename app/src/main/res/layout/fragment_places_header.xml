@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:padding="5dp"
-              android:background="@color/colorPrimary2"
-              android:orientation="horizontal"
-              android:layoutDirection="rtl">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:background="@color/colorPrimary2"
+    android:orientation="horizontal"
+    android:layoutDirection="rtl">
 
     <TextView
         android:id="@+id/posTxtV"
@@ -14,14 +14,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:textColor="#fff"
-        android:text="#"
+        android:text="الترتيب"
         android:textStyle="bold"
         android:textSize="16sp"
         android:gravity="right"
         android:paddingRight="5dp"
         android:paddingLeft="5dp"
         android:layout_centerVertical="true"
-        android:layout_weight="10"/>
+        android:layout_weight="15"/>
 
     <TextView
         android:id="@+id/teamTxtV"
@@ -33,10 +33,11 @@
         android:layout_toLeftOf="@id/posTxtV"
         android:paddingRight="5dp"
         android:paddingLeft="5dp"
+        android:layout_marginRight="10dp"
         android:textSize="16sp"
         android:gravity="right"
         android:layout_centerVertical="true"
-        android:layout_weight="40"/>
+        android:layout_weight="20"/>
     <LinearLayout
         android:id="@+id/matchesTxtVs"
         android:layout_width="0dp"
@@ -46,7 +47,7 @@
         android:layout_weight="40"
         android:gravity="center">
         <TextView
-            android:id="@+id/matchestxtV"
+            android:id="@+id/matchesTxtV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="المباريات"
@@ -117,6 +118,6 @@
         android:layout_alignParentLeft="true"
         android:textSize="16sp"
         android:gravity="left"
-        android:layout_weight="15"/>
+        android:layout_weight="12"/>
 
 </LinearLayout>
