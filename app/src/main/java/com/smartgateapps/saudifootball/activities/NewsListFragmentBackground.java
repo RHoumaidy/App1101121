@@ -388,7 +388,7 @@ public class NewsListFragmentBackground {
 
                 number++;
 //                Toast.makeText(MyApplication.APP_CTX,number+"",Toast.LENGTH_LONG).show();
-                if (number == 6)
+                if (number == 5)
                     GetAllDawriNewsReciever.completeWakefulIntent(GetAllDawriNewsReciever.instance.intent);
 
 
