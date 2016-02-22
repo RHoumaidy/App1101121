@@ -38,7 +38,7 @@ public class NotificationHandler extends ParsePushBroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 55, viewAction, 0);
 
         final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.ic_notification)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
                 .setContentTitle(title)
                 .setContentText(content)

@@ -42,7 +42,7 @@ public class MatchNotification extends IntentService {
 
         Notification builder = new Notification.Builder(this)
                 .setContentTitle(contentTitle)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.ic_notification)
                 .setContentText(contentText)
                 .setLargeIcon(icon)
                 .setStyle(new Notification.BigTextStyle())

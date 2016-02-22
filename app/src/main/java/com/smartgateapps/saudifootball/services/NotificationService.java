@@ -80,7 +80,7 @@ public class NotificationService extends IntentService {
 
         Notification builder = new Notification.Builder(this)
                 .setContentTitle(contentTitle)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.ic_notification)
                 .setLargeIcon(icon)
                 .setStyle(style)
                 .setContentIntent(PendingIntent.getActivity(MyApplication.APP_CTX,2,new Intent(MyApplication.APP_CTX,MainActivity.class),0))
