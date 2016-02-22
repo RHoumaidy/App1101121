@@ -54,7 +54,8 @@ public class NewsListFragmentBackground {
             @Override
             public void onPageFinished(WebView view, String url) {
                 webView1.loadUrl(
-                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>'," +
+                                0+");");
                 featchData2();
             }
 
@@ -85,7 +86,8 @@ public class NewsListFragmentBackground {
             @Override
             public void onPageFinished(WebView view, String url) {
                 webView2.loadUrl(
-                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>'," +
+                                1+");");
                 featchData3();
             }
 
@@ -116,7 +118,8 @@ public class NewsListFragmentBackground {
             @Override
             public void onPageFinished(WebView view, String url) {
                 webView3.loadUrl(
-                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>'," +
+                               2+");");
                 featchData4();
             }
 
@@ -147,7 +150,8 @@ public class NewsListFragmentBackground {
             @Override
             public void onPageFinished(WebView view, String url) {
                 webView4.loadUrl(
-                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>'," +
+                                3+");");
                 featchData5();
             }
 
@@ -178,7 +182,8 @@ public class NewsListFragmentBackground {
             @Override
             public void onPageFinished(WebView view, String url) {
                 webView5.loadUrl(
-                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>'," +
+                                4+");");
                 featchData6();
             }
 
@@ -209,7 +214,8 @@ public class NewsListFragmentBackground {
             @Override
             public void onPageFinished(WebView view, String url) {
                 webView6.loadUrl(
-                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>');");
+                        "javascript:window.HtmlViewer.showHTML('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>'," +
+                                5+");");
             }
 
             @Override
@@ -335,9 +341,10 @@ public class NewsListFragmentBackground {
 
         @JavascriptInterface
         @SuppressWarnings("unused")
-        public void showHTML(final String html) {
+        public void showHTML(final String html, String leagueIdS) {
             String htm = html;
             Document doc = Jsoup.parse(html);
+            int leaguId = Integer.valueOf(leagueIdS);
 
             try {
                 Element newsList = doc.getElementsByClass("newsList").first();
