@@ -46,13 +46,12 @@
 
         <receiver android:name=".services.GetAllDawriNewsReciever">
             <intent-filter>
-                <action android:name="ACTION_ACTIVATION" />
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="ACTION_ACTIVATION_SAUDI" />
             </intent-filter>
         </receiver>
         <receiver android:name=".services.UpdateMatch">
             <intent-filter>
-                <action android:name="UPATE_MATCH"/>
+                <action android:name="UPATE_MATCH_SAUDI"/>
             </intent-filter>
         </receiver>
         <receiver android:name=".services.BootCompletReciever">
@@ -62,7 +61,7 @@
         </receiver>
         <receiver android:name=".services.DoAt2AmService">
             <intent-filter>
-                <action android:name="DO_AT_2_AM"/>
+                <action android:name="DO_AT_2_AM_SAUDI"/>
             </intent-filter>
         </receiver>
 

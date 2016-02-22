@@ -70,30 +70,8 @@ public class WaliAlahidFragment extends Fragment {
             adapter.addFrag(matchFragmetn, "المباريات");
             adapter.addFrag(playerGoalerFragment, "الهدافين");
 
-            tabLayout = ((MainActivity) getActivity()).tabLayout;
-            tabLayout.removeAllTabs();
 
         }
-    }
-
-    @Override
-    public void onPause() {
-        tabLayout.setVisibility(View.GONE);
-        super.onPause();
-
-    }
-
-    @Override
-    public void onResume() {
-        tabLayout.setVisibility(View.VISIBLE);
-        super.onResume();
-
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
     }
 
     @Nullable
@@ -102,6 +80,7 @@ public class WaliAlahidFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_tabs_layout, container, false);
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
+        tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
 
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(0);

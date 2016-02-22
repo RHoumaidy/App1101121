@@ -137,7 +137,7 @@ public class Splash extends AppCompatActivity {
                 PendingIntent.getBroadcast(MyApplication.APP_CTX, 22, intentActivationUpateNewsService, PendingIntent.FLAG_ONE_SHOT);
 
         MyApplication.alarmManager.set(
-                AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 30000, pendingIntent);
+                AlarmManager.RTC_WAKEUP, MyApplication.getCurretnDateTime() + 30000, pendingIntent);
         super.onDestroy();
     }
 

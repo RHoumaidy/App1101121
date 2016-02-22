@@ -80,6 +80,7 @@ public class MatchFragment extends Fragment {
     private TextView progressBarTxtV;
     private SpinnerAdapter spinnerAdapter;
     private Spinner stageSpinner;
+    private TextView viewResultTxtV;
     private List<Stage> stageList;
 
     private ProgressBar matchProgressBar;
@@ -230,7 +231,8 @@ public class MatchFragment extends Fragment {
         stageSpinner = (Spinner) view.findViewById(R.id.matchStageSpinner);
         relativeLayout = (RelativeLayout) view.findViewById(R.id.listRelativeLayout);
         progressBar = (ElasticDownloadView) view.findViewById(R.id.progressBar);
-
+        viewResultTxtV = (TextView) view.findViewById(R.id.viewResultTxtV);
+        viewResultTxtV.setTypeface(MyApplication.font);
         stageSpinner.setAdapter(spinnerAdapter);
 
         int orientation = getLayoutManagerOrientation(getResources().getConfiguration().orientation);
@@ -297,6 +299,8 @@ public class MatchFragment extends Fragment {
                 if (child != null && mGestureDetector.onTouchEvent(e)) {
 
                     int pos = rv.getChildAdapterPosition(child);
+                    if(pos<0)
+                        return false ;
                     final Match currMatch = mathList.get(pos);
 
 
@@ -317,14 +321,16 @@ public class MatchFragment extends Fragment {
                     TextView goingMatchtxtV = (TextView) dialog.findViewById(R.id.matchGoingTxtV);
                     matchProgressBar = (ProgressBar) dialog.findViewById(R.id.matchProgressbar);
 
-                    if(!currMatch.isHasBeenUpdated())
+
+                    int matchProgress = currMatch.matchProgress();
+
+                    if(matchProgress == 0)
                         featchDate2(currMatch);
 
-                    if (currMatch.matchProgress() < 0)
+                    if (matchProgress < 0)
                         endMatchTxtV.setVisibility(View.VISIBLE);
-                    else if (currMatch.matchProgress() == 0)
+                    else if (matchProgress == 0)
                         goingMatchtxtV.setVisibility(View.VISIBLE);
-
 
                     teamLtxtV.setText(currMatch.getTeamL().getTeamName());
                     teamRtxtV.setText(currMatch.getTeamR().getTeamName());
@@ -500,7 +506,7 @@ public class MatchFragment extends Fragment {
                                 Long matchId = Long.valueOf(matchLocationSplit[2].substring(0, matchLocationSplit[2].length() - 2));
 
                                 int progress;
-                                Long currTime = System.currentTimeMillis();
+                                Long currTime = MyApplication.getCurretnDateTime();
                                 Long matchDateTime;
                                 if (tds.get(0).getAllElements().size() == 1) {
                                     time = tds.get(0).text();
@@ -510,7 +516,7 @@ public class MatchFragment extends Fragment {
                                     else
                                         progress = 1;
                                 } else {
-                                    time = MyApplication.sourceTimeFormate.format(new Date(System.currentTimeMillis()));
+                                    time = MyApplication.sourceTimeFormate.format(new Date(currTime));
                                     progress = 0;
                                     matchDateTime = MyApplication.parseDateTime(date, time);
                                 }
@@ -566,9 +572,9 @@ public class MatchFragment extends Fragment {
                                 match.setLeagueId(legue.getId().intValue());
                                 match.save();
 
-                                if (match.getDateTime() + 5 * 60 * 1000 > System.currentTimeMillis()) {
-                                    if (match.getDateTime() < System.currentTimeMillis())
-                                        match.setNotifyDateTime(System.currentTimeMillis() + 2 * 60 * 1000);
+                                if (match.getDateTime() + 5 * 60 * 1000 > currTime) {
+                                    if (match.getDateTime() < currTime)
+                                        match.setNotifyDateTime(currTime + 2 * 60 * 1000);
                                     match.registerMatchUpdateFirstTime();
                                     match.setHasBeenUpdated(false);
                                     match.update();
@@ -659,14 +665,16 @@ public class MatchFragment extends Fragment {
                 Element tbody = matchesTable.getElementsByTag("tbody").first();
                 Match match = Match.load(mId);
 
-                Element tt = tbody.getElementsByClass("tt").first();
-                if (tt != null && tt.getAllElements().size() > 1) {// the match is going ...
+                Element jm5x3 = tbody.getElementById("jm5x3");
+                Element colorBlue = jm5x3.getElementsByAttributeValue("color", "blue").first();
+
+
+                if (colorBlue != null ){// the match is going ...
                     String resultR;
                     String resultL;
                     String resultReX;
                     String resultLeX;
 
-                    Element jm5x3 = tbody.getElementById("jm5x3");
                     Element tdRes = jm5x3.getElementsByTag("span").first();
                     Element tdResEx = jm5x3.getElementsByTag("div").first();
 
@@ -704,7 +712,6 @@ public class MatchFragment extends Fragment {
                     String resultReX;
                     String resultLeX;
 
-                    Element jm5x3 = tbody.getElementById("jm5x3");
                     Element tdRes = jm5x3.getElementsByTag("span").first();
                     Element tdResEx = jm5x3.getElementsByTag("div").first();
 

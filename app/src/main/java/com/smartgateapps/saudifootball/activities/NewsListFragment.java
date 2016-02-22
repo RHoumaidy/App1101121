@@ -238,7 +238,7 @@ public class NewsListFragment extends android.support.v4.app.Fragment {
             lnLayoutMgr = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(lnLayoutMgr);
         recyclerView.setAdapter(adapter);
-
+        adapter.notifyDataSetChanged();
 
         final GestureDetector mGestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
             @Override

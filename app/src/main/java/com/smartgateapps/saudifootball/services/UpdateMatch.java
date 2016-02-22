@@ -7,7 +7,10 @@ import android.text.Html;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.model.Match;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
 
@@ -33,27 +36,24 @@ public class UpdateMatch extends WakefulBroadcastReceiver {
 
         Long mId = intent.getLongExtra("MATCH_ID", 0);
         Match match = Match.load(mId);
-        featchDate(match);
 
         if (!MyApplication.instance.isNetworkAvailable()) {
-            match.setNotifyDateTime(match.getDateTime() + 10 * 60 * 1000);
+            match.setNotifyDateTime(match.getDateTime() + 7 * 60 * 1000);
             match.update();
             match.registerMatchUpdateFirstTime();
-        }
+        }else
+            featchDate(match);
 
         boolean isChecked = match.isNotifyMe();
-        if (System.currentTimeMillis() - match.getDateTime() < 1000*60 && isChecked) {
+        if (MyApplication.getCurrentOffset() - match.getDateTime() < 1000*60 && isChecked) {
             Intent toNotification = new Intent(context, MatchNotification.class);
             toNotification.putExtra("MATCH_ID", mId);
             startWakefulService(context, toNotification);
         }
-
-
     }
 
 
     public void featchDate(final Match match) {
-        webView = new WebView(MyApplication.APP_CTX);
         webView = new WebView(MyApplication.APP_CTX);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setLoadsImagesAutomatically(false);
@@ -76,11 +76,12 @@ public class UpdateMatch extends WakefulBroadcastReceiver {
 
         @JavascriptInterface
         @SuppressWarnings("unused")
-        public void showHTML(final String html,Long mId) {
-
-            Match match = Match.load(mId);
+        public void showHTML(final String html,String mId) {
+            Long mIdL = Long.valueOf(mId);
+            Match match = Match.load(mIdL);
             String htm = html;
             Document doc = Jsoup.parse(html);
+            Toast.makeText(MyApplication.APP_CTX,"Match updated\n"+match.getTeamL().getTeamName()+" x "+match.getTeamR().getTeamName(),Toast.LENGTH_LONG).show();
             try {
 
                 Element mainContent = doc.getElementById("mainContent");
@@ -88,15 +89,15 @@ public class UpdateMatch extends WakefulBroadcastReceiver {
                 Element matchesTable = fullcontent.getElementById("matchesTable");
                 Element tbody = matchesTable.getElementsByTag("tbody").first();
 
-                Element tt = tbody.getElementsByClass("tt").first();
-                if(tt != null && tt.getAllElements().size()>1) {// the match is going ...
+                Element jm5x3 = tbody.getElementById("jm5x3");
+                Element colorBlue = jm5x3.getElementsByAttributeValue("color", "blue").first();
 
+                if (colorBlue != null ){// the match is going ...
                     String resultR;
                     String resultL;
                     String resultReX;
                     String resultLeX;
 
-                    Element jm5x3 = tbody.getElementById("jm5x3");
                     Element tdRes = jm5x3.getElementsByTag("span").first();
                     Element tdResEx = jm5x3.getElementsByTag("div").first();
 
@@ -117,26 +118,28 @@ public class UpdateMatch extends WakefulBroadcastReceiver {
                         resultL = resL + resLeX + "";
                     }
 
-                    if(!resultL.equalsIgnoreCase(match.getResultL()) || !resultR.equalsIgnoreCase(match.getResultR())){
+                    if(match.isNotifyMe() &&
+                            (!resultL.equalsIgnoreCase(match.getResultL()) || !resultR.equalsIgnoreCase(match.getResultR()))&&
+                            !match.getResultR().equalsIgnoreCase("--") && !match.getResultL().equalsIgnoreCase("--") ){
                         Intent toNotification = new Intent(MyApplication.APP_CTX, MatchGoalNotification.class);
                         toNotification.putExtra("MATCH_ID", mId);
                         startWakefulService(MyApplication.APP_CTX, toNotification);
                     }
+
+                    match.setNotifyDateTime(MyApplication.getCurretnDateTime()+4*60*1000);
                     match.setResultL(resultL);
                     match.setResultR(resultR);
                     match.update();
+                    match.registerMatchUpdateFirstTime();
 
 
-                    long currDateTime = Calendar.getInstance().getTimeInMillis();
-                    match.registerMatchUpdateDate(currDateTime + MINUTE_IN_MILLIS * 7);
-                }else{ // the match eighter done or have not began yet
-
+                } else { // the match eighter done or have not began yet
                     String resultR;
                     String resultL;
+
                     String resultReX;
                     String resultLeX;
 
-                    Element jm5x3 = tbody.getElementById("jm5x3");
                     Element tdRes = jm5x3.getElementsByTag("span").first();
                     Element tdResEx = jm5x3.getElementsByTag("div").first();
 
@@ -157,20 +160,18 @@ public class UpdateMatch extends WakefulBroadcastReceiver {
                         resultL = resL + resLeX + "";
                     }
 
-                    if(resultL.equalsIgnoreCase("--")|| resultR.equalsIgnoreCase("--")){
-                        long currDateTime = Calendar.getInstance().getTimeInMillis();
-                        match.registerMatchUpdateDate(currDateTime + MINUTE_IN_MILLIS * 7);
-                    }else {
+
+                    if (!(resultR.equalsIgnoreCase("--") || resultL.equalsIgnoreCase("--"))) {
                         match.setResultL(resultL);
                         match.setResultR(resultR);
                         match.setHasBeenUpdated(true);
                         match.update();
                     }
-
                 }
 
+
             } catch (Exception e) {
-                match.registerMatchUpdateDate(System.currentTimeMillis() + MINUTE_IN_MILLIS * 7);
+                match.registerMatchUpdateDate(MyApplication.getCurrentOffset() + MINUTE_IN_MILLIS * 7);
             }
 
             completeWakefulIntent(intent);

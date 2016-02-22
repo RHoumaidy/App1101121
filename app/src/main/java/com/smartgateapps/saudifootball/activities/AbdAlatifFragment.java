@@ -79,30 +79,8 @@ public class AbdAlatifFragment extends Fragment {
             adapter.addFrag(matchFragment, "المباريات");
             adapter.addFrag(placesFragmend, "المراكز");
 
-            tabLayout = ((MainActivity) getActivity()).tabLayout;
 
         }
-    }
-
-    @Override
-    public void onPause() {
-        tabLayout.setVisibility(View.GONE);
-        super.onPause();
-
-    }
-
-    @Override
-    public void onResume() {
-        tabLayout.setVisibility(View.VISIBLE);
-        super.onResume();
-
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
-
     }
 
 
@@ -112,6 +90,7 @@ public class AbdAlatifFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_tabs_layout, container, false);
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
+        tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
 
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(0);

@@ -65,7 +65,7 @@ public class TeamNews {
         ContentValues cv = new ContentValues();
         cv.put(COL_TEAM_ID, this.getTeamId());
         cv.put(COL_NEWS_ID, this.getNewsId());
-        cv.put(COL_DATE_OF_INSERTION, System.currentTimeMillis() / pageIdx);
+        cv.put(COL_DATE_OF_INSERTION, MyApplication.getCurretnDateTime() / pageIdx);
         cv.put(COL_SEEN, this.getIsSeen());
 
         long id = -1;

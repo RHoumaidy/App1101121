@@ -51,7 +51,7 @@ public class FirstClassFragment extends Fragment {
             Bundle args = new Bundle();
             args.putString("URL_EXT", MyApplication.FIRST_CLASS_NEWS_EXT);
             args.putInt("RES", R.layout.news_card_layout_2);
-            args.putInt("LEAGUE_ID",4);
+            args.putInt("LEAGUE_ID", 4);
             newsListFragment.setArguments(args);
 
             Bundle args2 = new Bundle();
@@ -64,12 +64,12 @@ public class FirstClassFragment extends Fragment {
 
             Bundle args4 = new Bundle();
             args4.putString("URL_EXT", MyApplication.FIRST_CLASS_EXT + MyApplication.MATCHES_CM);
-            args4.putInt("LEAGUE_ID",4);
+            args4.putInt("LEAGUE_ID", 4);
             matchFragment.setArguments(args4);
 
             Bundle args5 = new Bundle();
             args5.putString("URL_EXT", MyApplication.FIRST_CLASS_EXT + MyApplication.TEAMS_CM);
-            args5.putInt("LEAGUE_ID",4);
+            args5.putInt("LEAGUE_ID", 4);
             teamsFragment.setArguments(args5);
 
             adapter = new ViewPagerAdapter(getChildFragmentManager()); // not the parent fragmetmanager
@@ -80,29 +80,8 @@ public class FirstClassFragment extends Fragment {
             adapter.addFrag(matchFragment, "المباريات");
             adapter.addFrag(placesFragmend, "المراكز");
 
-            tabLayout = ((MainActivity) getActivity()).tabLayout;
 
         }
-    }
-
-    @Override
-    public void onPause() {
-        tabLayout.setVisibility(View.GONE);
-        super.onPause();
-
-    }
-
-    @Override
-    public void onResume() {
-        tabLayout.setVisibility(View.VISIBLE);
-        super.onResume();
-
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
     }
 
 
@@ -112,6 +91,7 @@ public class FirstClassFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_tabs_layout, container, false);
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
+        tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
 
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(0);
