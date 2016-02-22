@@ -110,7 +110,9 @@ public class TeamPlaceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView matchDrawedTxtV = (TextView) convertView.findViewById(R.id.drawTxtV);
         TextView matchLosedTxtV = (TextView) convertView.findViewById(R.id.loseTxtV);
         TextView pointTxtV = (TextView) convertView.findViewById(R.id.pointTxtV);
+        TextView matchestxtV = (TextView)convertView.findViewById(R.id.matchestxtV);
 
+        matchestxtV.setTypeface(MyApplication.font);
         placeTxtV.setTypeface(MyApplication.font);
         teamNameTxtV.setTypeface(MyApplication.font);
         matchPlayedTxtV.setTypeface(MyApplication.font);
