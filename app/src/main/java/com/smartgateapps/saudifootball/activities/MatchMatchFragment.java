@@ -349,8 +349,6 @@ public class MatchMatchFragment extends Fragment {
                                 Match match = new Match();
 
                                 String tmpDate = date;
-//                                tmpDate = MyApplication.converteDate(time,date);
-//                                time = MyApplication.converteTime(time,date);
 
                                 match.setId(matchId);
                                 match.sethId(hIdx2);
@@ -373,6 +371,7 @@ public class MatchMatchFragment extends Fragment {
                         matchMatch.setLeagueImageUrl(leagoIconUrl);
                         matchMatch.setMatches(tmpChildList);
                         tmpList.add(matchMatch);
+
                         mathList.clear();
                         mathList.addAll(tmpList);
 

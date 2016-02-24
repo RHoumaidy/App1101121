@@ -8,7 +8,7 @@ android {
         applicationId "com.smartgateapps.saudifootball"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 13
+        versionCode 15
         versionName "1.5"
     }
     buildTypes {

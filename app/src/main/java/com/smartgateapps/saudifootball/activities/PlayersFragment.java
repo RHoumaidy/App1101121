@@ -261,6 +261,8 @@ public class PlayersFragment extends Fragment {
                 public void run() {
                     String htm = html;
                     Document doc = Jsoup.parse(html);
+                    List<Player> tmpList = new ArrayList<>();
+
                     try {
                         Element mb20 = doc.getElementsByClass("mb20").first();
                         Element center = mb20.getElementsByTag("center").first();
@@ -269,7 +271,6 @@ public class PlayersFragment extends Fragment {
                         Elements trs = tbody.getElementsByTag("tr");
 
                         int pos = 0;
-                        List<Player> tmpList = new ArrayList<>();
 
                         for (Element tr : trs) {
                             Player player = new Player();
@@ -303,16 +304,7 @@ public class PlayersFragment extends Fragment {
                             }
                         }
 
-                        Collections.sort(tmpList);
-                        playerList.clear();
-                        playerList.addAll(tmpList);
 
-                        adapter.notifyDataSetChanged();
-                        try {
-                            setListShown(true);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
 
                     } catch (Exception e) {
                         Snackbar snackbar = Snackbar.make(relativeLayout, "نأسف حدث حطأ في جلب بعض البيانات!", Snackbar.LENGTH_INDEFINITE)
@@ -329,10 +321,19 @@ public class PlayersFragment extends Fragment {
                         textView.setTextColor(Color.YELLOW);
                         progressBar.fail();
                         snackbar.show();
+
                     } finally {
 
+                        Collections.sort(tmpList);
+                        playerList.clear();
+                        playerList.addAll(tmpList);
 
-
+                        adapter.notifyDataSetChanged();
+                        try {
+                            setListShown(true);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });

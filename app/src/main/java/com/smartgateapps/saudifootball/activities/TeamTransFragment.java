@@ -253,6 +253,8 @@ public class TeamTransFragment extends Fragment {
                 public void run() {
                     String htm = html;
                     Document doc = Jsoup.parse(html);
+                    List<TeamTransformation> tmpList = new ArrayList<TeamTransformation>();
+
                     try {
                         Element mb20 = doc.getElementsByClass("mb20").first();
                         Element side_transfer = mb20.getElementsByClass("side_transfer").first();
@@ -261,7 +263,6 @@ public class TeamTransFragment extends Fragment {
 
                         Elements trs = tableBody.getElementsByTag("tr");
 
-                        List<TeamTransformation> tmpList = new ArrayList<TeamTransformation>();
 
                         for (Element tr : trs) {
                             if (tr.attr("class").equalsIgnoreCase("bg_dark"))
@@ -318,14 +319,7 @@ public class TeamTransFragment extends Fragment {
 
                             tmpList.add(item);
 
-                            dataListV.clear();
-                            dataListV.addAll(tmpList);
-                            adapter.notifyDataSetChanged();
-                            try {
-                                setListShown(true);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+
                         }
 
                     } catch (Exception e) {
@@ -344,7 +338,14 @@ public class TeamTransFragment extends Fragment {
                         progressBar.fail();
                         snackbar.show();
                     } finally {
-
+                        dataListV.clear();
+                        dataListV.addAll(tmpList);
+                        adapter.notifyDataSetChanged();
+                        try {
+                            setListShown(true);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
                     }
                 }
