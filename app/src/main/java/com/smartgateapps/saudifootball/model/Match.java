@@ -11,6 +11,7 @@ import android.support.annotation.IntegerRes;
 import android.util.Log;
 
 import com.smartgateapps.saudifootball.saudi.MyApplication;
+import com.smartgateapps.saudifootball.services.UpdateMatch;
 
 import java.math.MathContext;
 import java.text.ParseException;
@@ -259,7 +260,7 @@ public class Match {
 
     public void registerMatchUpdateDate(long dateTime) {
 
-        Intent updateMatchIntent = new Intent(MyApplication.UPATE_MATCH);
+        Intent updateMatchIntent = new Intent(MyApplication.APP_CTX,UpdateMatch.class);
         updateMatchIntent.putExtra("MATCH_ID", this.getId());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(MyApplication.APP_CTX, this.getId().intValue(), updateMatchIntent, PendingIntent.FLAG_NO_CREATE);
         if (pendingIntent != null)
@@ -271,7 +272,7 @@ public class Match {
     }
 
     public void registerMatchUpdateFirstTime() {
-        Intent updateMatchIntent = new Intent(MyApplication.UPATE_MATCH);
+        Intent updateMatchIntent = new Intent(MyApplication.APP_CTX, UpdateMatch.class);
         updateMatchIntent.putExtra("MATCH_ID", this.getId());
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(MyApplication.APP_CTX, this.getId().intValue(), updateMatchIntent, PendingIntent.FLAG_NO_CREATE);

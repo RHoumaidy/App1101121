@@ -16,6 +16,7 @@ import com.leo.simplearcloader.ArcConfiguration;
 import com.leo.simplearcloader.SimpleArcLoader;
 import com.smartgateapps.saudifootball.R;
 import com.smartgateapps.saudifootball.saudi.MyApplication;
+import com.smartgateapps.saudifootball.services.GetAllDawriNewsReciever;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -128,7 +129,7 @@ public class Splash extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        Intent intentActivationUpateNewsService = new Intent(MyApplication.ACTION_ACTIVATION);
+        Intent intentActivationUpateNewsService = new Intent(MyApplication.APP_CTX, GetAllDawriNewsReciever.class);
         PendingIntent pendingIntent =
                 PendingIntent.getBroadcast(MyApplication.APP_CTX, 22, intentActivationUpateNewsService, PendingIntent.FLAG_NO_CREATE);
         if (pendingIntent != null)

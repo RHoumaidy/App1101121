@@ -42,6 +42,7 @@ public class MyApplication extends Application {
 
     public static AlarmManager alarmManager;
     public static SharedPreferences pref;
+    public static NotificationManager notificationManager;
     public static DbHelper dbHelper;
     public static SQLiteDatabase dbw, dbr;
 
@@ -76,20 +77,11 @@ public class MyApplication extends Application {
     public static String[] PLAYERS_POS = new String[]{"", "مدرب", "حارس", "دفاع", "وسط", "هجوم", "مساعد مدرب", " مدرب حراس", "مدرب بدني", "طبيب الفريق"};
 
     public static HashMap<String, Integer> monthOfTheYear = new HashMap<>(12);
-
     public static MyApplication instance;
-
     public static HashMap<Integer, Integer> teamsLogos = new HashMap<>();
 
-    public static String ACTION_ACTIVATION = "ACTION_ACTIVATION_SAUDI";
-    public static String UPATE_MATCH = "UPATE_MATCH_SAUDI";
-    public static String DO_AT_2_AM = "DO_AT_2_AM_SAUDI";
-
-    public static NotificationManager notificationManager;
 
     public static SimpleDateFormat sourceTimeFormate = new SimpleDateFormat("HH:mm");
-    public static SimpleDateFormat dateFormat = new SimpleDateFormat("E d MMMM yyy", new Locale("ar"));
-    public static SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
     public static SimpleDateFormat destTimeFormate = new SimpleDateFormat("HH:mm");
     public static SimpleDateFormat sourceDateFormat = new SimpleDateFormat("E d MMMM yyy", new Locale("ar"));
     public static SimpleDateFormat destDateFormat = new SimpleDateFormat("E d MMMM yyy", new Locale("ar"));
